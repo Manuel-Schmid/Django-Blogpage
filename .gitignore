@@ -1,2 +1,5 @@
 .idea/
 backend/.idea/
+backend/uploaded_files/directory/
+backend/static
+backend/staticfiles
