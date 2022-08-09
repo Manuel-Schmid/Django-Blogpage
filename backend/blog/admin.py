@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
-from blog.models import User, Category, Post
+from blog.models import Comment, User, Category, Post, CommentLike, PostLike
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Category)
@@ -17,5 +17,6 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-fields = ( 'image_tag', )
-readonly_fields = ('image_tag',)
+admin.site.register(Comment)
+admin.site.register(CommentLike)
+admin.site.register(PostLike)
