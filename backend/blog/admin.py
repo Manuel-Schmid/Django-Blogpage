@@ -17,9 +17,6 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-fields = ( 'image_tag', )
-readonly_fields = ('image_tag',)
-
 admin.site.register(Comment)
 admin.site.register(CommentLike)
 admin.site.register(PostLike)
