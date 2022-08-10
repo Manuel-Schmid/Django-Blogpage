@@ -6,6 +6,7 @@ from blog.models import Comment, User, Category, Post, CommentLike, PostLike
 admin.site.register(User, UserAdmin)
 admin.site.register(Category)
 
+
 class PostAdmin(admin.ModelAdmin):
     def image_tag(self, obj):
         return format_html('<img src="{}" width=150 height=150/>'.format(obj.image.url))
