@@ -12,6 +12,20 @@ class CategoryType(DjangoObjectType):
             'name'
         )
 
+class CreateCategory(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+
+    category = graphene.Field(CategoryType)
+
+    @classmethod
+    def mutate(cls, root, info, name):
+        category = Category()
+        category.name = name
+        category.save()
+
+        return CreateCategory(category=category)
+
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -43,10 +57,34 @@ class PostType(DjangoObjectType):
             'title',
             'text',
             'image',
-            'category',
+            # 'category',
             'owner',
             'date_created',
         )
+
+
+class PostInput(graphene.InputObjectType):
+    title = graphene.String()
+    text = graphene.String()
+    category = graphene.Field(CategoryType)
+    owner = graphene.Field(UserType)
+
+class CreatePost(graphene.Mutation):
+
+    class Arguments:
+        post_input = PostInput(required=True)
+
+    post = graphene.Field(PostType)
+
+    @classmethod
+    def mutate(cls, root, info, post_input):
+        post = Post()
+        post.title = post_input.title
+        post.text = post_input.text
+        post.category = post_input.category
+        post.owner = post_input.owner
+        post.save()
+        return CreatePost(post=post)
 
 
 class Query(graphene.ObjectType):
@@ -63,4 +101,8 @@ class Query(graphene.ObjectType):
             .all()
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    create_category = CreateCategory.Field()
+    create_post = CreatePost.Field()
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
