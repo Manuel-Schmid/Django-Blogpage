@@ -9,7 +9,7 @@ class Category(DjangoObjectType):
         model = CategoryModel
         fields = (
             'id',
-            'name'
+            'name',
         )
 
 
@@ -17,6 +17,7 @@ class User(DjangoObjectType):
     class Meta:
         model = UserModel
         fields = (
+            'id',
             'posts',
         )
 
@@ -26,7 +27,7 @@ class Tag(DjangoObjectType):
         model = TagModel
         fields = (
             'slug',
-            'objects'
+            'objects',
         )
 
 
