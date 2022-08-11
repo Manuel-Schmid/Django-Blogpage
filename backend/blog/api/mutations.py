@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 
-from blog.api.inputs import Post as PostInput
+from blog.api.inputs import PostInput
 from blog.api.types import Category as CategoryType, Post as PostType
 from blog.models import Category, Post
 
@@ -19,6 +19,22 @@ class CreateCategory(graphene.Mutation):
         category.save()
 
         return CreateCategory(category=category)
+
+class UpdateCategory(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        category_id = graphene.ID()
+
+
+    category = graphene.Field(CategoryType)
+
+    @classmethod
+    def mutate(cls, root, info, name, category_id):
+        category = Category.objects.get(pk=category_id)
+        category.name = name
+        category.save()
+
+        return UpdateCategory(category=category)
 
 
 class CreatePost(graphene.Mutation):
@@ -38,3 +54,7 @@ class CreatePost(graphene.Mutation):
         post.save()
         return CreatePost(post=post)
 
+
+class Mutation(graphene.ObjectType):
+    create_category = CreateCategory.Field()
+    create_post = CreatePost.Field()
