@@ -12,6 +12,7 @@ class CategoryType(DjangoObjectType):
             'name'
         )
 
+
 class CreateCategory(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
@@ -66,8 +67,9 @@ class PostType(DjangoObjectType):
 class PostInput(graphene.InputObjectType):
     title = graphene.String()
     text = graphene.String()
-    category = graphene.Field(CategoryType)
-    owner = graphene.Field(UserType)
+    category_id = graphene.Int()
+    owner_id = graphene.Int()
+
 
 class CreatePost(graphene.Mutation):
 
@@ -81,8 +83,8 @@ class CreatePost(graphene.Mutation):
         post = Post()
         post.title = post_input.title
         post.text = post_input.text
-        post.category = post_input.category
-        post.owner = post_input.owner
+        post.category_id = post_input.category_id
+        post.owner_id = post_input.owner_id
         post.save()
         return CreatePost(post=post)
 
@@ -104,5 +106,6 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     create_category = CreateCategory.Field()
     create_post = CreatePost.Field()
+
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
