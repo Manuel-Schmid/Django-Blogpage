@@ -1,5 +1,4 @@
 import graphene
-from graphene_django import DjangoObjectType
 
 from blog.api.inputs import PostInput, CategoryInput
 from blog.api.types import Category as CategoryType, Post as PostType
@@ -19,6 +18,7 @@ class CreateCategory(graphene.Mutation):
         category.save()
 
         return CreateCategory(category=category)
+
 
 class UpdateCategory(graphene.Mutation):
     class Arguments:
@@ -52,6 +52,7 @@ class CreatePost(graphene.Mutation):
         post.owner_id = post_input.owner_id
         post.save()
         return CreatePost(post=post)
+
 
 class UpdatePost(graphene.Mutation):
     class Arguments:
