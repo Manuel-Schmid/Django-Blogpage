@@ -19,6 +19,11 @@ class User(DjangoObjectType):
         fields = (
             'id',
             'posts',
+            'email',
+            'password',
+            'username',
+            'first_name',
+            'last_name',
         )
 
 
