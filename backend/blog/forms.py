@@ -5,7 +5,7 @@ from blog.models import User, Category, Post
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['posts', 'email', 'password', 'username', 'first_name', 'last_name']
+        fields = ['email', 'password', 'username', 'first_name', 'last_name']  # 'posts'
 
 
 class CategoryForm(ModelForm):
@@ -15,6 +15,11 @@ class CategoryForm(ModelForm):
 
 
 class PostForm(ModelForm):
+
     class Meta:
         model = Post
-        fields = ['title', 'text', 'category', 'owner', 'date_created']
+        fields = ['title', 'text', 'category', 'owner']
+
+    # def __init__(self, *args, **kwargs):
+    #     super(PostForm, self).__init__(*args, **kwargs)
+    #     self.fields['text'].required = False
