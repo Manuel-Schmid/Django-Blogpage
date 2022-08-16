@@ -1,12 +1,19 @@
 import pytest
 from graphene_django.utils.testing import graphql_query
-from blog.models import Category
+from blog.models import Category, User
 
 
 @pytest.fixture
 def categories():
-    Category.objects.create(name="testcategory")
+    Category.objects.create(name="test_category")
     return Category.objects.all()
+
+
+@pytest.fixture
+def users():
+    User.objects.create(username="test_user")
+    return User.objects.all()
+
 
 @pytest.fixture
 def client_query(client):

@@ -95,7 +95,7 @@
     "fields": {
       "title": "Phasus etnicus",
       "text": "Fusce rhoncus molestie condimentum. Phasellus vitae imperdiet orci. Nulla facilisis viverra lorem sit amet varius. Phasellus in finibus libero. Morbi erat urna, accumsan ut molestie in, aliquam vitae mi. In tempus, tortor pharetra pretium cursus, arcu quam gravida tortor, sed feugiat nibh tellus vitae augue.",
-      "post": 6,
+      "post": 2,
       "owner": 1
     }
   },
@@ -105,7 +105,7 @@
     "fields": {
       "title": "Augue blandit.",
       "text": "Donec nec ullamcorper quam, non lobortis enim. Vestibulum aliquam venenatis ipsum nec vehicula. Nunc vehicula urna arcu, id efficitur nisl vehicula nec. Curabitur dignissim, nunc eu tempor convallis, lorem erat congue arcu, quis ullamcorper elit lectus blandit ex. Nullam dignissim sem ac nisi venenatis",
-      "post": 9,
+      "post": 2,
       "owner": 1
     }
   },
@@ -115,7 +115,7 @@
     "fields": {
       "title": "Vasus ca",
       "text": "Aliquam luctus tellus ut augue vehicula, in tincidunt dui cursus. Suspendisse tincidunt nunc eget aliquet ornare. Praesent cursus metus dolor, at fermentum sapien lacinia quis. Suspendisse potenti. Morbi ultrices finibus turpis, non tincidunt tellus volutpat vitae. Sed dui mi, rhoncus at condimentum quis, efficitur lacinia erat.",
-      "post": 6,
+      "post": 1,
       "owner": 1
     }
   },
@@ -155,7 +155,7 @@
     "model": "blog.postlike",
     "pk": 1,
     "fields": {
-      "post": 5,
+      "post": 2,
       "user": 1
     }
   },
@@ -163,7 +163,7 @@
     "model": "blog.postlike",
     "pk": 2,
     "fields": {
-      "post": 7,
+      "post": 3,
       "user": 1
     }
   },
@@ -171,7 +171,7 @@
     "model": "blog.postlike",
     "pk": 3,
     "fields": {
-      "post": 7,
+      "post": 4,
       "user": 1
     }
   },
@@ -179,7 +179,7 @@
     "model": "blog.postlike",
     "pk": 4,
     "fields": {
-      "post": 5,
+      "post": 4,
       "user": 1
     }
   },
@@ -187,7 +187,7 @@
     "model": "blog.postlike",
     "pk": 5,
     "fields": {
-      "post": 5,
+      "post": 4,
       "user": 1
     }
   },
@@ -195,7 +195,7 @@
     "model": "blog.postlike",
     "pk": 6,
     "fields": {
-      "post": 9,
+      "post": 2,
       "user": 1
     }
   },
@@ -309,7 +309,7 @@
     "fields": {
       "tag": 1,
       "content_type": 8,
-      "object_id": 8
+      "object_id": 1
     }
   },
   {
@@ -318,7 +318,7 @@
     "fields": {
       "tag": 2,
       "content_type": 8,
-      "object_id": 8
+      "object_id": 1
     }
   },
   {
@@ -327,7 +327,7 @@
     "fields": {
       "tag": 3,
       "content_type": 8,
-      "object_id": 8
+      "object_id": 1
     }
   },
   {
@@ -336,7 +336,7 @@
     "fields": {
       "tag": 4,
       "content_type": 8,
-      "object_id": 8
+      "object_id": 1
     }
   },
   {
@@ -345,7 +345,7 @@
     "fields": {
       "tag": 5,
       "content_type": 8,
-      "object_id": 8
+      "object_id": 1
     }
   },
   {
@@ -354,7 +354,7 @@
     "fields": {
       "tag": 1,
       "content_type": 8,
-      "object_id": 9
+      "object_id": 2
     }
   },
   {
@@ -363,7 +363,7 @@
     "fields": {
       "tag": 2,
       "content_type": 8,
-      "object_id": 9
+      "object_id": 2
     }
   },
   {
@@ -372,7 +372,7 @@
     "fields": {
       "tag": 3,
       "content_type": 8,
-      "object_id": 9
+      "object_id": 2
     }
   },
   {
@@ -381,7 +381,7 @@
     "fields": {
       "tag": 4,
       "content_type": 8,
-      "object_id": 9
+      "object_id": 2
     }
   },
   {
@@ -390,7 +390,7 @@
     "fields": {
       "tag": 5,
       "content_type": 8,
-      "object_id": 9
+      "object_id": 2
     }
   },
   {
@@ -399,7 +399,7 @@
     "fields": {
       "tag": 1,
       "content_type": 8,
-      "object_id": 10
+      "object_id": 3
     }
   },
   {
@@ -408,7 +408,7 @@
     "fields": {
       "tag": 2,
       "content_type": 8,
-      "object_id": 10
+      "object_id": 3
     }
   },
   {
@@ -417,7 +417,7 @@
     "fields": {
       "tag": 3,
       "content_type": 8,
-      "object_id": 10
+      "object_id": 3
     }
   },
   {
@@ -426,7 +426,7 @@
     "fields": {
       "tag": 4,
       "content_type": 8,
-      "object_id": 10
+      "object_id": 3
     }
   },
   {
@@ -435,7 +435,7 @@
     "fields": {
       "tag": 5,
       "content_type": 8,
-      "object_id": 10
+      "object_id": 3
     }
   },
   {
@@ -444,7 +444,7 @@
     "fields": {
       "tag": 8,
       "content_type": 8,
-      "object_id": 7
+      "object_id": 4
     }
   },
   {
@@ -453,7 +453,7 @@
     "fields": {
       "tag": 6,
       "content_type": 8,
-      "object_id": 7
+      "object_id": 4
     }
   },
   {
@@ -462,7 +462,7 @@
     "fields": {
       "tag": 7,
       "content_type": 8,
-      "object_id": 7
+      "object_id": 4
     }
   },
   {
@@ -471,7 +471,7 @@
     "fields": {
       "tag": 9,
       "content_type": 8,
-      "object_id": 6
+      "object_id": 4
     }
   },
   {
@@ -480,7 +480,7 @@
     "fields": {
       "tag": 10,
       "content_type": 8,
-      "object_id": 6
+      "object_id": 4
     }
   },
   {
@@ -489,7 +489,7 @@
     "fields": {
       "tag": 11,
       "content_type": 8,
-      "object_id": 6
+      "object_id": 4
     }
   },
   {
@@ -498,7 +498,7 @@
     "fields": {
       "tag": 12,
       "content_type": 8,
-      "object_id": 5
+      "object_id": 4
     }
   },
   {
@@ -507,7 +507,7 @@
     "fields": {
       "tag": 13,
       "content_type": 8,
-      "object_id": 5
+      "object_id": 2
     }
   }
 ]

@@ -27,6 +27,7 @@ class CreatePost(graphene.Mutation):
         if form.is_valid():
             post = form.save()
             return CreatePost(post=post)
+        print(form.errors.get_json_data())
         return CreatePost()
 
 
