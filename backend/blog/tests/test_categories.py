@@ -22,6 +22,7 @@ def test_create_category(client_query):
             category {
               name
             }
+            success
           }
         }
         ''',
@@ -29,14 +30,49 @@ def test_create_category(client_query):
     )
 
     content = json.loads(response.content)
-    assert (content is not None)
-    assert (content['data'] is not None)
-    assert (content['data']['createCategory'] is not None)
-    assert (content['data']['createCategory']['category'] is not None)
+    assert content is not None
+    assert content['data'] is not None
+    data_create_category = content['data']['createCategory']
+    assert data_create_category is not None
+    assert data_create_category['category'] is not None
+    assert data_create_category['success'] == True
 
-    category = content['data']['createCategory']['category']
-    assert (category is not None)
-    assert (category['name'] == 'test_category4')
+    category = data_create_category['category']
+    assert category is not None
+    assert category['name'] == 'test_category4'
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_create_category_too_long_fields(client_query):
+    category_input = {
+        "input": {
+            "name": "e" * 201
+        }
+    }
+
+    response = client_query(
+        '''
+        mutation CreateCategory($input: CategoryInput!) {
+          createCategory(categoryInput: $input) {
+            category {
+              name
+            }
+            success
+            errors
+          }
+        }
+        ''',
+        variables=category_input
+    )
+
+    content = json.loads(response.content)
+    assert content is not None
+    assert content['data'] is not None
+    data_create_category = content['data']['createCategory']
+    assert data_create_category is not None
+    assert data_create_category['category'] is None
+    assert data_create_category['success'] == False
+    assert data_create_category['errors']['name'] is not None
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
@@ -56,6 +92,7 @@ def test_update_category(client_query, categories):
               id
               name
             }
+            success
           }
         }
         ''',
@@ -63,12 +100,14 @@ def test_update_category(client_query, categories):
     )
 
     content = json.loads(response.content)
-    assert (content is not None)
-    assert (content['data'] is not None)
-    assert (content['data']['updateCategory'] is not None)
-    assert (content['data']['updateCategory']['category'] is not None)
+    assert content is not None
+    assert content['data'] is not None
+    data_update_category = content['data']['updateCategory']
+    assert data_update_category is not None
+    assert data_update_category['category'] is not None
+    assert data_update_category['success'] == True
 
-    category = content['data']['updateCategory']['category']
-    assert (category is not None)
-    assert (category['id'] == '1')
-    assert (category['name'] == 'test_category3')
+    category = data_update_category['category']
+    assert category is not None
+    assert category['id'] == '1'
+    assert category['name'] == 'test_category3'

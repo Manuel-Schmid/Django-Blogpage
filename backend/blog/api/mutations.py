@@ -1,12 +1,12 @@
 import graphene
 
 from blog.api.inputs import PostInput, CategoryInput
-from blog.api.types import Category as CategoryType, Post as PostType
+from blog.api.types import Category as CategoryType, Post as PostType, GraphqlOutput
 from blog.models import Post, Category
 from blog.forms import CategoryForm, PostForm
 
 
-class UpdateCategory(graphene.Mutation):
+class UpdateCategory(graphene.Mutation, GraphqlOutput):
     category = graphene.Field(CategoryType)
 
     class Arguments:
@@ -18,11 +18,11 @@ class UpdateCategory(graphene.Mutation):
         form = CategoryForm(instance=category, data=category_input)
         if form.is_valid():
             category = form.save()
-            return CreateCategory(category=category)
-        return CreateCategory()
+            return UpdateCategory(category=category, success=True)
+        return UpdateCategory(success=False, errors=form.errors.get_json_data())
 
 
-class CreateCategory(graphene.Mutation):
+class CreateCategory(graphene.Mutation, GraphqlOutput):
     category = graphene.Field(CategoryType)
 
     class Arguments:
@@ -33,11 +33,11 @@ class CreateCategory(graphene.Mutation):
         form = CategoryForm(data=category_input)
         if form.is_valid():
             category = form.save()
-            return CreateCategory(category=category)
-        return CreateCategory()
+            return CreateCategory(category=category, success=True)
+        return CreateCategory(success=False, errors=form.errors.get_json_data())
 
 
-class CreatePost(graphene.Mutation):
+class CreatePost(graphene.Mutation, GraphqlOutput):
     post = graphene.Field(PostType)
 
     class Arguments:
@@ -48,11 +48,11 @@ class CreatePost(graphene.Mutation):
         form = PostForm(data=post_input)
         if form.is_valid():
             post = form.save()
-            return CreatePost(post=post)
-        return CreatePost()
+            return CreatePost(post=post, success=True)
+        return CreatePost(success=False, errors=form.errors.get_json_data())
 
 
-class UpdatePost(graphene.Mutation):
+class UpdatePost(graphene.Mutation, GraphqlOutput):
     post = graphene.Field(PostType)
 
     class Arguments:
@@ -64,8 +64,8 @@ class UpdatePost(graphene.Mutation):
         form = PostForm(instance=post, data=post_input)
         if form.is_valid():
             post = form.save()
-            return CreatePost(post=post)
-        return CreatePost()
+            return UpdatePost(post=post, success=True)
+        return UpdatePost(success=False, errors=form.errors.get_json_data())
 
 
 class Mutation(graphene.ObjectType):
