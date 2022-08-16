@@ -42,8 +42,8 @@ services:
       - "traefik.http.routers.api.rule=Host(`api.my-app.lo`)"
     environment:
       DJANGO_DB_NAME: '${MYSQL_DATABASE}'
-      DJANGO_DB_USER: '${MYSQL_USER}'
-      DJANGO_DB_PW: '${MYSQL_PASSWORD}'
+      DJANGO_DB_USER: '${MYSQL_ROOT_USER}'
+      DJANGO_DB_PW: '${MYSQL_ROOT_PASSWORD}'
       DJANGO_DB_HOST: 'db'
       DJANGO_DB_PORT: '3306'
     networks:

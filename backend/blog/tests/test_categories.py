@@ -1,17 +1,41 @@
+import json
 import pytest
 
-
-
-from blog.models import Post, Category
-
-
-# def get_category_count():
-#     return Category.objects.all().count()
-
-
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_create_post(categories):
-    pres_category_count = len(categories)
-    print(pres_category_count)
-    assert pres_category_count == 7
+def test_create_category(categories):
+    assert len(categories) == 1
+
+
+# @pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_create_post(client_query):
+    post_input = {
+        "input": {
+            "title": "test",
+            "text": "this a test",
+            "category": 1,
+            "owner": 1
+        }
+    }
+
+    response = client_query(
+        '''
+        mutation CreatePost($input: PostInput!) {
+          createPost(postInput: $input) {
+            post {
+              title
+              text
+              dateCreated
+            }
+          }
+        }
+        ''',
+        variables = post_input
+    )
+    # try:
+    print(response.content)
+    content = json.loads(response.content)
+    assert True
+    # assert 'errors' not in content
+    # except:
+    #     print(response)
 
