@@ -18,18 +18,18 @@ def categories():
 
 
 @pytest.fixture
-def posts():
+def posts(categories, users):
     Post.objects.create(
         title="test_post1",
         text="test_text1",
-        owner=User.objects.create(username="test_user1"),
-        category=Category.objects.create(name="test_category1")
+        owner=users[0],
+        category=categories[0],
     )
     Post.objects.create(
         title="test_post2",
         text="test_text2",
-        owner=User.objects.create(username="test_user2"),
-        category=Category.objects.create(name="test_category2")
+        owner=users[1],
+        category=categories[1],
     )
     return Post.objects.all()
 

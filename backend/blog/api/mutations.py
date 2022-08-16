@@ -1,5 +1,4 @@
 import graphene
-# from graphene_django.forms.mutation import DjangoModelFormMutation
 
 from blog.api.inputs import PostInput, CategoryInput
 from blog.api.types import Category as CategoryType, Post as PostType
@@ -20,7 +19,6 @@ class UpdateCategory(graphene.Mutation):
         if form.is_valid():
             category = form.save()
             return CreateCategory(category=category)
-        print(form.errors.get_json_data())
         return CreateCategory()
 
 
@@ -36,7 +34,6 @@ class CreateCategory(graphene.Mutation):
         if form.is_valid():
             category = form.save()
             return CreateCategory(category=category)
-        print(form.errors.get_json_data())
         return CreateCategory()
 
 
@@ -52,7 +49,6 @@ class CreatePost(graphene.Mutation):
         if form.is_valid():
             post = form.save()
             return CreatePost(post=post)
-        print(form.errors.get_json_data())
         return CreatePost()
 
 
@@ -69,7 +65,6 @@ class UpdatePost(graphene.Mutation):
         if form.is_valid():
             post = form.save()
             return CreatePost(post=post)
-        print(form.errors.get_json_data())
         return CreatePost()
 
 
