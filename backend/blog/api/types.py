@@ -32,7 +32,7 @@ class Tag(DjangoObjectType):
         model = TagModel
         fields = (
             'slug',
-            'objects',
+            'name',
         )
 
 
