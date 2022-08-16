@@ -1,18 +1,40 @@
 import graphene
-from graphene_django.forms.mutation import DjangoModelFormMutation
 
-from blog.api.inputs import PostInput
+from blog.api.inputs import PostInput, CategoryInput
 from blog.api.types import Category as CategoryType, Post as PostType
-from blog.models import Post
+from blog.models import Post, Category
 from blog.forms import CategoryForm, PostForm
 
 
-class CategoryMutation(DjangoModelFormMutation):
+class UpdateCategory(graphene.Mutation):
     category = graphene.Field(CategoryType)
 
-    class Meta:
-        form_class = CategoryForm
-        lookup_field = 'id'
+    class Arguments:
+        category_input = CategoryInput(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, category_input):
+        category = Category.objects.get(pk=category_input.get('id'))
+        form = CategoryForm(instance=category, data=category_input)
+        if form.is_valid():
+            category = form.save()
+            return CreateCategory(category=category)
+        return CreateCategory()
+
+
+class CreateCategory(graphene.Mutation):
+    category = graphene.Field(CategoryType)
+
+    class Arguments:
+        category_input = CategoryInput(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, category_input):
+        form = CategoryForm(data=category_input)
+        if form.is_valid():
+            category = form.save()
+            return CreateCategory(category=category)
+        return CreateCategory()
 
 
 class CreatePost(graphene.Mutation):
@@ -27,7 +49,6 @@ class CreatePost(graphene.Mutation):
         if form.is_valid():
             post = form.save()
             return CreatePost(post=post)
-        print(form.errors.get_json_data())
         return CreatePost()
 
 
@@ -44,13 +65,11 @@ class UpdatePost(graphene.Mutation):
         if form.is_valid():
             post = form.save()
             return CreatePost(post=post)
-
-        print(form.errors.get_json_data())
         return CreatePost()
 
 
 class Mutation(graphene.ObjectType):
-    create_category = CategoryMutation.Field()
-    update_category = CategoryMutation.Field()
+    create_category = CreateCategory.Field()
+    update_category = UpdateCategory.Field()
     create_post = CreatePost.Field()
     update_post = UpdatePost.Field()

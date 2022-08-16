@@ -5,7 +5,7 @@ from blog.models import User, Category, Post
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['email', 'password', 'username', 'first_name', 'last_name']  # 'posts'
+        fields = ['email', 'password', 'username', 'first_name', 'last_name']
 
 
 class CategoryForm(ModelForm):
