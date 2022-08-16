@@ -11,6 +11,7 @@ if [ "$2" = 'runserver' ]; then
  
     echo "Load fixtures"
     python ./manage.py loaddata app/fixtures/users.json
+    python ./manage.py loaddata blog/fixtures/fixtures.json
 
     echo "Collect static files"
     python ./manage.py collectstatic --noinput
