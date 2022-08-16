@@ -1,5 +1,5 @@
 .idea/
 backend/.idea/
-backend/uploaded_files/directory/
+backend/uploaded_files/
 backend/static
 backend/staticfiles
