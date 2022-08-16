@@ -1,18 +1,37 @@
 import pytest
 from graphene_django.utils.testing import graphql_query
-from blog.models import Category, User
-
-
-@pytest.fixture
-def categories():
-    Category.objects.create(name="test_category")
-    return Category.objects.all()
+from blog.models import Category, User, Post
 
 
 @pytest.fixture
 def users():
-    User.objects.create(username="test_user")
+    User.objects.create(username="test_user1")
+    User.objects.create(username="test_user2")
     return User.objects.all()
+
+
+@pytest.fixture
+def categories():
+    Category.objects.create(name="test_category1")
+    Category.objects.create(name="test_category2")
+    return Category.objects.all()
+
+
+@pytest.fixture
+def posts():
+    Post.objects.create(
+        title="test_post1",
+        text="test_text1",
+        owner=User.objects.create(username="test_user1"),
+        category=Category.objects.create(name="test_category1")
+    )
+    Post.objects.create(
+        title="test_post2",
+        text="test_text2",
+        owner=User.objects.create(username="test_user2"),
+        category=Category.objects.create(name="test_category2")
+    )
+    return Post.objects.all()
 
 
 @pytest.fixture
