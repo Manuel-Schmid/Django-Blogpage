@@ -8,6 +8,7 @@ django-taggit==3.0.0
 flake8==5.0.4
 graphene==2.1.9
 graphene-django==2.15.0
+graphene-file-upload==1.3.0
 graphql-core==2.3.2
 graphql-relay==2.0.1
 iniconfig==1.1.1

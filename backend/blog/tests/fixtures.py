@@ -1,5 +1,6 @@
 import pytest
 from graphene_django.utils.testing import graphql_query
+from graphene_file_upload.django.testing import file_graphql_query
 from blog.models import Category, User, Post, Comment
 
 
@@ -47,3 +48,10 @@ def client_query(client):
         return graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
 
     return func
+
+# @pytest.fixture
+# def client_query_file(client):
+#     def func(*args, **kwargs):
+#         return file_graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
+#
+#     return func

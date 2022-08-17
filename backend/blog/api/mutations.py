@@ -1,5 +1,6 @@
 import graphene
 
+from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput
 from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, GraphqlOutput
 from blog.models import Post, Category, Comment
@@ -99,6 +100,18 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
         return UpdateComment(success=False, errors=form.errors.get_json_data())
 
 
+class UploadMutation(graphene.Mutation):
+    class Arguments:
+        file = Upload(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, file, **kwargs):
+        # do something with your file
+
+        return UploadMutation(success=True)
+
+
 class Mutation(graphene.ObjectType):
     create_category = CreateCategory.Field()
     update_category = UpdateCategory.Field()
@@ -106,3 +119,4 @@ class Mutation(graphene.ObjectType):
     update_post = UpdatePost.Field()
     create_comment = CreateComment.Field()
     update_comment = UpdateComment.Field()
+    test_mutation = UploadMutation.Field()
