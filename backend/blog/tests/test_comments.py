@@ -1,6 +1,7 @@
 import json
 import pytest
 
+
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_create_comments(comments):
     assert len(comments) == 2
@@ -44,6 +45,7 @@ update_comment_query = '''
         }
         '''
 
+
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_create_comment(client_query, posts):
     comment_input = {
@@ -51,26 +53,24 @@ def test_create_comment(client_query, posts):
             "title": "test",
             "text": "this a test",
             "post": 1,
-            "owner": 1
+            "owner": 1,
         }
     }
 
-    response = client_query(create_comment_query,variables=comment_input)
+    response = client_query(create_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
-    assert (content is not None)
-    assert (content['data'] is not None)
-    data_create_comment = content['data']['createComment']
-    assert (data_create_comment is not None)
-    assert (data_create_comment['comment'] is not None)
-    assert (data_create_comment['success'] == True)
-
-    comment = data_create_comment['comment']
-    assert (comment is not None)
-    assert (comment['title'] == 'test')
-    assert (comment['text'] == 'this a test')
-    assert (comment['post']['title'] == 'test_post1')
-    assert (comment['owner']['username'] == 'test_user1')
+    assert content is not None
+    data = content.get('data', None)
+    assert data is not None
+    data_create_comment = data.get('createComment', None)
+    assert data_create_comment is not None
+    assert data_create_comment['success'] is True
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment['title'] == 'test'
+    assert data_comment['text'] == 'this a test'
+    assert data_comment['post']['title'] == 'test_post1'
+    assert data_comment['owner']['username'] == 'test_user1'
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
@@ -80,19 +80,21 @@ def test_create_comment_too_long_fields(client_query, posts):
             "title": "e" * 201,
             "text": "this a test",
             "post": 1,
-            "owner": 1
+            "owner": 1,
         }
     }
 
-    response = client_query(create_comment_query,variables=comment_input)
+    response = client_query(create_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
     assert content is not None
-    assert content['data'] is not None
-    data_create_comment = content['data']['createComment']
+    data = content.get('data', None)
+    assert data is not None
+    data_create_comment = data.get('createComment', None)
     assert data_create_comment is not None
-    assert data_create_comment['comment'] is None
-    assert data_create_comment['success'] == False
+    assert data_create_comment['success'] is False
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment is None
     assert 'title' in data_create_comment['errors']
 
 
@@ -103,19 +105,21 @@ def test_create_comment_invalid_post_id(client_query, users):
             "title": "test",
             "text": "this a test",
             "post": 1,
-            "owner": 1
+            "owner": 1,
         }
     }
 
-    response = client_query(create_comment_query,variables=comment_input)
+    response = client_query(create_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
     assert content is not None
-    assert content['data'] is not None
-    data_create_comment = content['data']['createComment']
+    data = content.get('data', None)
+    assert data is not None
+    data_create_comment = data.get('createComment', None)
     assert data_create_comment is not None
-    assert data_create_comment['comment'] is None
-    assert data_create_comment['success'] == False
+    assert data_create_comment['success'] is False
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment is None
     assert 'post' in data_create_comment['errors']
 
 
@@ -126,19 +130,21 @@ def test_create_comment_invalid_owner_id(client_query, posts):
             "title": "test",
             "text": "this a test",
             "post": 1,
-            "owner": 100
+            "owner": 100,
         }
     }
 
-    response = client_query(create_comment_query,variables=comment_input)
+    response = client_query(create_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
     assert content is not None
-    assert content['data'] is not None
-    data_create_comment = content['data']['createComment']
+    data = content.get('data', None)
+    assert data is not None
+    data_create_comment = data.get('createComment', None)
     assert data_create_comment is not None
-    assert data_create_comment['comment'] is None
-    assert data_create_comment['success'] == False
+    assert data_create_comment['success'] is False
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment is None
     assert 'owner' in data_create_comment['errors']
 
 
@@ -150,22 +156,22 @@ def test_update_comment(client_query, comments):
             "title": "test_comment3",
             "text": "test_text3",
             "post": 2,
-            "owner": 2
+            "owner": 2,
         }
     }
 
-    response = client_query(update_comment_query,variables=comment_input)
+    response = client_query(update_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
-    assert (content is not None)
-    assert (content['data'] is not None)
-    data_update_comment = content['data']['updateComment']
-    assert (data_update_comment is not None)
-    assert (data_update_comment['comment'] is not None)
-    assert (data_update_comment['success'] == True)
-
-    comment = data_update_comment['comment']
-    assert (comment['title'] == 'test_comment3')
-    assert (comment['text'] == 'test_text3')
-    assert (comment['post']['title'] == 'test_post2')
-    assert (comment['owner']['username'] == 'test_user2')
+    assert content is not None
+    data = content.get('data', None)
+    assert data is not None
+    data_create_comment = data.get('updateComment', None)
+    assert data_create_comment is not None
+    assert data_create_comment['success'] is True
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment is not None
+    assert data_comment['title'] == 'test_comment3'
+    assert data_comment['text'] == 'test_text3'
+    assert data_comment['post']['title'] == 'test_post2'
+    assert data_comment['owner']['username'] == 'test_user2'

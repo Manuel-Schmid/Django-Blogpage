@@ -99,6 +99,7 @@ class Post(DjangoObjectType):
             'date_created',
         )
 
+
 class Comment(DjangoObjectType):
 
     class Meta:
