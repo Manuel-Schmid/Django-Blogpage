@@ -2,7 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django.utils import camelize
 from taggit.models import Tag as TagModel
-from blog.models import Category as CategoryModel, User as UserModel, Post as PostModel
+from blog.models import Category as CategoryModel, User as UserModel, Post as PostModel, Comment as CommentModel
 
 
 class GraphqlError(graphene.Scalar):
@@ -97,4 +97,16 @@ class Post(DjangoObjectType):
             'category',
             'owner',
             'date_created',
+        )
+
+class Comment(DjangoObjectType):
+
+    class Meta:
+        model = CommentModel
+        fields = (
+            'id',
+            'title',
+            'text',
+            'post',
+            'owner',
         )

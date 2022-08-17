@@ -7,19 +7,7 @@ def test_create_posts(posts):
     assert len(posts) == 2
 
 
-@pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_create_post(client_query, categories, users):
-    post_input = {
-        "input": {
-            "title": "test",
-            "text": "this a test",
-            "category": 1,
-            "owner": 1
-        }
-    }
-
-    response = client_query(
-        '''
+create_post_query = '''
         mutation CreatePost($input: PostInput!) {
           createPost(postInput: $input) {
             post {
@@ -33,11 +21,42 @@ def test_create_post(client_query, categories, users):
               }
             }
             success
+            errors
           }
         }
-        ''',
-        variables=post_input
-    )
+        '''
+
+update_post_query = '''
+        mutation UpdatePost($input: PostInput!) {
+          updatePost(postInput: $input) {
+            post {
+              title
+              text
+              owner{
+                username
+              }
+              category {
+                name
+              }
+            }
+            success
+            errors
+          }
+        }
+        '''
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_create_post(client_query, categories, users):
+    post_input = {
+        "input": {
+            "title": "test",
+            "text": "this a test",
+            "category": 1,
+            "owner": 1
+        }
+    }
+
+    response = client_query(create_post_query,variables=post_input)
 
     content = json.loads(response.content)
     assert (content is not None)
@@ -66,28 +85,7 @@ def test_create_post_too_long_fields(client_query, categories, users):
         }
     }
 
-    response = client_query(
-        '''
-        mutation CreatePost($input: PostInput!) {
-          createPost(postInput: $input) {
-            post {
-              title
-              text
-              owner{
-                username
-              }
-              category {
-                name
-              }
-            }
-            success
-            errors
-          }
-        }
-        ''',
-        variables=post_input
-    )
-
+    response = client_query(create_post_query,variables=post_input)
 
     content = json.loads(response.content)
     assert content is not None
@@ -96,7 +94,7 @@ def test_create_post_too_long_fields(client_query, categories, users):
     assert data_create_post is not None
     assert data_create_post['post'] is None
     assert data_create_post['success'] == False
-    assert data_create_post['errors']['title'] is not None
+    assert 'title' in data_create_post['errors']
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
@@ -110,28 +108,7 @@ def test_create_post_invalid_owner_id(client_query, categories, users):
         }
     }
 
-    response = client_query(
-        '''
-        mutation CreatePost($input: PostInput!) {
-          createPost(postInput: $input) {
-            post {
-              title
-              text
-              owner{
-                username
-              }
-              category {
-                name
-              }
-            }
-            success
-            errors
-          }
-        }
-        ''',
-        variables=post_input
-    )
-
+    response = client_query(create_post_query,variables=post_input)
 
     content = json.loads(response.content)
     assert content is not None
@@ -140,7 +117,7 @@ def test_create_post_invalid_owner_id(client_query, categories, users):
     assert data_create_post is not None
     assert data_create_post['post'] is None
     assert data_create_post['success'] == False
-    assert data_create_post['errors']['owner'] is not None
+    assert 'owner' in data_create_post['errors']
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
@@ -154,28 +131,7 @@ def test_create_post_invalid_category_id(client_query, categories, users):
         }
     }
 
-    response = client_query(
-        '''
-        mutation CreatePost($input: PostInput!) {
-          createPost(postInput: $input) {
-            post {
-              title
-              text
-              owner{
-                username
-              }
-              category {
-                name
-              }
-            }
-            success
-            errors
-          }
-        }
-        ''',
-        variables=post_input
-    )
-
+    response = client_query(create_post_query,variables=post_input)
 
     content = json.loads(response.content)
     assert content is not None
@@ -184,7 +140,7 @@ def test_create_post_invalid_category_id(client_query, categories, users):
     assert data_create_post is not None
     assert data_create_post['post'] is None
     assert data_create_post['success'] == False
-    assert data_create_post['errors']['category'] is not None
+    assert 'category' in data_create_post['errors']
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
@@ -199,26 +155,7 @@ def test_update_post(client_query, posts):
         }
     }
 
-    response = client_query(
-        '''
-        mutation UpdatePost($input: PostInput!) {
-          updatePost(postInput: $input) {
-            post {
-              title
-              text
-              owner{
-                username
-              }
-              category {
-                name
-              }
-            }
-            success
-          }
-        }
-        ''',
-        variables=post_input
-    )
+    response = client_query(update_post_query,variables=post_input)
 
     content = json.loads(response.content)
     assert (content is not None)

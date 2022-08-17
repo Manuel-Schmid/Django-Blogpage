@@ -72,7 +72,7 @@ def test_create_category_too_long_fields(client_query):
     assert data_create_category is not None
     assert data_create_category['category'] is None
     assert data_create_category['success'] == False
-    assert data_create_category['errors']['name'] is not None
+    assert 'name' in data_create_category['errors']
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)

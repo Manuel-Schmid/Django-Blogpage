@@ -1,6 +1,6 @@
 import pytest
 from graphene_django.utils.testing import graphql_query
-from blog.models import Category, User, Post
+from blog.models import Category, User, Post, Comment
 
 
 @pytest.fixture
@@ -16,6 +16,11 @@ def categories():
     Category.objects.create(name="test_category2")
     return Category.objects.all()
 
+@pytest.fixture
+def comments(posts, users):
+    Comment.objects.create(title="test_comment1", post=posts[0], owner=users[0])
+    Comment.objects.create(title="test_comment2", post=posts[1], owner=users[1])
+    return Comment.objects.all()
 
 @pytest.fixture
 def posts(categories, users):
