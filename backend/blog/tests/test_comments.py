@@ -67,6 +67,7 @@ def test_create_comment(client_query, posts):
     assert data_create_comment is not None
     assert data_create_comment['success'] is True
     data_comment = data_create_comment.get('comment', None)
+    assert data_comment is not None
     assert data_comment['title'] == 'test'
     assert data_comment['text'] == 'this a test'
     assert data_comment['post']['title'] == 'test_post1'
