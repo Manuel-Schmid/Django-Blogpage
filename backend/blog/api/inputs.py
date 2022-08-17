@@ -12,3 +12,11 @@ class PostInput(graphene.InputObjectType):
 class CategoryInput(graphene.InputObjectType):
     id = graphene.ID(required=False)
     name = graphene.String()
+
+
+class CommentInput(graphene.InputObjectType):
+    id = graphene.ID(required=False)
+    title = graphene.String()
+    text = graphene.String()
+    post = graphene.ID()
+    owner = graphene.ID()
