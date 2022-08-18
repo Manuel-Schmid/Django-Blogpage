@@ -47,9 +47,9 @@
     "fields": {
       "title": "Maecenas tempor",
       "text": "Duis auctor tellus id ornare feugiat. Nullam commodo dignissim dolor vel egestas. Mauris lobortis nec est a ultricies. Sed euismod varius odio. Vivamus leo lectus, pellentesque eu congue quis, eleifend id odio. Ut malesuada eros eget enim cursus dignissim eu id metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      "image": "directory/pexels-anjana-c-674010.jpg",
+      "image": "images/pexels-anjana-c-674010.jpg",
       "category": 3,
-      "owner": 1,
+      "owner": 2,
       "date_created": "2022-08-16T06:33:14.592Z"
     }
   },
@@ -57,11 +57,11 @@
     "model": "blog.post",
     "pk": 2,
     "fields": {
-      "title": "Suspendisse varius nunc",
+      "title": "Suspendisse varius",
       "text": "Vivamus aliquam lacus in sem bibendum ultricies nec nec justo. Aenean luctus velit blandit nulla pharetra, non pellentesque quam accumsan. Suspendisse varius nunc in massa convallis tempor.",
-      "image": "directory/Landscape-Color.jpg",
+      "image": "images/Landscape-Color.jpg",
       "category": 6,
-      "owner": 1,
+      "owner": 3,
       "date_created": "2022-08-16T06:31:23.250Z"
     }
   },
@@ -71,9 +71,9 @@
     "fields": {
       "title": "Phasellus vitae",
       "text": "Fusce rhoncus molestie condimentum. Phasellus vitae imperdiet orci. Nulla facilisis viverra lorem sit amet varius. Phasellus in finibus libero. Morbi erat urna, accumsan ut molestie in, aliquam vitae mi. In tempus, tortor pharetra pretium cursus, arcu quam gravida tortor, sed feugiat nibh tellus vitae augue.",
-      "image": "directory/car_phone.png",
+      "image": "images/car_phone.png",
       "category": 3,
-      "owner": 1,
+      "owner": 2,
       "date_created": "2022-08-16T06:30:42.455Z"
     }
   },
@@ -83,9 +83,21 @@
     "fields": {
       "title": "Lorem ipsum dolor sit amet",
       "text": "itudin. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin id viverra augue, at euismod purus. Nam sapien enim, hendrerit eget t",
-      "image": "directory/uranus_sqr.jpg",
+      "image": "images/uranus_sqr.jpg",
       "category": 3,
-      "owner": 1,
+      "owner": 3,
+      "date_created": "2022-08-15T15:00:57.031Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 5,
+    "fields": {
+      "title": "Alea iacta est",
+      "text": "Ilitora torquent per nulla facilisis viverra lorem sit amet varius. Proin id viverra augue, at euismod purus. Nam sapien enean luctus velit blandit ",
+      "image": "images/junction.jpeg",
+      "category": 2,
+      "owner": 3,
       "date_created": "2022-08-15T15:00:57.031Z"
     }
   },
