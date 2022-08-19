@@ -1,5 +1,16 @@
 <script setup>
-import { ref } from 'vue' // defineProbs
+import { ref } from 'vue'; // defineProbs
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
+
+const response = useQuery(gql`
+      query getPostById {
+          postById(id: 1) {
+            title
+          }
+      }
+    `);
+console.log(response.result);
 
 const postData = {
   data: {
