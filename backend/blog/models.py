@@ -26,8 +26,7 @@ def slugify(value):
 
 class Post(models.Model):
     title = models.CharField(max_length=200, blank=False, null=False)
-    slug = AutoSlugField(default=None, editable=True, unique=False, populate_from=post_slug_populate_from,
-                         unique_with=['id'], slugify=slugify)
+    slug = AutoSlugField(null=False, editable=False, unique=True, populate_from=post_slug_populate_from, slugify=slugify)
     text = models.TextField()
     image = models.ImageField(upload_to='images', null=True)
     category = models.ForeignKey('blog.Category', related_name='posts', on_delete=models.CASCADE)
