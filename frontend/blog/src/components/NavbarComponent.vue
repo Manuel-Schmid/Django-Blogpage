@@ -8,7 +8,7 @@
   <header class="header">
     <nav class="navbar">
       <div class="nav-container">
-        <div class="nav-item">Newest Posts</div>
+        <div class="nav-item">Posts</div>
         <div class="nav-item">My Blog</div>
         <div class="nav-item">Profile</div>
       </div>
