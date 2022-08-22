@@ -1,119 +1,85 @@
-<script setup>
-import { ref } from 'vue'; // defineProbs
+<script>
 import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 
-
-const { result } = useQuery(gql`
-    query getPostById {
-        postById(id: 3) {
+export default {
+  setup() {
+    let { result } = useQuery(gql`
+      query getPostById($id: ID!) {
+        postById(id: $id) {
           title
           text
           image
           dateCreated
           category {
             name
-          },
+          }
           owner {
             firstName
             lastName
-          },
+          }
           tags {
-              name
+            name
           }
         }
       }
-      `);
-
-// console.log(result)
-// console.log(result.value)
-// console.log(result.value.postById.title)
-
-
-// watch(() => result, () =>  {
-//   console.log(response.result.value)
-//   post = response.result.value;
-//   console.log(post)
-// })
-
-
-
-const postData = {
-  data: {
-    postById: {
-      title: 'Alea iacta est',
-      text: 'Phasellus ipsum nulla, lobortis quis sem pharetra, cursus interdum dui. Fusce turpis eros, pretium non metus luctus, pellentesque maximus dolor. Aliquam erat volutpat. Sed nec interdum lorem. Nullam eget eros vitae libero interdum accumsan. Integer consequat tellus vel ipsum pulvinar pharetra. In tristique, justo imperdiet sagittis eleifend, augue metus condimentum quam, ut convallis sapien libero quis elit. Nulla lobortis nisl blandit nulla dapibus, vitae facilisis diam blandit. Fusce mollis at arcu vel fringilla. Cras iaculis lobortis ex, eu lobortis mi hendrerit id. Etiam feugiat at ante sed condimentum. Donec gravida lectus ut ullamcorper tempus. Pellentesque quis eros id leo mollis hendrerit. Vivamus vel leo mollis, facilisis velit sodales, ultricies sapien. Aliquam in ante sit amet eros ultricies interdum accumsan posuere dui. Quisque at massa tristique, finibus dolor cursus, lacinia orci. Sed in consectetur ligula. Etiam id mi quis nisi eleifend consectetur sed id urna. Donec feugiat massa sed ante gravida pharetra nec condimentum leo. In viverra dui eu arcu fringilla, non cursus odio vulputate. Morbi volutpat sed metus sit amet tincidunt.',
-      image: 'images/junction.jpeg',
-      dateCreated: '2022-08-15T15:00:57.031000+00:00',
-      category: {
-        name: 'Politics'
-      },
-      owner: {
-        firstName: 'Winston',
-        lastName: 'Wolf',
-      },
-      tags: [
-        {name: "lorem"},
-        {name: "ipsum"},
-        {name: "dolor"},
-        {name: "sit"},
-        {name: "amet"},
-      ]
-    }
+      `, {
+      id: 2,
+    });
+    return { result, formatDate, getImageURL, formatFullname };
   }
-};
+}
 
+const formatDate = (date) => {
+  let options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(date).toLocaleDateString("en-GB", options);
+}
 
-// const title = ref(postData.data.postById.title);
-const text = ref(postData.data.postById.text);
-const category = ref(postData.data.postById.category.name);
-const owner = ref(postData.data.postById.owner.firstName + ' ' + postData.data.postById.owner.lastName);
-const tags = ref(postData.data.postById.tags);
-const imageURL = ref(process.env.VUE_APP_MEDIA_URL + postData.data.postById.image);
+const getImageURL = (image) => {
+  return process.env.VUE_APP_MEDIA_URL + image;
+}
 
-let options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-const date = ref(new Date(postData.data.postById.dateCreated).toLocaleDateString("en-GB", options));
-
+const formatFullname = (firstName, lastName) => {
+  return firstName + ' ' + lastName
+}
 
 </script>
 
 
 <template>
   <div class="post-container" >
-    <div class="post">
+    <div class="post" v-if="result">
       <div class="post-content">
         <div class="post-header">
-          <div v-if="result.value" class="post-title">
-            <p>{{ result.value.postById.title }}</p>
+          <div class="post-title">
+            <p>{{ result.postById.title }}</p>
           </div>
           <div class="post-date">
             <p>
-              {{ date }}
+              {{ formatDate(result.postById.dateCreated) }}
             </p>
-        </div>
+          </div>
         </div>
         <div class="post-text">
           <p>
-            {{ text }}
+            {{ result.postById.text }}
           </p>
         </div>
         <div class="post-owner">
           <p>
-            {{ '- ' + owner }}
+            {{ '- ' + formatFullname(result.postById.owner.firstName, result.postById.owner.lastName) }}
           </p>
         </div>
-        <div class="post-image-container">
-          <img class="post-image" :src="imageURL" alt="Post Image">
+        <div class="post-image-container" v-if="result.postById.image">
+          <img class="post-image" :src="getImageURL(result.postById.image)" alt="Post Image">
         </div>
-        <div class="post-category">
-          <p>
-            {{ category }}
-          </p>
+        <div class="post-category flex margin-zero">
+          <p><b>Category:&nbsp;</b></p>
+          <p>{{ result.postById.category.name }}</p>
         </div>
-        <div class="post-tags">
-          <ul>
-            <li v-for="tag in tags" class="post-tag" :key="tag.name">{{ tag.name }}</li>
-          </ul>
+        <div class="post-tags flex margin-zero">
+          <p><b>Tags:&nbsp;</b></p>
+          <p v-for="tag in result.postById.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
         </div>
       </div>
     </div>
@@ -125,9 +91,12 @@ const date = ref(new Date(postData.data.postById.dateCreated).toLocaleDateString
 .post-container {
   margin-top: 9vh;
   padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .post {
-
+  max-width: 940px;
 }
 .post-container {
 
@@ -146,15 +115,15 @@ const date = ref(new Date(postData.data.postById.dateCreated).toLocaleDateString
   letter-spacing: 1px;
   font-size: 2em;
 }
+.post-title p, .post-date p {
+  margin-bottom: 0;
+}
 .post-date {
-  position: absolute;
-  top: -20px;
-  right: 0;
+
 }
 .post-text {
   padding: 30px 30px 0 30px;
   text-align: left;
-
 }
 .post-owner {
   padding: 0 40px 0 0;
@@ -167,15 +136,20 @@ const date = ref(new Date(postData.data.postById.dateCreated).toLocaleDateString
   width: 100%;
 }
 .post-category {
-
+  margin: 30px 0 3px 30px;
 }
 .post-tags {
-
+  margin-left: 30px;
 }
 .post-tag {
-
+  /*text-decoration: underline;*/
 }
-
+.flex {
+  display: flex;
+}
+.margin-zero * {
+  margin: 0;
+}
 
 
 
