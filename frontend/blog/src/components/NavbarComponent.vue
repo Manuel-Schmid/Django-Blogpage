@@ -8,8 +8,8 @@
   <header class="header">
     <nav class="navbar">
       <div class="nav-container">
-        <div class="nav-item">Blogs</div>
-        <div class="nav-item">My Posts</div>
+        <div class="nav-item">Newest Posts</div>
+        <div class="nav-item">My Blog</div>
         <div class="nav-item">Profile</div>
       </div>
     </nav>
@@ -35,12 +35,11 @@
 }
 .navbar {
   height: 100%;
-  padding: 0;
+  padding: 0 15px 0 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: end;
-  margin: 0 15px 0 0;
   -webkit-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
   -moz-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
   box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
