@@ -49,9 +49,10 @@ def client_query(client):
 
     return func
 
-# @pytest.fixture
-# def client_query_file(client):
-#     def func(*args, **kwargs):
-#         return file_graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
-#
-#     return func
+
+@pytest.fixture
+def client_query_file(client):
+    def func(*args, **kwargs):
+        return file_graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
+
+    return func

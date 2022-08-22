@@ -100,14 +100,15 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
         return UpdateComment(success=False, errors=form.errors.get_json_data())
 
 
-class UploadMutation(graphene.Mutation):
+class UploadMutation(graphene.Mutation, GraphqlOutput):
     class Arguments:
-        file = Upload(required=True)
+        file_input = Upload(required=True)
 
     success = graphene.Boolean()
 
-    def mutate(self, info, file, **kwargs):
-        # do something with your file
+    @classmethod
+    def mutate(cls, root, info, file_input):
+        print(file_input)
 
         return UploadMutation(success=True)
 
