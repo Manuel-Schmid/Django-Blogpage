@@ -3,3 +3,5 @@ backend/.idea/
 backend/uploaded_files/
 backend/static
 backend/staticfiles
+
+.DS_Store
