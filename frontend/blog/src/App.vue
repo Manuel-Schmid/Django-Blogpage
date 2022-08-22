@@ -1,17 +1,20 @@
 <template>
   <NavbarComponent></NavbarComponent>
-  <PostDetail></PostDetail>
+<!--  <PostDetailComponent></PostDetailComponent>-->
+  <PostsOverviewComponent></PostsOverviewComponent>
 </template>
 
 <script>
-import PostDetail from './components/PostDetail.vue'
+// import PostDetailComponent from './components/PostDetailComponent.vue'
 import NavbarComponent from './components/NavbarComponent.vue'
+import PostsOverviewComponent from "@/components/PostsOverviewComponent";
 
 export default {
   name: 'App',
   components: {
+    PostsOverviewComponent,
     NavbarComponent,
-    PostDetail,
+    // PostDetailComponent,
   }
 }
 </script>
