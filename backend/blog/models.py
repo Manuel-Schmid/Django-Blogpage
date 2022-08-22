@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from taggit.managers import TaggableManager
+from autoslug import AutoSlugField
 
 
 class User(AbstractUser):
@@ -17,8 +18,16 @@ class Category(models.Model):
         return self.name
 
 
+def post_slug_populate_from(value):
+    return value.title
+
+def slugify(value):
+    return value.replace(' ','-').lower()
+
 class Post(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=False, null=False)
+    slug = AutoSlugField(default=None, editable=True, unique=False, populate_from=post_slug_populate_from,
+                         unique_with=['id'], slugify=slugify)
     text = models.TextField()
     image = models.ImageField(upload_to='images', null=True)
     category = models.ForeignKey('blog.Category', related_name='posts', on_delete=models.CASCADE)
