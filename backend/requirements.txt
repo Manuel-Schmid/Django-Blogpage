@@ -2,6 +2,7 @@ aniso8601==7.0.0
 asgiref==3.5.2
 attrs==22.1.0
 Django==4.1
+django-autoslug==1.9.8
 django-cors-headers==3.13.0
 django-debug-toolbar==3.5.0
 django-graphiql-debug-toolbar==0.2.0
