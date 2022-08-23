@@ -1,12 +1,15 @@
-<script>
+<script lang="ts">
+import {Post} from "../api/models";
+
+let postData: Post;
 export default {
-  props: [
-    "postData",
-  ],
+  props: {
+    postData
+  },
 
   setup() {
     const formatDate = (date) => {
-      let options = {weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit'};
+      let options: any = {weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit'};
       return new Date(date).toLocaleDateString('en-GB', options);
     };
 
