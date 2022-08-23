@@ -6,7 +6,7 @@
 import PostOverviewComponent from '@/components/PostsOverviewComponent'
 
 export default {
-  name: 'PostoverviewView',
+  name: 'PostOverviewView',
   components: {
     PostOverviewComponent
   },
