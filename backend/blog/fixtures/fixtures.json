@@ -46,8 +46,9 @@
     "pk": 1,
     "fields": {
       "title": "Maecenas tempor",
+      "slug": "maecenas-tempor",
       "text": "Duis auctor tellus id ornare feugiat. Nullam commodo dignissim dolor vel egestas. Mauris lobortis nec est a ultricies. Sed euismod varius odio. Vivamus leo lectus, pellentesque eu congue quis, eleifend id odio. Ut malesuada eros eget enim cursus dignissim eu id metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      "image": "images/pexels-anjana-c-674010.jpg",
+      "image": "images/green.jpg",
       "category": 3,
       "owner": 2,
       "date_created": "2022-08-16T06:33:14.592Z"
@@ -58,6 +59,7 @@
     "pk": 2,
     "fields": {
       "title": "Suspendisse varius",
+      "slug": "suspendisse-varius",
       "text": "Vivamus aliquam lacus in sem bibendum ultricies nec nec justo. Aenean luctus velit blandit nulla pharetra, non pellentesque quam accumsan. Suspendisse varius nunc in massa convallis tempor.",
       "image": "images/Landscape-Color.jpg",
       "category": 6,
@@ -70,8 +72,9 @@
     "pk": 3,
     "fields": {
       "title": "Phasellus vitae",
+      "slug": "phasellus-vitae",
       "text": "Fusce rhoncus molestie condimentum. Phasellus vitae imperdiet orci. Nulla facilisis viverra lorem sit amet varius. Phasellus in finibus libero. Morbi erat urna, accumsan ut molestie in, aliquam vitae mi. In tempus, tortor pharetra pretium cursus, arcu quam gravida tortor, sed feugiat nibh tellus vitae augue.",
-      "image": "images/car_phone.png",
+      "image": "images/lake.jpg",
       "category": 3,
       "owner": 2,
       "date_created": "2022-08-16T06:30:42.455Z"
@@ -82,8 +85,9 @@
     "pk": 4,
     "fields": {
       "title": "Lorem ipsum dolor sit amet",
+      "slug": "lorem-ipsum-dolor-sit-amet",
       "text": "itudin. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin id viverra augue, at euismod purus. Nam sapien enim, hendrerit eget t",
-      "image": "images/uranus_sqr.jpg",
+      "image": "images/central_park.jpg",
       "category": 3,
       "owner": 3,
       "date_created": "2022-08-15T15:00:57.031Z"
@@ -94,8 +98,9 @@
     "pk": 5,
     "fields": {
       "title": "Alea iacta est",
+      "slug": "alea-iacta-est",
       "text": "Ilitora torquent per nulla facilisis viverra lorem sit amet varius. Proin id viverra augue, at euismod purus. Nam sapien enean luctus velit blandit ",
-      "image": "images/junction.jpeg",
+      "image": "images/sea.jpg",
       "category": 2,
       "owner": 3,
       "date_created": "2022-08-15T15:00:57.031Z"

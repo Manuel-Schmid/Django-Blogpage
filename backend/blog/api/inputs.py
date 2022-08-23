@@ -2,7 +2,7 @@ import graphene
 
 
 class PostInput(graphene.InputObjectType):
-    id = graphene.ID(required=False)
+    slug = graphene.String(required=False)
     title = graphene.String()
     text = graphene.String()
     category = graphene.ID()

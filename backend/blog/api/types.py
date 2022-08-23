@@ -92,6 +92,7 @@ class Post(DjangoObjectType):
         fields = (
             'id',
             'title',
+            'slug',
             'text',
             'image',
             'category',
