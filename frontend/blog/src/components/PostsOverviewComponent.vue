@@ -1,41 +1,21 @@
 <script>
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-
 export default {
+  props: [
+    'postsData'
+  ],
+
   setup() {
-    let { result } = useQuery(gql`
-        {
-          posts {
-            id
-            slug
-            title
-            dateCreated
-            category {
-              name
-            }
-            owner {
-              firstName
-              lastName
-            }
-          }
-        }
-      `, {
-      id: 2,
-    });
-    return { result, formatDate, formatFullname };
+    const formatDate = (date) => {
+      let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return new Date(date).toLocaleDateString("en-GB", options);
+    }
+
+    const formatFullname = (firstName, lastName) => {
+      return `${firstName} ${lastName}`
+    }
+    return {formatDate, formatFullname }
   }
 }
-
-const formatDate = (date) => {
-  let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(date).toLocaleDateString("en-GB", options);
-}
-
-const formatFullname = (firstName, lastName) => {
-  return `${firstName} ${lastName}`
-}
-
 </script>
 
 
@@ -43,14 +23,14 @@ const formatFullname = (firstName, lastName) => {
   <div class="post-overview-container">
     <div class="content-container">
       <p class="title">Posts: </p>
-      <div class="posts-container" v-if="result">
-            <router-link :to="{ name: 'postDetail', params: { slug: post.slug } }" class="post" v-for="post in result.posts" :key="post.id">
+      <div class="posts-container" v-if="postsData">
+            <router-link :to="{ name: 'postDetail', params: { slug: post.slug } }" class="post" v-for="post in postsData.posts" :key="post.id">
               <div class="post-title">
                 <p>{{ post.title }}</p>
               </div>
               <div class="post-creation-info">
                 <p>
-                  {{ `${formatFullname(post.owner.firstName, post.owner.lastName)} - ${formatDate(post.dateCreated)}` }}
+                  {{formatFullname(post.owner.firstName, post.owner.lastName)}} - {{formatDate(post.dateCreated)}}
                 </p>
               </div>
               <div class="post-category">
