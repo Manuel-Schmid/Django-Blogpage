@@ -1,30 +1,34 @@
 <script>
 export default {
   props: [
-      'postData'
+    "postData",
   ],
 
   setup() {
     const formatDate = (date) => {
       let options = {weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit'};
-      return new Date(date).toLocaleDateString("en-GB", options);
-    }
+      return new Date(date).toLocaleDateString('en-GB', options);
+    };
 
     const getImageURL = (image) => {
       return `${process.env.VUE_APP_MEDIA_URL}${image}`;
-    }
+    };
 
     const formatFullname = (firstName, lastName) => {
       return `${firstName} ${lastName}`;
-    }
-    return {formatDate, getImageURL, formatFullname }
+    };
+
+    return {formatDate, getImageURL, formatFullname };
   }
-}
+};
 </script>
 
 <template>
-  <div class="post-container" >
-    <div class="post" v-if="postData">
+  <div class="post-container">
+    <div
+      v-if="postData"
+      class="post"
+    >
       <div class="post-content">
         <div class="post-header">
           <div class="post-title">
@@ -46,8 +50,15 @@ export default {
             - {{ formatFullname(postData.postBySlug.owner.firstName, postData.postBySlug.owner.lastName) }}
           </p>
         </div>
-        <div class="post-image-container" v-if="postData.postBySlug.image">
-          <img class="post-image" :src="getImageURL(postData.postBySlug.image)" alt="Post Image">
+        <div
+          v-if="postData.postBySlug.image"
+          class="post-image-container"
+        >
+          <img
+            class="post-image"
+            :src="getImageURL(postData.postBySlug.image)"
+            alt="Post Image"
+          >
         </div>
         <div class="post-category flex margin-zero">
           <p><b>Category:&nbsp;</b></p>
@@ -55,7 +66,13 @@ export default {
         </div>
         <div class="post-tags flex margin-zero">
           <p><b>Tags:&nbsp;</b></p>
-          <p v-for="tag in postData.postBySlug.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
+          <p
+            v-for="tag in postData.postBySlug.tags"
+            :key="tag.name"
+            class="post-tag"
+          >
+            {{ tag.name }},&nbsp;
+          </p>
         </div>
       </div>
     </div>
