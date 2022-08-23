@@ -107,9 +107,6 @@ const formatFullname = (firstName, lastName) => {
   box-shadow: -5px 4px 17px 7px rgba(179,179,179,0.45);
   cursor: pointer;
 }
-/*.post:hover .post-title {*/
-/*  letter-spacing: 2px;*/
-/*}*/
 .post-link {
   height: 100%;
   width: 100%;
