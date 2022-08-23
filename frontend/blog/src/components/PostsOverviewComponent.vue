@@ -33,7 +33,7 @@ const formatDate = (date) => {
 }
 
 const formatFullname = (firstName, lastName) => {
-  return firstName + ' ' + lastName
+  return `${firstName} ${lastName}`
 }
 
 </script>
@@ -50,7 +50,7 @@ const formatFullname = (firstName, lastName) => {
               </div>
               <div class="post-creation-info">
                 <p>
-                  {{ formatFullname(post.owner.firstName, post.owner.lastName) + ' - ' + formatDate(post.dateCreated) }}
+                  {{ `${formatFullname(post.owner.firstName, post.owner.lastName)} - ${formatDate(post.dateCreated)}` }}
                 </p>
               </div>
               <div class="post-category">

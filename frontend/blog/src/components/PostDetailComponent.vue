@@ -11,11 +11,11 @@ export default {
     }
 
     const getImageURL = (image) => {
-      return process.env.VUE_APP_MEDIA_URL + image;
+      return `${process.env.VUE_APP_MEDIA_URL}${image}`;
     }
 
     const formatFullname = (firstName, lastName) => {
-      return firstName + ' ' + lastName
+      return `${firstName} ${lastName}`;
     }
     return {formatDate, getImageURL, formatFullname }
   }
@@ -43,7 +43,7 @@ export default {
         </div>
         <div class="post-owner">
           <p>
-            {{ '- ' + formatFullname(postData.postBySlug.owner.firstName, postData.postBySlug.owner.lastName) }}
+            - {{ formatFullname(postData.postBySlug.owner.firstName, postData.postBySlug.owner.lastName) }}
           </p>
         </div>
         <div class="post-image-container" v-if="postData.postBySlug.image">
