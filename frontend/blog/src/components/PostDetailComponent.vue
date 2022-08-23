@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 export default {
   setup() {
     let { result } = useQuery(gql`
-      query getPostById($id: ID!) {
-        postById(id: $id) {
+      query getPostBySlug($slug: String!) {
+        postBySlug(slug: $slug) {
           title
           text
           image
@@ -24,7 +24,7 @@ export default {
         }
       }
       `, {
-      id: 2,
+      slug: "suspendisse-varius",
     });
     return { result, formatDate, getImageURL, formatFullname };
   }
@@ -52,34 +52,34 @@ const formatFullname = (firstName, lastName) => {
       <div class="post-content">
         <div class="post-header">
           <div class="post-title">
-            <p>{{ result.postById.title }}</p>
+            <p>{{ result.postBySlug.title }}</p>
           </div>
           <div class="post-date">
             <p>
-              {{ formatDate(result.postById.dateCreated) }}
+              {{ formatDate(result.postBySlug.dateCreated) }}
             </p>
           </div>
         </div>
         <div class="post-text">
           <p>
-            {{ result.postById.text }}
+            {{ result.postBySlug.text }}
           </p>
         </div>
         <div class="post-owner">
           <p>
-            {{ '- ' + formatFullname(result.postById.owner.firstName, result.postById.owner.lastName) }}
+            {{ '- ' + formatFullname(result.postBySlug.owner.firstName, result.postBySlug.owner.lastName) }}
           </p>
         </div>
-        <div class="post-image-container" v-if="result.postById.image">
-          <img class="post-image" :src="getImageURL(result.postById.image)" alt="Post Image">
+        <div class="post-image-container" v-if="result.postBySlug.image">
+          <img class="post-image" :src="getImageURL(result.postBySlug.image)" alt="Post Image">
         </div>
         <div class="post-category flex margin-zero">
           <p><b>Category:&nbsp;</b></p>
-          <p>{{ result.postById.category.name }}</p>
+          <p>{{ result.postBySlug.category.name }}</p>
         </div>
         <div class="post-tags flex margin-zero">
           <p><b>Tags:&nbsp;</b></p>
-          <p v-for="tag in result.postById.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
+          <p v-for="tag in result.postBySlug.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
         </div>
       </div>
     </div>
