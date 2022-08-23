@@ -21,12 +21,15 @@ class Category(models.Model):
 def post_slug_populate_from(value):
     return value.title
 
+
 def slugify(value):
-    return value.replace(' ','-').lower()
+    return value.replace(' ', '-').lower()
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200, blank=False, null=False)
-    slug = AutoSlugField(null=False, editable=False, unique=True, populate_from=post_slug_populate_from, slugify=slugify)
+    slug = AutoSlugField(null=False, editable=False, unique=True,
+                         populate_from=post_slug_populate_from, slugify=slugify)
     text = models.TextField()
     image = models.ImageField(upload_to='images', null=True)
     category = models.ForeignKey('blog.Category', related_name='posts', on_delete=models.CASCADE)
