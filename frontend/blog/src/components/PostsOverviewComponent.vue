@@ -22,21 +22,31 @@ export default {
 <template>
   <div class="post-overview-container">
     <div class="content-container">
-      <p class="title">Posts: </p>
-      <div class="posts-container" v-if="postsData">
-            <router-link :to="{ name: 'postDetail', params: { slug: post.slug } }" class="post" v-for="post in postsData.posts" :key="post.id">
-              <div class="post-title">
-                <p>{{ post.title }}</p>
-              </div>
-              <div class="post-creation-info">
-                <p>
-                  {{formatFullname(post.owner.firstName, post.owner.lastName)}} - {{formatDate(post.dateCreated)}}
-                </p>
-              </div>
-              <div class="post-category">
-                <p>{{ post.category.name }}</p>
-              </div>
-            </router-link>
+      <p class="title">
+        Posts:
+      </p>
+      <div
+        v-if="postsData"
+        class="posts-container"
+      >
+        <router-link
+          v-for="post in postsData.posts"
+          :key="post.id"
+          :to="{ name: 'postDetail', params: { slug: post.slug } }"
+          class="post"
+        >
+          <div class="post-title">
+            <p>{{ post.title }}</p>
+          </div>
+          <div class="post-creation-info">
+            <p>
+              {{ formatFullname(post.owner.firstName, post.owner.lastName) }} - {{ formatDate(post.dateCreated) }}
+            </p>
+          </div>
+          <div class="post-category">
+            <p>{{ post.category.name }}</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>

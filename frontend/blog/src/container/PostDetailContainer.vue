@@ -1,5 +1,5 @@
 <template>
-    <PostDetailComponent :postData=result></PostDetailComponent>
+  <PostDetailComponent :post-data="result" />
 </template>
 
 <script>

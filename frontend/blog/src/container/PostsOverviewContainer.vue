@@ -1,5 +1,5 @@
 <template>
-    <PostOverviewComponent :postsData=result></PostOverviewComponent>
+  <PostOverviewComponent :posts-data="result" />
 </template>
 
 <script>
