@@ -5,4 +5,3 @@ Creating a Blogpage with Python Django and Docker
 
 > 127.0.0.1 &emsp;&emsp; api.blogapp.com<br>
 > 127.0.0.1	&emsp;&emsp; blogapp.com
-> 
