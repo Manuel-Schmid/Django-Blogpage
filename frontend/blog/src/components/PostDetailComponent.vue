@@ -1,9 +1,14 @@
 <script>
 import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
+import {useRoute} from "vue-router/dist/vue-router";
+
 
 export default {
   setup() {
+    const route = useRoute();
+    const slug = route.params.slug;
+
     let { result } = useQuery(gql`
       query getPostBySlug($slug: String!) {
         postBySlug(slug: $slug) {
@@ -24,7 +29,7 @@ export default {
         }
       }
       `, {
-      slug: "suspendisse-varius",
+      slug: slug,
     });
     return { result, formatDate, getImageURL, formatFullname };
   }

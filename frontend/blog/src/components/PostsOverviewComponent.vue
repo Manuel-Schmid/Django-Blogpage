@@ -8,6 +8,7 @@ export default {
         {
           posts {
             id
+            slug
             title
             dateCreated
             category {
@@ -43,19 +44,19 @@ const formatFullname = (firstName, lastName) => {
     <div class="content-container">
       <p class="title">Posts: </p>
       <div class="posts-container" v-if="result">
-        <div class="post" v-for="post in result.posts" :key="post.id">
-            <div class="post-title">
-              <p>{{ post.title }}</p>
-            </div>
-            <div class="post-creation-info">
-              <p>
-                {{ formatFullname(post.owner.firstName, post.owner.lastName) + ' - ' + formatDate(post.dateCreated) }}
-              </p>
-            </div>
-            <div class="post-category">
-              <p>{{ post.category.name }}</p>
-            </div>
-        </div>
+            <router-link :to="{ name: 'postDetail', params: { slug: post.slug } }" class="post" v-for="post in result.posts" :key="post.id">
+              <div class="post-title">
+                <p>{{ post.title }}</p>
+              </div>
+              <div class="post-creation-info">
+                <p>
+                  {{ formatFullname(post.owner.firstName, post.owner.lastName) + ' - ' + formatDate(post.dateCreated) }}
+                </p>
+              </div>
+              <div class="post-category">
+                <p>{{ post.category.name }}</p>
+              </div>
+            </router-link>
       </div>
     </div>
   </div>
@@ -84,9 +85,14 @@ const formatFullname = (firstName, lastName) => {
 .posts-container {
 
 }
+.posts-container a {
+  color: inherit;
+  text-decoration: inherit;
+}
 .post {
   width: calc(40% - 20px);
   margin: 10px 5%;
+  float: left;
   display: inline-block;
   padding: 5px 10px;
   border-radius: 15px;
@@ -101,10 +107,12 @@ const formatFullname = (firstName, lastName) => {
   box-shadow: -5px 4px 17px 7px rgba(179,179,179,0.45);
   cursor: pointer;
 }
-.post:hover .post-title {
-  letter-spacing: 2px;
+.post-link {
+  height: 100%;
+  width: 100%;
 }
 .post-title {
+  padding: 0 15px;
   line-height: 20px;
   color: black;
   font-weight: bold;

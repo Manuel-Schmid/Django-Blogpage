@@ -1,21 +1,18 @@
 <template>
   <NavbarComponent></NavbarComponent>
-  <PostsOverviewComponent></PostsOverviewComponent>
-
+  <router-view/>
 </template>
 
 <script>
 import NavbarComponent from './components/NavbarComponent.vue'
-import PostsOverviewComponent from "@/components/PostsOverviewComponent";
 
 export default {
-  name: 'App',
   components: {
     NavbarComponent,
-    PostsOverviewComponent,
   }
 }
 </script>
+
 
 <style>
 #app {
@@ -24,6 +21,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
