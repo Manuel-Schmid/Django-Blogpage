@@ -8,7 +8,7 @@
   <header class="header">
     <nav class="navbar">
       <div class="nav-container">
-        <div class="nav-item">Posts</div>
+        <router-link class="nav-item" :to="{ name: 'posts' }">Posts</router-link>
         <div class="nav-item">My Blog</div>
         <div class="nav-item">Profile</div>
       </div>
@@ -48,6 +48,10 @@
   width: auto;
   display: flex;
   flex-direction: row;
+}
+.nav-container a {
+  color: inherit;
+  text-decoration: inherit;
 }
 .nav-item {
   background-color: whitesmoke;
