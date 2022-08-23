@@ -1,90 +1,61 @@
 <script>
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-import {useRoute} from "vue-router/dist/vue-router";
-
-
 export default {
-  setup() {
-    const route = useRoute();
-    const slug = route.params.slug;
+  props: [
+      'postData'
+  ],
 
-    let { result } = useQuery(gql`
-      query getPostBySlug($slug: String!) {
-        postBySlug(slug: $slug) {
-          title
-          text
-          image
-          dateCreated
-          category {
-            name
-          }
-          owner {
-            firstName
-            lastName
-          }
-          tags {
-            name
-          }
-        }
-      }
-      `, {
-      slug: slug,
-    });
-    return { result, formatDate, getImageURL, formatFullname };
+  setup() {
+    const formatDate = (date) => {
+      let options = {weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit'};
+      return new Date(date).toLocaleDateString("en-GB", options);
+    }
+
+    const getImageURL = (image) => {
+      return `${process.env.VUE_APP_MEDIA_URL}${image}`;
+    }
+
+    const formatFullname = (firstName, lastName) => {
+      return `${firstName} ${lastName}`;
+    }
+    return {formatDate, getImageURL, formatFullname }
   }
 }
-
-const formatDate = (date) => {
-  let options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(date).toLocaleDateString("en-GB", options);
-}
-
-const getImageURL = (image) => {
-  return process.env.VUE_APP_MEDIA_URL + image;
-}
-
-const formatFullname = (firstName, lastName) => {
-  return firstName + ' ' + lastName
-}
-
 </script>
-
 
 <template>
   <div class="post-container" >
-    <div class="post" v-if="result">
+    <div class="post" v-if="postData">
       <div class="post-content">
         <div class="post-header">
           <div class="post-title">
-            <p>{{ result.postBySlug.title }}</p>
+            <p>{{ postData.postBySlug.title }}</p>
           </div>
           <div class="post-date">
             <p>
-              {{ formatDate(result.postBySlug.dateCreated) }}
+              {{ formatDate(postData.postBySlug.dateCreated) }}
             </p>
           </div>
         </div>
         <div class="post-text">
           <p>
-            {{ result.postBySlug.text }}
+            {{ postData.postBySlug.text }}
           </p>
         </div>
         <div class="post-owner">
           <p>
-            {{ '- ' + formatFullname(result.postBySlug.owner.firstName, result.postBySlug.owner.lastName) }}
+            - {{ formatFullname(postData.postBySlug.owner.firstName, postData.postBySlug.owner.lastName) }}
           </p>
         </div>
-        <div class="post-image-container" v-if="result.postBySlug.image">
-          <img class="post-image" :src="getImageURL(result.postBySlug.image)" alt="Post Image">
+        <div class="post-image-container" v-if="postData.postBySlug.image">
+          <img class="post-image" :src="getImageURL(postData.postBySlug.image)" alt="Post Image">
         </div>
         <div class="post-category flex margin-zero">
           <p><b>Category:&nbsp;</b></p>
-          <p>{{ result.postBySlug.category.name }}</p>
+          <p>{{ postData.postBySlug.category.name }}</p>
         </div>
         <div class="post-tags flex margin-zero">
           <p><b>Tags:&nbsp;</b></p>
-          <p v-for="tag in result.postBySlug.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
+          <p v-for="tag in postData.postBySlug.tags" class="post-tag" :key="tag.name">{{ tag.name }},&nbsp;</p>
         </div>
       </div>
     </div>

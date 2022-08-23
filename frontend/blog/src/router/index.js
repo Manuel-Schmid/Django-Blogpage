@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PostsOverviewView from '@/views/PostsOverviewView.vue'
-import PostDetailView from '@/views/PostDetailView'
+import PostsOverviewContainer from '@/container/PostsOverviewContainer.vue'
+import PostDetailContainer from '@/container/PostDetailContainer'
 
 const routes = [
   {
     path: '/posts',
     name: 'posts',
-    component: PostsOverviewView
+    component: PostsOverviewContainer
   },
   {
     path: '/posts/:slug',
     name: 'postDetail',
-    component: PostDetailView,
+    component: PostDetailContainer,
   },
 ]
 
