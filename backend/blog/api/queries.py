@@ -24,17 +24,16 @@ class Query(graphene.ObjectType):
         return User.objects.get(pk=id)
 
     def resolve_posts(root, info, **kwargs):
-        slg = kwargs.get('category_slug', None)
-        if slg is not None:
+        slug = kwargs.get('category_slug', None)
+        if slug is not None:
             return Post.objects \
                 .select_related('category', 'owner') \
                 .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
-                .filter(category__slug=slg)
-        else:
-            return Post.objects \
-                .select_related('category', 'owner') \
-                .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
-                .all()
+                .filter(category__slug=slug)
+        return Post.objects \
+            .select_related('category', 'owner') \
+            .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+            .all()
 
     def resolve_post_by_slug(root, info, slug):
         return Post.objects.get(slug=slug)
