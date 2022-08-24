@@ -3,42 +3,49 @@
     "model": "blog.category",
     "pk": 1,
     "fields": {
-      "name": "Sports"
+      "name": "Sports",
+      "slug": "sports"
     }
   },
   {
     "model": "blog.category",
     "pk": 2,
     "fields": {
-      "name": "Politics"
+      "name": "Politics",
+      "slug": "politics"
+
     }
   },
   {
     "model": "blog.category",
     "pk": 3,
     "fields": {
-      "name": "Entertainment"
+      "name": "Entertainment",
+      "slug": "entertainment"
     }
   },
   {
     "model": "blog.category",
     "pk": 4,
     "fields": {
-      "name": "Gaming"
+      "name": "Gaming",
+      "slug": "gaming"
     }
   },
   {
     "model": "blog.category",
     "pk": 5,
     "fields": {
-      "name": "Films & Series"
+      "name": "Films and Series",
+      "slug": "films-and-series"
     }
   },
   {
     "model": "blog.category",
     "pk": 6,
     "fields": {
-      "name": "Comp Sci"
+      "name": "Comp Sci",
+      "slug": "comp-sci"
     }
   },
   {

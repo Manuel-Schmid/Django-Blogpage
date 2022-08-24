@@ -22,7 +22,7 @@ def category_slug_populate_from(value):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    slug = AutoSlugField(default=None, editable=False, unique=False,  # no default, null=False, unique=True
+    slug = AutoSlugField(null=False, editable=False, unique=True,
                          populate_from=category_slug_populate_from, slugify=slugify)
 
     class Meta:

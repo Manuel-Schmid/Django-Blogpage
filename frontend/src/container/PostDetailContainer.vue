@@ -28,6 +28,7 @@ export default {
             dateCreated
             category {
               name
+              slug
             }
             owner {
               firstName
@@ -35,6 +36,7 @@ export default {
             }
             tags {
               name
+              slug
             }
           }
         }

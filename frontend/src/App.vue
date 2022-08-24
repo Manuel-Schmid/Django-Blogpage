@@ -1,6 +1,6 @@
 <template>
   <NavbarComponent />
-  <router-view />
+  <router-view :key="this.$route.path"/>
 </template>
 
 <script>

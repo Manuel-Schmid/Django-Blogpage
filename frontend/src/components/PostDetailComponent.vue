@@ -66,13 +66,15 @@ export default {
         </div>
         <div class="post-category flex margin-zero">
           <p><b>Category:&nbsp;</b></p>
-          <p>{{ postData.postBySlug.category.name }}</p>
+          <router-link :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }">
+            {{ postData.postBySlug.category.name }}
+          </router-link>
         </div>
         <div class="post-tags flex margin-zero">
           <p><b>Tags:&nbsp;</b></p>
           <p
             v-for="tag in postData.postBySlug.tags"
-            :key="tag.name"
+            :key="tag.slug"
             class="post-tag"
           >
             {{ tag.name }},&nbsp;
