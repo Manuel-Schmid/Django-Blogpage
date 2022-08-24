@@ -18,6 +18,11 @@ const routes = [
     name: "categoryPosts",
     component: PostsOverviewContainer,
   },
+  {
+    path: "/tag/:slug",
+    name: "tagPosts",
+    component: PostsOverviewContainer,
+  },
 ];
 
 const router = createRouter({
