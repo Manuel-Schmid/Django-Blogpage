@@ -70,7 +70,7 @@ def test_create_comment(client_query, posts):
     assert data_comment is not None
     assert data_comment['title'] == 'test'
     assert data_comment['text'] == 'this a test'
-    assert data_comment['post']['title'] == 'test_post1'
+    assert data_comment['post']['title'] == 'Test Post1'
     assert data_comment['owner']['username'] == 'test_user1'
 
 
@@ -174,5 +174,5 @@ def test_update_comment(client_query, comments):
     assert data_comment is not None
     assert data_comment['title'] == 'test_comment3'
     assert data_comment['text'] == 'test_text3'
-    assert data_comment['post']['title'] == 'test_post2'
+    assert data_comment['post']['title'] == 'Test Post2'
     assert data_comment['owner']['username'] == 'test_user2'
