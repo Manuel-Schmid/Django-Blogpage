@@ -6,7 +6,7 @@ from .types import Post as PostType, Category as CategoryType, User as UserType
 class Query(graphene.ObjectType):
     categories = graphene.List(CategoryType)
     category_by_id = graphene.Field(CategoryType, id=graphene.ID())
-    posts = graphene.List(PostType)
+    posts = graphene.List(PostType, category_slug=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
     users = graphene.List(UserType)
     user_by_id = graphene.Field(UserType, id=graphene.ID())
@@ -24,6 +24,12 @@ class Query(graphene.ObjectType):
         return User.objects.get(pk=id)
 
     def resolve_posts(root, info, **kwargs):
+        slug = kwargs.get('category_slug', None)
+        if slug is not None:
+            return Post.objects \
+                .select_related('category', 'owner') \
+                .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+                .filter(category__slug=slug)
         return Post.objects \
             .select_related('category', 'owner') \
             .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \

@@ -8,22 +8,28 @@ class User(AbstractUser):
     pass
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=200)
-
-    class Meta:
-        verbose_name_plural = 'Categories'
-
-    def __str__(self):
-        return self.name
+def slugify(value):
+    return value.replace(' ', '-').lower()
 
 
 def post_slug_populate_from(value):
     return value.title
 
 
-def slugify(value):
-    return value.replace(' ', '-').lower()
+def category_slug_populate_from(value):
+    return value.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = AutoSlugField(default=None, editable=False, unique=False,  # no default, null=False, unique=True
+                         populate_from=category_slug_populate_from, slugify=slugify)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):

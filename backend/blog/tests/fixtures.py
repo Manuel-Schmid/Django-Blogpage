@@ -28,13 +28,13 @@ def comments(posts, users):
 @pytest.fixture
 def posts(categories, users):
     Post.objects.create(
-        title="test_post1",
+        title="Test Post1",
         text="test_text1",
         owner=users[0],
         category=categories[0],
     )
     Post.objects.create(
-        title="test_post2",
+        title="Test Post2",
         text="test_text2",
         owner=users[1],
         category=categories[1],
