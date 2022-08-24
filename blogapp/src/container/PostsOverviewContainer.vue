@@ -5,8 +5,8 @@
 
 <script lang="ts">
 import gql from "graphql-tag";
-import PostsOverviewComponent from "../components/PostsOverviewComponent.vue";
 import { useQuery } from "@vue/apollo-composable";
+import PostsOverviewComponent from "../components/PostsOverviewComponent.vue";
 
 export default {
   name: "PostOverviewContainer",
