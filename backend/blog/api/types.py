@@ -54,6 +54,7 @@ class Category(DjangoObjectType):
         model = CategoryModel
         fields = (
             'id',
+            'slug',
             'name',
         )
 

@@ -11,6 +11,7 @@ class PostInput(graphene.InputObjectType):
 
 class CategoryInput(graphene.InputObjectType):
     id = graphene.ID(required=False)
+    slug = graphene.String(required=False)
     name = graphene.String()
 
 
