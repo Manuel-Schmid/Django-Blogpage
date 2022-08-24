@@ -13,6 +13,11 @@ const routes = [
     name: "postDetail",
     component: PostDetailContainer,
   },
+  {
+    path: "/category/:slug",
+    name: "categoryPosts",
+    component: PostsOverviewContainer,
+  },
 ];
 
 const router = createRouter({
