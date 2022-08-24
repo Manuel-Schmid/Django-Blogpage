@@ -1,5 +1,4 @@
 <template>
-  <h1>OVERVIEW</h1>
   <PostsOverviewComponent :posts-data="result" />
 </template>
 
