@@ -1,0 +1,12 @@
+overwrite: true
+schema: "http://api.blogapp.com/graphql/"
+generates:
+  ./src/api/remote-schema.json:
+    plugins:
+      - introspection
+  ./src/api/models.ts:
+    plugins:
+      - "typescript"
+hooks:
+  afterOneFileWrite:
+    - prettier --write

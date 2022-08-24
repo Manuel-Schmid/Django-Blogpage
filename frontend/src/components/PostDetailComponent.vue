@@ -1,34 +1,35 @@
-<script>
+<script lang="ts">
 export default {
-  props: [
-    "postData",
-  ],
+  name: "PostDetailComponent",
+  props: ["postData"],
 
   setup() {
-    const formatDate = (date) => {
-      let options = {weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit'};
-      return new Date(date).toLocaleDateString('en-GB', options);
+    const formatDate = (date: string) => {
+      let options: any = {
+        weekday: "long",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      };
+      return new Date(date).toLocaleDateString("en-GB", options);
     };
 
-    const getImageURL = (image) => {
-      return `${process.env.VUE_APP_MEDIA_URL}${image}`;
+    const getImageURL = (image: string) => {
+      return `${import.meta.env.VITE_MEDIA_URL}${image}`;
     };
 
-    const formatFullname = (firstName, lastName) => {
+    const formatFullname = (firstName: string, lastName: string) => {
       return `${firstName} ${lastName}`;
     };
 
-    return {formatDate, getImageURL, formatFullname };
-  }
+    return { formatDate, getImageURL, formatFullname };
+  },
 };
 </script>
 
 <template>
   <div class="post-container">
-    <div
-      v-if="postData"
-      class="post"
-    >
+    <div v-if="postData" class="post">
       <div class="post-content">
         <div class="post-header">
           <div class="post-title">
@@ -47,18 +48,21 @@ export default {
         </div>
         <div class="post-owner">
           <p>
-            - {{ formatFullname(postData.postBySlug.owner.firstName, postData.postBySlug.owner.lastName) }}
+            -
+            {{
+              formatFullname(
+                postData.postBySlug.owner.firstName,
+                postData.postBySlug.owner.lastName
+              )
+            }}
           </p>
         </div>
-        <div
-          v-if="postData.postBySlug.image"
-          class="post-image-container"
-        >
+        <div v-if="postData.postBySlug.image" class="post-image-container">
           <img
             class="post-image"
             :src="getImageURL(postData.postBySlug.image)"
             alt="Post Image"
-          >
+          />
         </div>
         <div class="post-category flex margin-zero">
           <p><b>Category:&nbsp;</b></p>
@@ -79,7 +83,6 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 .post-container {
   margin-top: 9vh;
@@ -92,10 +95,8 @@ export default {
   max-width: 940px;
 }
 .post-container {
-
 }
 .post-content {
-
 }
 .post-header {
   width: 100%;
@@ -108,11 +109,11 @@ export default {
   letter-spacing: 1px;
   font-size: 2em;
 }
-.post-title p, .post-date p {
+.post-title p,
+.post-date p {
   margin-bottom: 0;
 }
 .post-date {
-
 }
 .post-text {
   padding: 30px 30px 0 30px;
@@ -143,12 +144,4 @@ export default {
 .margin-zero * {
   margin: 0;
 }
-
-
-
-
-
-
 </style>
-
-

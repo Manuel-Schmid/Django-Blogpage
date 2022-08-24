@@ -1,34 +1,27 @@
-<script>
+<script lang="ts">
 export default {
-  props: [
-    'postsData'
-  ],
+  name: "PostOverviewComponent",
+  props: ["postsData"],
 
   setup() {
-    const formatDate = (date) => {
-      let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formatDate = (date: string) => {
+      let options: any = { year: "numeric", month: "2-digit", day: "2-digit" };
       return new Date(date).toLocaleDateString("en-GB", options);
-    }
+    };
 
-    const formatFullname = (firstName, lastName) => {
-      return `${firstName} ${lastName}`
-    }
-    return {formatDate, formatFullname }
-  }
-}
+    const formatFullname = (firstName: string, lastName: string) => {
+      return `${firstName} ${lastName}`;
+    };
+    return { formatDate, formatFullname };
+  },
+};
 </script>
-
 
 <template>
   <div class="post-overview-container">
     <div class="content-container">
-      <p class="title">
-        Posts:
-      </p>
-      <div
-        v-if="postsData"
-        class="posts-container"
-      >
+      <p class="title">Posts:</p>
+      <div v-if="postsData" class="posts-container">
         <router-link
           v-for="post in postsData.posts"
           :key="post.id"
@@ -40,7 +33,8 @@ export default {
           </div>
           <div class="post-creation-info">
             <p>
-              {{ formatFullname(post.owner.firstName, post.owner.lastName) }} - {{ formatDate(post.dateCreated) }}
+              {{ formatFullname(post.owner.firstName, post.owner.lastName) }} -
+              {{ formatDate(post.dateCreated) }}
             </p>
           </div>
           <div class="post-category">
@@ -51,7 +45,6 @@ export default {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .post-overview-container {
@@ -73,7 +66,6 @@ export default {
   font-size: 2em;
 }
 .posts-container {
-
 }
 .posts-container a {
   color: inherit;
@@ -87,14 +79,14 @@ export default {
   padding: 5px 10px;
   border-radius: 15px;
   transition: 200ms;
-  -webkit-box-shadow: -5px 4px 17px 2px rgba(179,179,179,0.45);
-  -moz-box-shadow: -5px 4px 17px 2px rgba(179,179,179,0.45);
-  box-shadow: -5px 4px 17px 2px rgba(179,179,179,0.45);
+  -webkit-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
+  -moz-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
+  box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
 }
 .post:hover {
-  -webkit-box-shadow: -5px 4px 17px 7px rgba(179,179,179,0.45);
-  -moz-box-shadow: -5px 4px 17px 7px rgba(179,179,179,0.45);
-  box-shadow: -5px 4px 17px 7px rgba(179,179,179,0.45);
+  -webkit-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
+  -moz-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
+  box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
   cursor: pointer;
 }
 .post-link {
@@ -114,7 +106,6 @@ export default {
   margin-bottom: 15px;
 }
 .post-creation-info {
-
 }
 .post-category {
   text-align: right;
@@ -123,5 +114,3 @@ export default {
   margin: 0.5em;
 }
 </style>
-
-

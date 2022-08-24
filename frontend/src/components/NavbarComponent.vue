@@ -1,32 +1,24 @@
-<script setup>
-
+<script lang="ts">
+export default {
+  name: "NavbarComponent",
+};
 </script>
-
 
 <template>
   <header class="header">
     <nav class="navbar">
       <div class="nav-container">
-        <router-link
-          class="nav-item"
-          :to="{ name: 'posts' }"
-        >
+        <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <div class="nav-item">
-          My Blog
-        </div>
-        <div class="nav-item">
-          Profile
-        </div>
+        <div class="nav-item">My Blog</div>
+        <div class="nav-item">Profile</div>
       </div>
     </nav>
   </header>
 </template>
 
-
 <style scoped>
-
 .header {
   position: fixed;
   top: 0;
@@ -35,9 +27,9 @@
   height: 9vh;
   z-index: 100;
   background-color: white;
-  -webkit-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
-  box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
 }
 .navbar {
   height: 100%;
@@ -46,9 +38,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: end;
-  -webkit-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
-  box-shadow: 10px 10px 16px -19px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
 }
 .nav-container {
   width: auto;
@@ -78,6 +70,4 @@
   border-bottom: 1px solid black;
   height: 19px;
 }
-
-
 </style>
