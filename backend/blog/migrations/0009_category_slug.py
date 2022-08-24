@@ -15,6 +15,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, populate_from=blog.models.category_slug_populate_from, slugify=blog.models.slugify),
+            field=autoslug.fields.AutoSlugField(default=None, editable=False, populate_from=blog.models.category_slug_populate_from, slugify=blog.models.slugify, unique=False),
+        ),
+        migrations.RunSQL(
+            "UPDATE blog_category SET slug = replace(trim(lower(CONCAT(name,'-',id))), ' ', '-');", migrations.RunSQL.noop
+        ),
+        migrations.AlterField(
+            model_name='category',
+            name='slug',
+            field=autoslug.fields.AutoSlugField(editable=False, populate_from=blog.models.category_slug_populate_from, slugify=blog.models.slugify, unique=True),
         ),
     ]
