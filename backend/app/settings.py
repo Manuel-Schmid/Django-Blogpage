@@ -65,7 +65,6 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://blogapp.com:8080',
-    'http://blogapp.com:5173',
 ]
 
 ROOT_URLCONF = 'app.urls'

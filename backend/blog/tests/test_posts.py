@@ -13,6 +13,7 @@ create_post_query = '''
             post {
               title
               text
+              slug
               owner{
                 username
               }
@@ -31,6 +32,7 @@ update_post_query = '''
           updatePost(postInput: $input) {
             post {
               title
+              slug
               text
               owner{
                 username
@@ -153,8 +155,8 @@ def test_create_post_invalid_category_id(client_query, categories, users):
 def test_update_post(client_query, posts):
     post_input = {
         "input": {
-            "id": 1,
-            "title": "test_post3",
+            "slug": "test-post1",
+            "title": "Test Post3",
             "text": "test_text3",
             "category": 2,
             "owner": 2,
@@ -172,7 +174,8 @@ def test_update_post(client_query, posts):
     assert data_update_post['success'] is True
     data_post = data_update_post.get('post', None)
     assert data_post is not None
-    assert data_post['title'] == 'test_post3'
+    assert data_post['title'] == 'Test Post3'
+    assert data_post['slug'] == 'test-post1'
     assert data_post['text'] == 'test_text3'
     assert data_post['owner']['username'] == 'test_user2'
     assert data_post['category']['name'] == 'test_category2'

@@ -61,7 +61,7 @@ class UpdatePost(graphene.Mutation, GraphqlOutput):
 
     @classmethod
     def mutate(cls, root, info, post_input):
-        post = Post.objects.get(pk=post_input.get('id'))
+        post = Post.objects.get(slug=post_input.get('slug'))
         form = PostForm(instance=post, data=post_input)
         if form.is_valid():
             post = form.save()
