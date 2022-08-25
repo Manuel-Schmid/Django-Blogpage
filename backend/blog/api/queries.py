@@ -31,20 +31,12 @@ class Query(graphene.ObjectType):
         tag_slug = kwargs.get('tag_slug', None)
 
         post_filter = Q()
-        if category_slug is not None and tag_slug is not None:
-            tag_slug_id = Tag.objects.get(slug=tag_slug)
-            post_filter = (
-                Q(tagged_items__tag_id=tag_slug_id, category__slug=category_slug)
-            )
-        elif category_slug is not None:
-            post_filter = (
-                Q(category__slug=category_slug)
-            )
-        elif tag_slug is not None:
-            tag_slug_id = Tag.objects.get(slug=tag_slug)
-            post_filter = (
-                Q(tagged_items__tag_id=tag_slug_id)
-            )
+        if tag_slug is not None:
+            post_filter &= Q(tagged_items__tag__slug=tag_slug)
+
+        if category_slug is not None:
+            post_filter &= Q(category__slug=category_slug)
+
         return Post.objects \
             .select_related('category', 'owner') \
             .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
