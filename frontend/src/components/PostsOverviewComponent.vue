@@ -1,9 +1,14 @@
 <script lang="ts">
+import router from "../router";
+import { useRoute } from "vue-router";
+
 export default {
   name: "PostOverviewComponent",
-  props: ["postsData"],
+  props: ["postsData", "tagsData"],
 
   setup() {
+    const route = useRoute();
+
     const formatDate = (date: string) => {
       let options: any = { year: "numeric", month: "2-digit", day: "2-digit" };
       return new Date(date).toLocaleDateString("en-GB", options);
@@ -12,7 +17,7 @@ export default {
     const formatFullname = (firstName: string, lastName: string) => {
       return `${firstName} ${lastName}`;
     };
-    return { formatDate, formatFullname };
+    return { formatDate, formatFullname, route };
   },
 };
 </script>
@@ -20,6 +25,19 @@ export default {
 <template>
   <div class="post-overview-container">
     <div class="content-container">
+      <div class="tags-container" v-if="tagsData">
+        <p style="margin-bottom: 0"><b>Tags:&nbsp;</b></p>
+        <div class="tags">
+          <router-link
+            v-for="tag in tagsData.tags"
+            :key="tag.slug"
+            :class="['post-tag', (tag.slug === route.query.tag) ? 'active-tag' : '']"
+            :to="{ name: route.name, query: { tag: tag.slug } }"
+          >
+            <p class="tag-name">{{ tag.name }}</p>
+          </router-link>
+        </div>
+      </div>
       <p class="title">Posts:</p>
       <div v-if="postsData" class="posts-container">
         <router-link
@@ -58,6 +76,32 @@ export default {
   width: 100%;
   max-width: 970px;
 }
+.tags-container {
+  margin-bottom: 10px;
+}
+.tags {
+  margin-top: 10px;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+}
+.post-tag {
+  background-color: whitesmoke;
+  border-radius: 15px;
+  padding: 4px 15px;
+  margin: 5px;
+  float: left;
+}
+.active-tag {
+  background-color: #d7d7d7;
+}
+.post-tag:hover {
+  background-color: #cac9c9;
+  cursor: pointer;
+}
+.tag-name {
+  margin: 0;
+}
 .title {
   line-height: 20px;
   color: black;
@@ -67,7 +111,7 @@ export default {
 }
 .posts-container {
 }
-.posts-container a {
+.posts-container a, .tags-container a {
   color: inherit;
   text-decoration: inherit;
 }

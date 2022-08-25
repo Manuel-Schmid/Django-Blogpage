@@ -1,5 +1,5 @@
 <template>
-  <PostsOverviewComponent :posts-data="result"/>
+  <PostsOverviewComponent :posts-data="postsData" :tags-data="tagsData"/>
 </template>
 
 <script lang="ts">
@@ -17,31 +17,54 @@ export default {
 
   setup() {
     const route = useRoute();
+    const tag = route.query.tag;
     const routeName = route.name;
-    const slug = route.params.slug;
 
-    let { result } = (routeName == 'categoryPosts') ?
-      useQuery(gql`
-        query postsByCategorySlug($categorySlug: String) {
-          posts(categorySlug: $categorySlug) {
-            slug
-            title
-            dateCreated
-            category {
-              name
+    let { result } =
+      (routeName == 'categoryPosts' && tag) ?
+        useQuery(gql`
+          query postsByTagAndCategorySlug($tagSlug: String, $categorySlug: String) {
+            posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
               slug
-            }
-            owner {
-              firstName
-              lastName
+              title
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
             }
           }
-        }
-      `,
+        `,
+          {
+            tagSlug: tag,
+            categorySlug: route.params.slug,
+          }
+      ) : (routeName == 'categoryPosts') ?
+        useQuery(gql`
+          query postsByCategorySlug($categorySlug: String) {
+            posts(categorySlug: $categorySlug) {
+              slug
+              title
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
+            }
+          }
+        `,
         {
-          categorySlug: slug,
+          categorySlug: route.params.slug,
         }
-      ) : (routeName == 'tagPosts') ?
+      ) : (tag) ?
         useQuery(gql`
           query postsByTagSlug($tagSlug: String) {
             posts(tagSlug: $tagSlug) {
@@ -60,9 +83,9 @@ export default {
           }
         `,
           {
-            tagSlug: slug,
+            tagSlug: tag,
           }
-        ) :
+      ) :
         useQuery(gql`
           {
             posts {
@@ -79,8 +102,19 @@ export default {
               }
             }
           }
+      `);
+    let postsData = result
+
+    let tags = useQuery(gql`
+          {
+            tags {
+              name
+              slug
+            }
+          }
         `);
-    return { result };
+    let tagsData = tags.result
+    return { postsData, tagsData };
   },
 };
 </script>

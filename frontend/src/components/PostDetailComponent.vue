@@ -74,7 +74,7 @@ export default {
           <p><b>Tags:&nbsp;</b></p>
           <router-link
             v-for="tag in postData.postBySlug.tags"
-            :to="{ name: 'tagPosts', params: { slug: tag.slug } }"
+            :to="{ name: 'posts', query: { tag: tag.slug } }"
             :key="tag.slug"
             class="post-tag"
           >
