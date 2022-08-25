@@ -1,6 +1,6 @@
 import graphene
 from django.db.models import Q
-from taggit.models import Tag
+from taggit.models import Tag, TaggedItem
 from ..models import Category, Post, User
 from .types import Post as PostType, Category as CategoryType, User as UserType, Tag as TagType
 
@@ -26,8 +26,12 @@ class Query(graphene.ObjectType):
     def resolve_user_by_id(root, info, id):
         return User.objects.get(pk=id)
 
-    def resolve_tags(root, info, **kwargs):
-        return Tag.objects.all()
+    def resolve_tags(self, info, **kwargs):
+        # SELECT DISTINCT taggit_tag.id, taggit_tag.name, taggit_tag.slug
+        # FROM taggit_tag
+        # JOIN taggit_taggeditem
+        # ON taggit_tag.id = taggit_taggeditem.`tag_id`
+       return Tag.objects.all()
 
     def resolve_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
