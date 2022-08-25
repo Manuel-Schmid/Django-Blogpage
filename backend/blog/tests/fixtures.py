@@ -14,12 +14,12 @@ def users():
 
 
 @pytest.fixture
-def tags():
+def tags(posts):
     content_type = ContentType.objects.get(app_label="blog", model="post")
     tag1 = Tag.objects.create(name="tag_1", slug="tag_1_slug")
-    TaggedItem.objects.create(tag=tag1, object_id=1, content_type=content_type)
+    TaggedItem.objects.create(tag=tag1, object_id=posts[0].id, content_type=content_type)
     tag2 = Tag.objects.create(name="tag_2", slug="tag_2_slug")
-    TaggedItem.objects.create(tag=tag2, object_id=2, content_type=content_type)
+    TaggedItem.objects.create(tag=tag2, object_id=posts[1].id, content_type=content_type)
     return Tag.objects.all()
 
 
