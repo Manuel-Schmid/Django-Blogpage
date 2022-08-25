@@ -17,9 +17,10 @@ export default {
 
   setup() {
     const route = useRoute();
+    const routeName = route.name;
     const slug = route.params.slug;
 
-    let { result } = slug ?
+    let { result } = (routeName == 'categoryPosts') ?
       useQuery(gql`
         query postsByCategorySlug($categorySlug: String) {
           posts(categorySlug: $categorySlug) {
@@ -40,24 +41,45 @@ export default {
         {
           categorySlug: slug,
         }
-      ) :
-      useQuery(gql`
-        {
-          posts {
-            slug
-            title
-            dateCreated
-            category {
-              name
+      ) : (routeName == 'tagPosts') ?
+        useQuery(gql`
+          query postsByTagSlug($tagSlug: String) {
+            posts(tagSlug: $tagSlug) {
               slug
-            }
-            owner {
-              firstName
-              lastName
+              title
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
             }
           }
-        }
-      `);
+        `,
+          {
+            tagSlug: slug,
+          }
+        ) :
+        useQuery(gql`
+          {
+            posts {
+              slug
+              title
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
+            }
+          }
+        `);
     return { result };
   },
 };

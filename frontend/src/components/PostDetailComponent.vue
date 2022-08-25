@@ -72,13 +72,14 @@ export default {
         </div>
         <div class="post-tags flex margin-zero">
           <p><b>Tags:&nbsp;</b></p>
-          <p
+          <router-link
             v-for="tag in postData.postBySlug.tags"
+            :to="{ name: 'tagPosts', params: { slug: tag.slug } }"
             :key="tag.slug"
             class="post-tag"
           >
             {{ tag.name }},&nbsp;
-          </p>
+          </router-link>
         </div>
       </div>
     </div>
@@ -92,6 +93,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.post-container a {
+  color: inherit;
+  text-decoration: inherit;
+}
+.post-container a:hover {
+  text-decoration: underline;
 }
 .post {
   max-width: 940px;
