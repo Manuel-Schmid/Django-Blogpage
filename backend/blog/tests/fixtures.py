@@ -1,6 +1,8 @@
 import pytest
 from graphene_django.utils.testing import graphql_query
 from graphene_file_upload.django.testing import file_graphql_query
+from taggit.models import Tag, TaggedItem
+from django.contrib.contenttypes.models import ContentType
 from blog.models import Category, User, Post, Comment
 
 
@@ -12,9 +14,19 @@ def users():
 
 
 @pytest.fixture
+def tags():
+    content_type = ContentType.objects.get(app_label="blog", model="post")
+    tag1 = Tag.objects.create(name="tag_1", slug="tag_1_slug")
+    TaggedItem.objects.create(tag=tag1, object_id=1, content_type=content_type)
+    tag2 = Tag.objects.create(name="tag_2", slug="tag_2_slug")
+    TaggedItem.objects.create(tag=tag2, object_id=2, content_type=content_type)
+    return Tag.objects.all()
+
+
+@pytest.fixture
 def categories():
-    Category.objects.create(name="test_category1")
-    Category.objects.create(name="test_category2")
+    Category.objects.create(name="test_category1", slug="test_category1")
+    Category.objects.create(name="test_category2", slug="test_category2")
     return Category.objects.all()
 
 
@@ -45,7 +57,7 @@ def posts(categories, users):
 @pytest.fixture
 def client_query(client):
     def func(*args, **kwargs):
-        return graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
+        return graphql_query(*args, **kwargs, client=client, graphql_url="/graphql/")
 
     return func
 
@@ -53,6 +65,6 @@ def client_query(client):
 @pytest.fixture
 def client_query_file(client):
     def func(*args, **kwargs):
-        return file_graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
+        return file_graphql_query(*args, **kwargs, client=client, graphql_url="/graphql/")
 
     return func

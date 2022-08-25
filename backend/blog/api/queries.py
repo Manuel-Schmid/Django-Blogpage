@@ -1,7 +1,5 @@
 import graphene
 from django.db.models import Q
-from taggit.models import Tag
-
 from ..models import Category, Post, User
 from .types import Post as PostType, Category as CategoryType, User as UserType
 
