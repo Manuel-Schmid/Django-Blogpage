@@ -5,14 +5,14 @@ export default {
 </script>
 
 <template>
-  <header class="">
-    <nav class="">
-      <div class="">
-        <router-link class="" :to="{ name: 'posts' }">
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-container">
+        <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <div class="">My Blog</div>
-        <div class="">Profile</div>
+        <div class="nav-item">My Blog</div>
+        <div class="nav-item">Profile</div>
       </div>
     </nav>
   </header>
