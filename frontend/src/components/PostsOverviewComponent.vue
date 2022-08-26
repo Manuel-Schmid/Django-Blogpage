@@ -23,31 +23,31 @@ export default {
 </script>
 
 <template>
-  <div class="post-overview-container">
-    <div class="content-container">
-      <div class="tags-container" v-if="tagsData">
-        <p style="margin-bottom: 0"><b>Tags:&nbsp;</b></p>
-        <div class="tags">
+  <div class="post-overview-container p-12 flex justify-center items-center">
+    <div class="content-container w-full">
+      <div class="mb-2" v-if="tagsData">
+        <p class="mb-0"><b>Tags:&nbsp;</b></p>
+        <div class="mt-2 inline-block items-center justify-center">
           <router-link
             v-for="tag in tagsData.tags"
             :key="tag.slug"
-            :class="['post-tag', (tag.slug === route.query.tag) ? 'active-tag' : '']"
+            :class="['post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline', (tag.slug === route.query.tag) ? 'bg-gray-400' : '']"
             :to="{ name: route.name, query: { tag: tag.slug } }"
           >
-            <p class="tag-name">{{ tag.name }}</p>
+            <p class="m-0">{{ tag.name }}</p>
           </router-link>
         </div>
       </div>
-      <p class="title">Posts:</p>
-      <div v-if="postsData" class="posts-container">
+      <p class="title leading-5 text-black font-bold mb-8 mt-4">Posts:</p>
+      <div v-if="postsData">
         <router-link
           v-for="post in postsData.posts"
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
-          class="post"
+          class="post mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline"
         >
-          <div class="post-title">
-            <p>{{ post.title }}</p>
+          <div class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold">
+            <p class="mb-4">{{ post.title }}</p>
           </div>
           <div class="post-creation-info">
             <p>
@@ -55,8 +55,8 @@ export default {
               {{ formatDate(post.dateCreated) }}
             </p>
           </div>
-          <div class="post-category">
-            <p>{{ post.category.name }}</p>
+          <div class="text-right">
+            <p class="post-category">{{ post.category.name }}</p>
           </div>
         </router-link>
       </div>
@@ -64,4 +64,48 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.post-overview-container {
+  margin-top: 9vh;
+}
+.content-container {
+  max-width: 970px;
+}
+.post-tag {
+  background-color: whitesmoke;
+  border-radius: 15px;
+}
+.post-tag:hover {
+  background-color: #cac9c9;
+  cursor: pointer;
+}
+.title {
+  letter-spacing: 1px;
+  font-size: 2em;
+}
+.post {
+  width: calc(40% - 20px);
+  margin-right: 5%;
+  margin-left: 5%;
+  border-radius: 15px;
+  transition: 200ms;
+  -webkit-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
+  -moz-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
+  box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
+}
+.post:hover {
+  -webkit-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
+  -moz-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
+  box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
+  cursor: pointer;
+}
+.post-title {
+  letter-spacing: 1px;
+  font-size: 1.4em;
+  transition: 200ms;
+}
+.post-category {
+  margin: 0.5em;
+}
+
+</style>
