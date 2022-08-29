@@ -27,7 +27,7 @@ export default {
   <div class="post-overview-container p-12 flex justify-center items-center">
     <div class="content-container w-full">
       <div class="mb-2" v-if="tagsData">
-        <p class="mb-0"><b>Tags:&nbsp;</b></p>
+        <p class="mb-0 font-bold">Tags:</p>
         <div class="mt-2 inline-block items-center justify-center">
           <router-link
             v-for="tag in tagsData.tags"

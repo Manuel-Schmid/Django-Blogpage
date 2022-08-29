@@ -65,7 +65,7 @@ export default {
           />
         </div>
         <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
-          <p><b>Category:&nbsp;</b></p>
+          <p class="font-bold">Category:&nbsp</p>
           <router-link
             :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }"
             class="text-black no-underline"
@@ -74,7 +74,7 @@ export default {
           </router-link>
         </div>
         <div class="ml-8 flex m-0">
-          <p><b>Tags:&nbsp;</b></p>
+          <p class="font-bold">Tags:&nbsp</p>
           <router-link
             v-for="tag in postData.postBySlug.tags"
             :to="{ name: 'posts', query: { tag: tag.slug } }"
