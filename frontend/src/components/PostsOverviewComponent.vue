@@ -1,12 +1,13 @@
 <script lang="ts">
-import router from "../router";
 import { useRoute } from "vue-router";
+import { ref } from "vue";
 
 export default {
   name: "PostOverviewComponent",
   props: ["postsData", "tagsData"],
 
   setup() {
+    let hover = ref(null)
     const route = useRoute();
 
     const formatDate = (date: string) => {
@@ -17,37 +18,39 @@ export default {
     const formatFullname = (firstName: string, lastName: string) => {
       return `${firstName} ${lastName}`;
     };
-    return { formatDate, formatFullname, route };
+    return { formatDate, formatFullname, route, hover };
   },
 };
 </script>
 
 <template>
-  <div class="post-overview-container">
-    <div class="content-container">
-      <div class="tags-container" v-if="tagsData">
-        <p style="margin-bottom: 0"><b>Tags:&nbsp;</b></p>
-        <div class="tags">
+  <div class="post-overview-container p-12 flex justify-center items-center">
+    <div class="content-container w-full">
+      <div class="mb-2" v-if="tagsData">
+        <p class="mb-0 font-bold">Tags:</p>
+        <div class="mt-2 inline-block items-center justify-center">
           <router-link
             v-for="tag in tagsData.tags"
             :key="tag.slug"
-            :class="['post-tag', (tag.slug === route.query.tag) ? 'active-tag' : '']"
+            :class="['post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline hover:bg-gray-300 dark:hover:bg-slate-500', (tag.slug === route.query.tag) ? 'bg-gray-300 dark:bg-slate-500 cursor-default' : 'bg-gray-100 dark:bg-slate-700 cursor-pointer']"
             :to="{ name: route.name, query: { tag: tag.slug } }"
           >
-            <p class="tag-name">{{ tag.name }}</p>
+            <p class="m-0">{{ tag.name }}</p>
           </router-link>
         </div>
       </div>
-      <p class="title">Posts:</p>
-      <div v-if="postsData" class="posts-container">
+      <p class="title leading-5 text-black font-bold mb-8 mt-4">Posts:</p>
+      <div v-if="postsData">
         <router-link
-          v-for="post in postsData.posts"
+          v-for="(post, index) in postsData.posts"
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
-          class="post"
+          @mouseenter="hover=index"
+          @mouseleave="hover=null"
+          :class="['post shadow-lg mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline dark:bg-[#262b39]', hover===index ? 'shadow-2xl' : '']"
         >
-          <div class="post-title">
-            <p>{{ post.title }}</p>
+          <div class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold">
+            <p class="mb-4">{{ post.title }}</p>
           </div>
           <div class="post-creation-info">
             <p>
@@ -55,8 +58,8 @@ export default {
               {{ formatDate(post.dateCreated) }}
             </p>
           </div>
-          <div class="post-category">
-            <p>{{ post.category.name }}</p>
+          <div class="text-right">
+            <p class="post-category">{{ post.category.name }}</p>
           </div>
         </router-link>
       </div>
@@ -67,94 +70,30 @@ export default {
 <style scoped>
 .post-overview-container {
   margin-top: 9vh;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .content-container {
-  width: 100%;
   max-width: 970px;
 }
-.tags-container {
-  margin-bottom: 10px;
-}
-.tags {
-  margin-top: 10px;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-}
 .post-tag {
-  background-color: whitesmoke;
   border-radius: 15px;
-  padding: 4px 15px;
-  margin: 5px;
-  float: left;
-}
-.active-tag {
-  background-color: #d7d7d7;
-}
-.post-tag:hover {
-  background-color: #cac9c9;
-  cursor: pointer;
-}
-.tag-name {
-  margin: 0;
 }
 .title {
-  line-height: 20px;
-  color: black;
-  font-weight: bold;
   letter-spacing: 1px;
   font-size: 2em;
 }
-.posts-container {
-}
-.posts-container a, .tags-container a {
-  color: inherit;
-  text-decoration: inherit;
-}
 .post {
   width: calc(40% - 20px);
-  margin: 10px 5%;
-  float: left;
-  display: inline-block;
-  padding: 5px 10px;
+  margin-right: 5%;
+  margin-left: 5%;
   border-radius: 15px;
-  transition: 200ms;
-  -webkit-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-  -moz-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-  box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-}
-.post:hover {
-  -webkit-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  -moz-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  cursor: pointer;
-}
-.post-link {
-  height: 100%;
-  width: 100%;
+  transition: box-shadow 200ms;
 }
 .post-title {
-  padding: 0 15px;
-  line-height: 20px;
-  color: black;
-  font-weight: bold;
   letter-spacing: 1px;
   font-size: 1.4em;
-  transition: 200ms;
-}
-.post-title p {
-  margin-bottom: 15px;
-}
-.post-creation-info {
 }
 .post-category {
-  text-align: right;
-}
-.post-category p {
   margin: 0.5em;
 }
+
 </style>

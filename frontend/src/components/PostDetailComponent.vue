@@ -28,25 +28,25 @@ export default {
 </script>
 
 <template>
-  <div class="post-container">
+  <div class="post-container p-12 flex justify-center items-center">
     <div v-if="postData" class="post">
-      <div class="post-content">
-        <div class="post-header">
-          <div class="post-title">
-            <p>{{ postData.postBySlug.title }}</p>
+      <div>
+        <div class="w-full relative">
+          <div class="post-title leading-5 text-black font-bold mb-3">
+            <p class="mb-0">{{ postData.postBySlug.title }}</p>
           </div>
-          <div class="post-date">
-            <p>
+          <div>
+            <p class="mb-0">
               {{ formatDate(postData.postBySlug.dateCreated) }}
             </p>
           </div>
         </div>
-        <div class="post-text">
+        <div class="pt-8 pr-8 pb-0 pl-8 text-left">
           <p>
             {{ postData.postBySlug.text }}
           </p>
         </div>
-        <div class="post-owner">
+        <div class="pr-10 text-right">
           <p>
             -
             {{
@@ -57,26 +57,29 @@ export default {
             }}
           </p>
         </div>
-        <div v-if="postData.postBySlug.image" class="post-image-container">
+        <div v-if="postData.postBySlug.image" class="pt-2 pr-8 pb-2 pl-8">
           <img
-            class="post-image"
+            class="w-full"
             :src="getImageURL(postData.postBySlug.image)"
             alt="Post Image"
           />
         </div>
-        <div class="post-category flex margin-zero">
-          <p><b>Category:&nbsp;</b></p>
-          <router-link :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }">
+        <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
+          <p class="font-bold">Category:&nbsp</p>
+          <router-link
+            :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }"
+            class="text-black no-underline"
+          >
             {{ postData.postBySlug.category.name }}
           </router-link>
         </div>
-        <div class="post-tags flex margin-zero">
-          <p><b>Tags:&nbsp;</b></p>
+        <div class="ml-8 flex m-0">
+          <p class="font-bold">Tags:&nbsp</p>
           <router-link
             v-for="tag in postData.postBySlug.tags"
             :to="{ name: 'posts', query: { tag: tag.slug } }"
             :key="tag.slug"
-            class="post-tag"
+            class="text-black no-underline"
           >
             {{ tag.name }},&nbsp;
           </router-link>
@@ -89,14 +92,6 @@ export default {
 <style scoped>
 .post-container {
   margin-top: 9vh;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.post-container a {
-  color: inherit;
-  text-decoration: inherit;
 }
 .post-container a:hover {
   text-decoration: underline;
@@ -104,54 +99,8 @@ export default {
 .post {
   max-width: 940px;
 }
-.post-container {
-}
-.post-content {
-}
-.post-header {
-  width: 100%;
-  position: relative;
-}
 .post-title {
-  line-height: 20px;
-  color: black;
-  font-weight: bold;
   letter-spacing: 1px;
   font-size: 2em;
-}
-.post-title p,
-.post-date p {
-  margin-bottom: 0;
-}
-.post-date {
-}
-.post-text {
-  padding: 30px 30px 0 30px;
-  text-align: left;
-}
-.post-owner {
-  padding: 0 40px 0 0;
-  text-align: right;
-}
-.post-image-container {
-  padding: 10px 30px;
-}
-.post-image {
-  width: 100%;
-}
-.post-category {
-  margin: 30px 0 3px 30px;
-}
-.post-tags {
-  margin-left: 30px;
-}
-.post-tag {
-  /*text-decoration: underline;*/
-}
-.flex {
-  display: flex;
-}
-.margin-zero * {
-  margin: 0;
 }
 </style>
