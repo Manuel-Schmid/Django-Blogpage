@@ -1,18 +1,53 @@
 <script lang="ts">
+import { ref } from "vue";
+
 export default {
   name: "NavbarComponent",
-};
-</script>
 
+  setup() {
+    const isDarkMode = ref((localStorage.theme === 'dark'));
+
+    const toggleDarkMode = () => {
+      if (localStorage.theme === 'light') {
+        localStorage.theme = 'dark';
+        isDarkMode.value = true;
+      } else {
+        localStorage.theme = 'light';
+        isDarkMode.value = false;
+      }
+      updateTheme()
+    }
+
+    return { toggleDarkMode, isDarkMode }
+  },
+
+  mounted() {
+    updateTheme()
+  },
+};
+
+function updateTheme() {
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+}
+</script>
 <template>
-  <header class="header fixed top-0 left-0 w-full bg-white">
-    <nav class="navbar h-full pr-4 flex flex-row items-center">
-      <div class="w-auto flex flex-row">
-        <router-link class="nav-item pt-2 pr-5 pb-2 pl-5 mt-0 mr-1 mb-0 ml-1 leading-5 text-black font-bold text-center" :to="{ name: 'posts' }">
+  <header class="header fixed top-0 left-0 w-full shadow-md bg-white dark:bg-gray-900 dark:text-white">
+    <nav class="navbar h-full flex flex-row items-center">
+      <label for="default-toggle" class="inline-flex relative items-center cursor-pointer ml-5">
+        <input type="checkbox" :checked="isDarkMode" id="default-toggle" class="sr-only peer" @click="toggleDarkMode()">
+        <div class="w-11 h-6 bg-slate-800 dark:bg-gray-200  dark:after:border-gray-300 after:bg-gray-50 :focus:outline-none peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-slate-300"></div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+      </label>
+      <div class="w-auto flex flex-row absolute right-0 mr-5">
+        <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <div class="nav-item pt-2 pr-5 pb-2 pl-5 mt-0 mr-1 mb-0 ml-1 leading-5 text-black font-bold text-center">My Blog</div>
-        <div class="nav-item pt-2 pr-5 pb-2 pl-5 mt-0 mr-1 mb-0 ml-1 leading-5 text-black font-bold text-center">Profile</div>
+        <div class="nav-item">My Blog</div>
+        <div class="nav-item">Profile</div>
       </div>
     </nav>
   </header>
@@ -22,31 +57,13 @@ export default {
 .header {
   height: 9vh;
   z-index: 100;
-  -webkit-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-  box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-}
-.navbar {
-  justify-content: end;
-  -webkit-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-  box-shadow: 10px 10px 16px -19px rgba(0, 0, 0, 0.75);
-}
-.navbar a {
-  color: inherit;
-  text-decoration: inherit;
 }
 .nav-item {
-  background-color: whitesmoke;
-  letter-spacing: 1px;
-  font-size: 1em;
-  text-align: center;
   transition: background-color 200ms;
+  @apply pt-2 pr-5 pb-2 pl-5 mt-0 mr-1 mb-0 ml-1 leading-5 font-bold text-center hover:cursor-pointer hover:bg-zinc-200 dark:hover:bg-gray-700 dark:border-white
 }
 .nav-item:hover {
-  background-color: lightgrey;
-  cursor: pointer;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid;
   padding-bottom: calc(0.5rem - 1px);
 }
 </style>

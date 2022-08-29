@@ -1,12 +1,13 @@
 <script lang="ts">
-import router from "../router";
 import { useRoute } from "vue-router";
+import { ref } from "vue";
 
 export default {
   name: "PostOverviewComponent",
   props: ["postsData", "tagsData"],
 
   setup() {
+    let hover = ref(null)
     const route = useRoute();
 
     const formatDate = (date: string) => {
@@ -17,7 +18,7 @@ export default {
     const formatFullname = (firstName: string, lastName: string) => {
       return `${firstName} ${lastName}`;
     };
-    return { formatDate, formatFullname, route };
+    return { formatDate, formatFullname, route, hover };
   },
 };
 </script>
@@ -31,7 +32,7 @@ export default {
           <router-link
             v-for="tag in tagsData.tags"
             :key="tag.slug"
-            :class="['post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline', (tag.slug === route.query.tag) ? 'bg-gray-400' : '']"
+            :class="['post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline hover:bg-gray-300 dark:hover:bg-slate-500', (tag.slug === route.query.tag) ? 'bg-gray-300 dark:bg-slate-500 cursor-default' : 'bg-gray-100 dark:bg-slate-700 cursor-pointer']"
             :to="{ name: route.name, query: { tag: tag.slug } }"
           >
             <p class="m-0">{{ tag.name }}</p>
@@ -41,10 +42,12 @@ export default {
       <p class="title leading-5 text-black font-bold mb-8 mt-4">Posts:</p>
       <div v-if="postsData">
         <router-link
-          v-for="post in postsData.posts"
+          v-for="(post, index) in postsData.posts"
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
-          class="post mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline"
+          @mouseenter="hover=index"
+          @mouseleave="hover=null"
+          :class="['post shadow-lg mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline dark:bg-[#262b39]', hover===index ? 'shadow-2xl' : '']"
         >
           <div class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold">
             <p class="mb-4">{{ post.title }}</p>
@@ -72,12 +75,7 @@ export default {
   max-width: 970px;
 }
 .post-tag {
-  background-color: whitesmoke;
   border-radius: 15px;
-}
-.post-tag:hover {
-  background-color: #cac9c9;
-  cursor: pointer;
 }
 .title {
   letter-spacing: 1px;
@@ -88,21 +86,11 @@ export default {
   margin-right: 5%;
   margin-left: 5%;
   border-radius: 15px;
-  transition: 200ms;
-  -webkit-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-  -moz-box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-  box-shadow: -5px 4px 17px 2px rgba(179, 179, 179, 0.45);
-}
-.post:hover {
-  -webkit-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  -moz-box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  box-shadow: -5px 4px 17px 7px rgba(179, 179, 179, 0.45);
-  cursor: pointer;
+  transition: box-shadow 200ms;
 }
 .post-title {
   letter-spacing: 1px;
   font-size: 1.4em;
-  transition: 200ms;
 }
 .post-category {
   margin: 0.5em;
