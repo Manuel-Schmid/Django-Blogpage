@@ -7,7 +7,7 @@ export default {
   props: ["postsData", "tagsData"],
 
   setup() {
-    let hover = ref('none')
+    let hover = ref("none");
     const route = useRoute();
 
     const formatDate = (date: string) => {
@@ -22,8 +22,6 @@ export default {
     return { formatDate, formatFullname, route, hover };
   },
 };
-
-
 </script>
 
 <template>
@@ -35,7 +33,12 @@ export default {
           <router-link
             v-for="tag in tagsData"
             :key="tag.slug"
-            :class="['post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline hover:bg-gray-300 dark:hover:bg-slate-500', (tag.slug === route.query.tag) ? 'bg-gray-300 dark:bg-slate-500 cursor-default' : 'bg-gray-100 dark:bg-slate-700 cursor-pointer']"
+            :class="[
+              'post-tag pt-1 pr-4 pb-1 pl-4 m-1 float-left text-black no-underline hover:bg-gray-300 dark:hover:bg-slate-500',
+              tag.slug === route.query.tag
+                ? 'bg-gray-300 dark:bg-slate-500 cursor-default'
+                : 'bg-gray-100 dark:bg-slate-700 cursor-pointer',
+            ]"
             :to="{ name: route.name, query: { tag: tag.slug } }"
           >
             <p class="m-0">{{ tag.name }}</p>
@@ -48,11 +51,16 @@ export default {
           v-for="(post, index) in postsData"
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
-          @mouseenter="hover=index"
-          @mouseleave="hover='none'"
-          :class="['post shadow-lg mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline dark:bg-[#262b39]', hover===index ? 'shadow-2xl' : '']"
+          @mouseenter="hover = index"
+          @mouseleave="hover = 'none'"
+          :class="[
+            'post shadow-lg mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline dark:bg-[#262b39]',
+            hover === index ? 'shadow-2xl' : '',
+          ]"
         >
-          <div class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold">
+          <div
+            class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold"
+          >
             <p class="mb-4">{{ post.title }}</p>
           </div>
           <div class="post-creation-info">
@@ -98,5 +106,4 @@ export default {
 .post-category {
   margin: 0.5em;
 }
-
 </style>

@@ -16,7 +16,7 @@ export default {
   setup() {
     const route = useRoute();
     const store = usePostsStore();
-    store.fetchPost(route.params.slug as string)
+    store.fetchPost(route.params.slug as string);
 
     return { store };
   },
