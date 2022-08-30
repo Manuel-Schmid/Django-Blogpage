@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        /* --variable-name: value; */
-    }
+  :root {
+    /* --variable-name: value; */
+  }
 }
 
 .dark * {
-    @apply text-white;
+  @apply text-white;
 }
 
 .link-no-decoration {
-    color: inherit;
-    text-decoration: inherit;
+  color: inherit;
+  text-decoration: inherit;
 }
 
 *:focus {
-    outline: none;
+  outline: none;
 }

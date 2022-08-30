@@ -7,11 +7,13 @@ export const useStore = defineStore("blog", {
     posts: [],
     post: null,
     tags: [],
+    usedTags: [],
   }),
   getters: {
     getPosts: (state) => state.posts,
     getPost: (state) => state.post,
-    getTags: (state) => state.tags
+    getTags: (state) => state.tags,
+    getUsedTags: (state) => state.usedTags,
   },
   actions: {
     async fetchPosts(
@@ -20,24 +22,24 @@ export const useStore = defineStore("blog", {
     ) {
       const response = await apolloClient.query({
         query: gql`
-            query postsByTagAndCategorySlug(
-                $tagSlug: String
-                $categorySlug: String
-            ) {
-                posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
-                    slug
-                    title
-                    dateCreated
-                    category {
-                        name
-                        slug
-                    }
-                    owner {
-                        firstName
-                        lastName
-                    }
-                }
+          query postsByTagAndCategorySlug(
+            $tagSlug: String
+            $categorySlug: String
+          ) {
+            posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
+              slug
+              title
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
             }
+          }
         `,
         variables: {
           tagSlug: tagSlugParam,
@@ -46,32 +48,30 @@ export const useStore = defineStore("blog", {
       });
       this.posts = response.data.posts;
     },
-    async fetchPost(
-      postSlug: string | undefined,
-    ) {
+    async fetchPost(postSlug: string | undefined) {
       this.post = null;
       const response = await apolloClient.query({
         query: gql`
-            query getPostBySlug($slug: String!) {
-                postBySlug(slug: $slug) {
-                    title
-                    text
-                    image
-                    dateCreated
-                    category {
-                        name
-                        slug
-                    }
-                    owner {
-                        firstName
-                        lastName
-                    }
-                    tags {
-                        name
-                        slug
-                    }
-                }
+          query getPostBySlug($slug: String!) {
+            postBySlug(slug: $slug) {
+              title
+              text
+              image
+              dateCreated
+              category {
+                name
+                slug
+              }
+              owner {
+                firstName
+                lastName
+              }
+              tags {
+                name
+                slug
+              }
             }
+          }
         `,
         variables: {
           slug: postSlug,
@@ -79,19 +79,34 @@ export const useStore = defineStore("blog", {
       });
       this.post = response.data.postBySlug;
     },
-    async fetchTags () {
+    async fetchTags() {
       if (this.tags.length === 0) {
         const response = await apolloClient.query({
           query: gql`
-              {
-                  tags {
-                      name
-                      slug
-                  }
+            {
+              tags {
+                name
+                slug
               }
+            }
           `,
         });
         this.tags = response.data.tags;
+      }
+    },
+    async fetchUsedTags() {
+      if (this.usedTags.length === 0) {
+        const response = await apolloClient.query({
+          query: gql`
+            {
+              usedTags {
+                name
+                slug
+              }
+            }
+          `,
+        });
+        this.usedTags = response.data.usedTags;
       }
     },
   },

@@ -27,10 +27,10 @@ class Query(graphene.ObjectType):
     def resolve_user_by_id(root, info, id):
         return User.objects.get(pk=id)
 
-    def resolve_tags(self, info, **kwargs):
+    def resolve_tags(root, info, **kwargs):
         return Tag.objects.all()
 
-    def resolve_used_tags(self, info, **kwargs):
+    def resolve_used_tags(root, info, **kwargs):
         tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
         return list(set(tags))
 

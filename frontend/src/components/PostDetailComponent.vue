@@ -50,10 +50,7 @@ export default {
           <p>
             -
             {{
-              formatFullname(
-                postData.owner.firstName,
-                postData.owner.lastName
-              )
+              formatFullname(postData.owner.firstName, postData.owner.lastName)
             }}
           </p>
         </div>
@@ -67,7 +64,10 @@ export default {
         <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
           <p class="font-bold">Category:&nbsp</p>
           <router-link
-            :to="{ name: 'categoryPosts', params: { slug: postData.category.slug } }"
+            :to="{
+              name: 'categoryPosts',
+              params: { slug: postData.category.slug },
+            }"
             class="text-black no-underline"
           >
             {{ postData.category.name }}

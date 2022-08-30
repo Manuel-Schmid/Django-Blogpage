@@ -1,6 +1,6 @@
 <template>
-  <NavbarComponent/>
-  <router-view :key="this.$route.fullPath"/>
+  <NavbarComponent />
+  <router-view :key="this.$route.fullPath" />
 </template>
 
 <script>
@@ -20,8 +20,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
-html, body {
+html,
+body {
   margin: 0;
-  height: 100%
+  height: 100%;
 }
 </style>
