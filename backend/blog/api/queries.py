@@ -11,6 +11,7 @@ class Query(graphene.ObjectType):
     users = graphene.List(UserType)
     user_by_id = graphene.Field(UserType, id=graphene.ID())
     tags = graphene.List(TagType)
+    used_tags = graphene.List(TagType)
     posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
 
@@ -27,11 +28,11 @@ class Query(graphene.ObjectType):
         return User.objects.get(pk=id)
 
     def resolve_tags(self, info, **kwargs):
-        # SELECT DISTINCT taggit_tag.id, taggit_tag.name, taggit_tag.slug
-        # FROM taggit_tag
-        # JOIN taggit_taggeditem
-        # ON taggit_tag.id = taggit_taggeditem.`tag_id`
-       return Tag.objects.all()
+        return Tag.objects.all()
+
+    def resolve_used_tags(self, info, **kwargs):
+        tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
+        return list(set(tags))
 
     def resolve_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)

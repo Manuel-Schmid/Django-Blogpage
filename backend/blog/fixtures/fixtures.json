@@ -518,15 +518,6 @@
   },
   {
     "model": "taggit.taggeditem",
-    "pk": 22,
-    "fields": {
-      "tag": 12,
-      "content_type": 8,
-      "object_id": 4
-    }
-  },
-  {
-    "model": "taggit.taggeditem",
     "pk": 23,
     "fields": {
       "tag": 13,

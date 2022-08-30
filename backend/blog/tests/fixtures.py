@@ -20,6 +20,7 @@ def tags(posts):
     TaggedItem.objects.create(tag=tag1, object_id=posts[0].id, content_type=content_type)
     tag2 = Tag.objects.create(name='tag_2', slug='tag_2_slug')
     TaggedItem.objects.create(tag=tag2, object_id=posts[1].id, content_type=content_type)
+    Tag.objects.create(name='tag_3', slug='tag_3_slug')
     return Tag.objects.all()
 
 
