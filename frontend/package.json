@@ -16,6 +16,8 @@
     "@vue/apollo-composable": "^4.0.0-alpha.19",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
+    "pinia": "^2.0.21",
+    "pinia-plugin-persist": "^1.0.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.4"
   },

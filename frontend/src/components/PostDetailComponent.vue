@@ -33,50 +33,50 @@ export default {
       <div>
         <div class="w-full relative">
           <div class="post-title leading-5 text-black font-bold mb-3">
-            <p class="mb-0">{{ postData.postBySlug.title }}</p>
+            <p class="mb-0">{{ postData.title }}</p>
           </div>
           <div>
             <p class="mb-0">
-              {{ formatDate(postData.postBySlug.dateCreated) }}
+              {{ formatDate(postData.dateCreated) }}
             </p>
           </div>
         </div>
         <div class="pt-8 pr-8 pb-0 pl-8 text-left">
           <p>
-            {{ postData.postBySlug.text }}
+            {{ postData.text }}
           </p>
         </div>
-        <div class="pr-10 text-right">
+        <div class="pr-10 text-right mt-3">
           <p>
             -
             {{
               formatFullname(
-                postData.postBySlug.owner.firstName,
-                postData.postBySlug.owner.lastName
+                postData.owner.firstName,
+                postData.owner.lastName
               )
             }}
           </p>
         </div>
-        <div v-if="postData.postBySlug.image" class="pt-2 pr-8 pb-2 pl-8">
+        <div v-if="postData.image" class="pt-2 pr-8 pb-2 pl-8 mt-6">
           <img
             class="w-full"
-            :src="getImageURL(postData.postBySlug.image)"
+            :src="getImageURL(postData.image)"
             alt="Post Image"
           />
         </div>
         <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
           <p class="font-bold">Category:&nbsp</p>
           <router-link
-            :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }"
+            :to="{ name: 'categoryPosts', params: { slug: postData.category.slug } }"
             class="text-black no-underline"
           >
-            {{ postData.postBySlug.category.name }}
+            {{ postData.category.name }}
           </router-link>
         </div>
         <div class="ml-8 flex m-0">
           <p class="font-bold">Tags:&nbsp</p>
           <router-link
-            v-for="tag in postData.postBySlug.tags"
+            v-for="tag in postData.tags"
             :to="{ name: 'posts', query: { tag: tag.slug } }"
             :key="tag.slug"
             class="text-black no-underline"
