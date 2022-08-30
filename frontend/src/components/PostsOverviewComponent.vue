@@ -1,13 +1,14 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { ref } from "vue";
+import { useStore as usePostsStore } from "../store/blog";
 
 export default {
   name: "PostOverviewComponent",
   props: ["postsData", "tagsData"],
 
   setup() {
-    let hover = ref(null)
+    let hover = ref('none')
     const route = useRoute();
 
     const formatDate = (date: string) => {
@@ -18,13 +19,23 @@ export default {
     const formatFullname = (firstName: string, lastName: string) => {
       return `${firstName} ${lastName}`;
     };
-    return { formatDate, formatFullname, route, hover };
+
+    const test = () => {
+      const store = usePostsStore();
+      const postsData = store.getPosts
+      console.log(postsData);
+    }
+
+    return { formatDate, formatFullname, route, hover, test };
   },
 };
+
+
 </script>
 
 <template>
   <div class="post-overview-container p-12 flex justify-center items-center">
+    <button class="p-10 bg-red-500" @click="test">test</button>
     <div class="content-container w-full">
       <div class="mb-2" v-if="tagsData">
         <p class="mb-0 font-bold">Tags:</p>
@@ -46,7 +57,7 @@ export default {
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
           @mouseenter="hover=index"
-          @mouseleave="hover=null"
+          @mouseleave="hover='none'"
           :class="['post shadow-lg mt-2 mb-2 pt-5 pr-2 pb-1 pl-2 float-left inline-block text-black no-underline dark:bg-[#262b39]', hover===index ? 'shadow-2xl' : '']"
         >
           <div class="post-title pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold">
