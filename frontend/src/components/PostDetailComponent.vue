@@ -53,7 +53,7 @@ export default {
             {{ postData.text }}
           </p>
         </div>
-        <div class="pr-10 text-right">
+        <div class="pr-10 text-right mt-3">
           <p>
             -
             {{
@@ -64,9 +64,9 @@ export default {
             }}
           </p>
         </div>
-        <div v-if="postData.image" class="pt-2 pr-8 pb-2 pl-8">
+        <div v-if="postData.image" class="pt-2 pr-8 pb-2 pl-8 mt-6">
           <img
-            class="w-full mt-4"
+            class="w-full"
             :src="getImageURL(postData.image)"
             alt="Post Image"
           />
