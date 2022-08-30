@@ -22,21 +22,14 @@ export default {
       return `${firstName} ${lastName}`;
     };
 
-    const isObjectEmpty = (obj: Object) => {
-      return obj
-        && Object.keys(obj).length === 0
-        && Object.getPrototypeOf(obj) === Object.prototype
-    }
-
-    return { formatDate, getImageURL, formatFullname, isObjectEmpty };
+    return { formatDate, getImageURL, formatFullname };
   },
 };
 </script>
 
 <template>
   <div class="post-container p-12 flex justify-center items-center">
-    <div v-if="!isObjectEmpty(postData)" class="post">
-      <p>{{  }}</p>
+    <div v-if="postData" class="post">
       <div>
         <div class="w-full relative">
           <div class="post-title leading-5 text-black font-bold mb-3">

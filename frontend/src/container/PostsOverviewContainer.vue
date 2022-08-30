@@ -3,8 +3,6 @@
 </template>
 
 <script lang="ts">
-import gql from "graphql-tag";
-import { useQuery } from "@vue/apollo-composable";
 import PostsOverviewComponent from "../components/PostsOverviewComponent.vue";
 import { useRoute } from "vue-router";
 import { useStore as usePostsStore } from "../store/blog";
@@ -18,14 +16,9 @@ export default {
 
   setup() {
     const route = useRoute();
-    const tagSlug = route.query.tag ? route.query.tag.toString() : null;
-    const categorySlug = route.params.slug ? route.params.slug.toString() : null;
-
     const store = usePostsStore();
-    store.fetchPosts(tagSlug, categorySlug)
-    if (store.getTags.length == 0) {
-      store.fetchTags()
-    }
+    store.fetchPosts(route.query.tag as string, route.params.slug as string)
+    store.fetchTags()
 
     return { store };
   },

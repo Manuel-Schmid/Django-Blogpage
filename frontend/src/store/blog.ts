@@ -5,7 +5,7 @@ import { apolloClient } from "../api/client";
 export const useStore = defineStore("blog", {
   state: () => ({
     posts: [],
-    post: {},
+    post: null,
     tags: [],
   }),
   getters: {
@@ -15,8 +15,8 @@ export const useStore = defineStore("blog", {
   },
   actions: {
     async fetchPosts(
-      tagSlugParam: string | null = null,
-      categorySlugParam: string | null = null
+      tagSlugParam: string | undefined,
+      categorySlugParam: string | undefined
     ) {
       const response = await apolloClient.query({
         query: gql`
@@ -47,8 +47,9 @@ export const useStore = defineStore("blog", {
       this.posts = response.data.posts;
     },
     async fetchPost(
-      postSlug: string,
+      postSlug: string | undefined,
     ) {
+      this.post = null;
       const response = await apolloClient.query({
         query: gql`
             query getPostBySlug($slug: String!) {
@@ -79,17 +80,19 @@ export const useStore = defineStore("blog", {
       this.post = response.data.postBySlug;
     },
     async fetchTags () {
-      const response = await apolloClient.query({
-        query: gql`
-            {
-                tags {
-                    name
-                    slug
-                }
-            }
-        `,
-      });
-      this.tags = response.data.tags;
+      if (this.tags.length === 0) {
+        const response = await apolloClient.query({
+          query: gql`
+              {
+                  tags {
+                      name
+                      slug
+                  }
+              }
+          `,
+        });
+        this.tags = response.data.tags;
+      }
     },
   },
 });
