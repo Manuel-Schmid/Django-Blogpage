@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { ref } from "vue";
+import { formatFullname, formatDateShort } from "../helper/helper";
 
 export default {
   name: "PostOverviewComponent",
@@ -9,17 +10,7 @@ export default {
   setup() {
     let hover = ref("none");
     const route = useRoute();
-
-    const formatDate = (date: string) => {
-      let options: any = { year: "numeric", month: "2-digit", day: "2-digit" };
-      return new Date(date).toLocaleDateString("en-GB", options);
-    };
-
-    const formatFullname = (firstName: string, lastName: string) => {
-      return `${firstName} ${lastName}`;
-    };
-
-    return { formatDate, formatFullname, route, hover };
+    return { formatFullname, formatDateShort, route, hover };
   },
 };
 </script>
@@ -66,7 +57,7 @@ export default {
           <div class="post-creation-info">
             <p>
               {{ formatFullname(post.owner.firstName, post.owner.lastName) }} -
-              {{ formatDate(post.dateCreated) }}
+              {{ formatDateShort(post.dateCreated) }}
             </p>
           </div>
           <div class="text-right">
