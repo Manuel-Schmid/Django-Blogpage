@@ -22,28 +22,35 @@ export default {
       return `${firstName} ${lastName}`;
     };
 
-    return { formatDate, getImageURL, formatFullname };
+    const isObjectEmpty = (obj: Object) => {
+      return obj
+        && Object.keys(obj).length === 0
+        && Object.getPrototypeOf(obj) === Object.prototype
+    }
+
+    return { formatDate, getImageURL, formatFullname, isObjectEmpty };
   },
 };
 </script>
 
 <template>
   <div class="post-container p-12 flex justify-center items-center">
-    <div v-if="postData" class="post">
+    <div v-if="!isObjectEmpty(postData)" class="post">
+      <p>{{  }}</p>
       <div>
         <div class="w-full relative">
           <div class="post-title leading-5 text-black font-bold mb-3">
-            <p class="mb-0">{{ postData.postBySlug.title }}</p>
+            <p class="mb-0">{{ postData.title }}</p>
           </div>
           <div>
             <p class="mb-0">
-              {{ formatDate(postData.postBySlug.dateCreated) }}
+              {{ formatDate(postData.dateCreated) }}
             </p>
           </div>
         </div>
         <div class="pt-8 pr-8 pb-0 pl-8 text-left">
           <p>
-            {{ postData.postBySlug.text }}
+            {{ postData.text }}
           </p>
         </div>
         <div class="pr-10 text-right">
@@ -51,32 +58,32 @@ export default {
             -
             {{
               formatFullname(
-                postData.postBySlug.owner.firstName,
-                postData.postBySlug.owner.lastName
+                postData.owner.firstName,
+                postData.owner.lastName
               )
             }}
           </p>
         </div>
-        <div v-if="postData.postBySlug.image" class="pt-2 pr-8 pb-2 pl-8">
+        <div v-if="postData.image" class="pt-2 pr-8 pb-2 pl-8">
           <img
-            class="w-full"
-            :src="getImageURL(postData.postBySlug.image)"
+            class="w-full mt-4"
+            :src="getImageURL(postData.image)"
             alt="Post Image"
           />
         </div>
         <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
           <p class="font-bold">Category:&nbsp</p>
           <router-link
-            :to="{ name: 'categoryPosts', params: { slug: postData.postBySlug.category.slug } }"
+            :to="{ name: 'categoryPosts', params: { slug: postData.category.slug } }"
             class="text-black no-underline"
           >
-            {{ postData.postBySlug.category.name }}
+            {{ postData.category.name }}
           </router-link>
         </div>
         <div class="ml-8 flex m-0">
           <p class="font-bold">Tags:&nbsp</p>
           <router-link
-            v-for="tag in postData.postBySlug.tags"
+            v-for="tag in postData.tags"
             :to="{ name: 'posts', query: { tag: tag.slug } }"
             :key="tag.slug"
             class="text-black no-underline"

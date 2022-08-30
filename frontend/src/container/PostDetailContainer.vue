@@ -1,12 +1,11 @@
 <template>
-  <PostDetailComponent :post-data="result" />
+  <PostDetailComponent :post-data="store.getPost" />
 </template>
 
 <script lang="ts">
 import { useRoute } from "vue-router/dist/vue-router";
-import { useQuery } from "@vue/apollo-composable";
-import gql from "graphql-tag";
 import PostDetailComponent from "../components/PostDetailComponent.vue";
+import { useStore as usePostsStore } from "../store/blog";
 
 export default {
   name: "PostDetailView",
@@ -16,36 +15,14 @@ export default {
 
   setup() {
     const route = useRoute();
-    const slug = route.params.slug;
+    const store = usePostsStore();
 
-    let { result } = useQuery(
-      gql`
-        query getPostBySlug($slug: String!) {
-          postBySlug(slug: $slug) {
-            title
-            text
-            image
-            dateCreated
-            category {
-              name
-              slug
-            }
-            owner {
-              firstName
-              lastName
-            }
-            tags {
-              name
-              slug
-            }
-          }
-        }
-      `,
-      {
-        slug: slug,
-      }
-    );
-    return { result };
+    if (route.params.slug) {
+      const postSlug = route.params.slug.toString()
+      store.fetchPost(postSlug)
+    }
+
+    return { store };
   },
 };
 </script>

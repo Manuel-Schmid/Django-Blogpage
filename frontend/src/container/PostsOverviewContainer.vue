@@ -1,5 +1,5 @@
 <template>
-  <PostsOverviewComponent :posts-data="store.getPosts" :tags-data="tagsData"/>
+  <PostsOverviewComponent :posts-data="store.getPosts" :tags-data="store.getTags"/>
 </template>
 
 <script lang="ts">
@@ -22,18 +22,12 @@ export default {
     const categorySlug = route.params.slug ? route.params.slug.toString() : null;
 
     const store = usePostsStore();
-    store.setPosts(tagSlug, categorySlug)
+    store.fetchPosts(tagSlug, categorySlug)
+    if (store.getTags.length == 0) {
+      store.fetchTags()
+    }
 
-    let tags = useQuery(gql`
-          {
-            tags {
-              name
-              slug
-            }
-          }
-        `);
-    let tagsData = tags.result
-    return { tagsData, store };
+    return { store };
   },
 };
 </script>
