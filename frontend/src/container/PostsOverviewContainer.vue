@@ -23,8 +23,6 @@ export default {
 
     const store = usePostsStore();
     store.setPosts(tagSlug, categorySlug)
-    // const postsData = store.getPosts
-    // console.log(postsData);
 
     let tags = useQuery(gql`
           {
@@ -35,7 +33,7 @@ export default {
           }
         `);
     let tagsData = tags.result
-    return { store, tagsData };
+    return { tagsData, store };
   },
 };
 </script>

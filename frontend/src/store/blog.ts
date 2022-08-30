@@ -1,20 +1,25 @@
-import { defineStore } from 'pinia'
-import { useQuery } from "@vue/apollo-composable";
+import { defineStore } from "pinia";
 import gql from "graphql-tag";
-import { computed, ref } from "vue";
+import { apolloClient } from "../api/client";
 
-export const useStore = defineStore('blog', {
-  state: () =>
-    ({
-      posts: ref(),
-    }),
+export const useStore = defineStore("blog", {
+  state: () => ({
+    posts: [],
+  }),
   getters: {
     getPosts: (state) => state.posts,
   },
   actions: {
-    async setPosts(tagSlugParam:string | null = null, categorySlugParam:string | null = null) {
-      let response = await useQuery(gql`
-            query postsByTagAndCategorySlug($tagSlug: String, $categorySlug: String) {
+    async setPosts(
+      tagSlugParam: string | null = null,
+      categorySlugParam: string | null = null
+    ) {
+      const response = await apolloClient.query({
+        query: gql`
+            query postsByTagAndCategorySlug(
+                $tagSlug: String
+                $categorySlug: String
+            ) {
                 posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
                     slug
                     title
@@ -29,16 +34,13 @@ export const useStore = defineStore('blog', {
                     }
                 }
             }
-          `,
-          {
-            tagSlug: tagSlugParam,
-            categorySlug: categorySlugParam,
-          }
-        );
-      // this.posts = computed(() => response.value)
-      // this.posts = response.result
-      // console.log(response.result.value);
-      console.log(response.result.value);
+        `,
+        variables: {
+          tagSlug: tagSlugParam,
+          categorySlug: categorySlugParam,
+        },
+      });
+      this.posts = response.data.posts;
     },
   },
-})
+});

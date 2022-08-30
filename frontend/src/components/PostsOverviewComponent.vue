@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { ref } from "vue";
-import { useStore as usePostsStore } from "../store/blog";
 
 export default {
   name: "PostOverviewComponent",
@@ -20,13 +19,7 @@ export default {
       return `${firstName} ${lastName}`;
     };
 
-    const test = () => {
-      const store = usePostsStore();
-      const postsData = store.getPosts
-      console.log(postsData);
-    }
-
-    return { formatDate, formatFullname, route, hover, test };
+    return { formatDate, formatFullname, route, hover };
   },
 };
 
@@ -35,7 +28,6 @@ export default {
 
 <template>
   <div class="post-overview-container p-12 flex justify-center items-center">
-    <button class="p-10 bg-red-500" @click="test">test</button>
     <div class="content-container w-full">
       <div class="mb-2" v-if="tagsData">
         <p class="mb-0 font-bold">Tags:</p>
@@ -50,10 +42,10 @@ export default {
           </router-link>
         </div>
       </div>
-      <p class="title leading-5 text-black font-bold mb-8 mt-4">Posts:</p>
+      <p class="title leading-5 text-black font-bold mb-8 mt-4 mt-9">Posts:</p>
       <div v-if="postsData">
         <router-link
-          v-for="(post, index) in postsData.posts"
+          v-for="(post, index) in postsData"
           :key="post.id"
           :to="{ name: 'postDetail', params: { slug: post.slug } }"
           @mouseenter="hover=index"
