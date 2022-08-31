@@ -1,9 +1,17 @@
 <script lang="ts">
+import { ref } from "vue";
+import CommentFormComponent from "./CommentFormComponent.vue";
+
 export default {
   name: "PostDetailComponent",
   props: ["postData"],
+  components: {
+    CommentFormComponent,
+  },
 
   setup() {
+    let commentFormActive = ref(false);
+
     const formatDate = (date: string) => {
       let options: any = {
         weekday: "long",
@@ -22,7 +30,7 @@ export default {
       return `${firstName} ${lastName}`;
     };
 
-    return { formatDate, getImageURL, formatFullname };
+    return { formatDate, getImageURL, formatFullname, commentFormActive };
   },
 };
 </script>
@@ -61,7 +69,7 @@ export default {
             alt="Post Image"
           />
         </div>
-        <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
+        <div class="mt-4 mr-0 mb-1 ml-8 flex m-0">
           <p class="font-bold">Category:&nbsp</p>
           <router-link
             :to="{
@@ -83,6 +91,20 @@ export default {
           >
             {{ tag.name }},&nbsp;
           </router-link>
+        </div>
+        <div class="ml-8 mt-8 flex">
+          <button
+            @click="commentFormActive = !commentFormActive"
+            class="py-2 px-4 border-b border-black bg-blue-100 hover:bg-blue-200 rounded-3xl"
+          >
+            Add a comment
+          </button>
+        </div>
+        <div class="ml-8 mt-8 flex">
+          <CommentFormComponent
+            :post-slug="postData.slug"
+            v-if="commentFormActive"
+          ></CommentFormComponent>
         </div>
       </div>
     </div>

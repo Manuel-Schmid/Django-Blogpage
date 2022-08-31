@@ -8,12 +8,14 @@ export const useStore = defineStore("blog", {
     post: null,
     tags: [],
     usedTags: [],
+    userID: 3, // todo
   }),
   getters: {
     getPosts: (state) => state.posts,
     getPost: (state) => state.post,
     getTags: (state) => state.tags,
     getUsedTags: (state) => state.usedTags,
+    getUserID: (state) => state.userID,
   },
   actions: {
     async fetchPosts(
@@ -55,6 +57,7 @@ export const useStore = defineStore("blog", {
           query getPostBySlug($slug: String!) {
             postBySlug(slug: $slug) {
               title
+              slug
               text
               image
               dateCreated
