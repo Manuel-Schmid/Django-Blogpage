@@ -29,6 +29,7 @@ export const useStore = defineStore("blog", {
             posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
               slug
               title
+              image
               dateCreated
               category {
                 name
