@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import CommentFormComponent from "./CommentFormComponent.vue";
+import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 
 export default {
   name: "PostDetailComponent",
@@ -11,26 +12,7 @@ export default {
 
   setup() {
     let commentFormActive = ref(false);
-
-    const formatDate = (date: string) => {
-      let options: any = {
-        weekday: "long",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      };
-      return new Date(date).toLocaleDateString("en-GB", options);
-    };
-
-    const getImageURL = (image: string) => {
-      return `${import.meta.env.VITE_MEDIA_URL}${image}`;
-    };
-
-    const formatFullname = (firstName: string, lastName: string) => {
-      return `${firstName} ${lastName}`;
-    };
-
-    return { formatDate, getImageURL, formatFullname, commentFormActive };
+    return { formatDateLong, getImageURL, formatFullname, commentFormActive };
   },
 };
 </script>
@@ -45,7 +27,7 @@ export default {
           </div>
           <div>
             <p class="mb-0">
-              {{ formatDate(postData.dateCreated) }}
+              {{ formatDateLong(postData.dateCreated) }}
             </p>
           </div>
         </div>
