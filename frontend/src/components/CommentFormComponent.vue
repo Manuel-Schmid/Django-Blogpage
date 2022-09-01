@@ -1,44 +1,54 @@
-<script>
+<script lang="ts">
 import { ref } from "vue";
 import { useStore } from "../store/blog";
+import { useRoute } from "vue-router";
 
 export default {
   name: "CommentFormComponent",
   props: {
-    postSlug: String,
+    postId: String,
   },
+  emits: ["toggle-comment-form"],
 
-  setup(props) {
+  setup(props: { postId: any }, ctxt: { emit: (arg0: string) => void }) {
     let title = ref("");
     let text = ref("");
-    const userID = useStore().getUserID;
-    const postSlug = props.postSlug;
+
+    const route = useRoute();
+    const postSlug = route.params.slug as string;
 
     const saveComment = () => {
-      console.log(title.value);
-      console.log(text.value);
-      console.log(userID);
-      console.log(postSlug);
+      if (!(title.value && text.value)) {
+        return;
+      }
+      const commentInput = {
+        title: title.value,
+        text: text.value,
+        post: props.postId,
+        owner: useStore().getUserID,
+      };
+      const store = useStore();
+      store.createComment(commentInput);
+
+      ctxt.emit("toggle-comment-form");
     };
 
-    return { title, text, saveComment };
+    return { title, text, postSlug, saveComment };
   },
 };
 </script>
 
 <template>
-  <div class="text-left w-2/5">
-    <p class="text-l pb-0.5">Title:</p>
-    <input class="border p-2 w-full" v-model="title" placeholder="Your title" />
-    <p class="mt-2 text-l pb-0.5">Text:</p>
+  <div class="text-left w-full mb-4">
+    <input class="border p-2 w-full" v-model="title" placeholder="Title" />
     <textarea
-      class="border w-full p-2"
+      class="border w-full p-2 h-36 mt-3"
       v-model="text"
-      placeholder="Your text"
+      placeholder="Text"
     />
     <button
-      @click="saveComment"
-      class="py-2 px-8 mt-2 border-2 float-right bg-gray-100 hover:bg-gray-200"
+      @click="saveComment(postSlug)"
+      class="py-2 px-8 mt-2 rounded-lg float-right bg-slate-100 hover:bg-slate-200"
     >
       Save
     </button>

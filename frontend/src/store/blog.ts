@@ -57,8 +57,8 @@ export const useStore = defineStore("blog", {
         query: gql`
           query getPostBySlug($slug: String!) {
             postBySlug(slug: $slug) {
+              id
               title
-              slug
               text
               image
               dateCreated
@@ -74,6 +74,14 @@ export const useStore = defineStore("blog", {
                 name
                 slug
               }
+              comments {
+                title
+                text
+                owner {
+                  firstName
+                  lastName
+                }
+              }
             }
           }
         `,
@@ -81,7 +89,7 @@ export const useStore = defineStore("blog", {
           slug: postSlug,
         },
       });
-      this.post = response.data.postBySlug;
+      this.post = structuredClone(response.data.postBySlug);
     },
     async fetchTags() {
       if (this.tags.length === 0) {
@@ -112,6 +120,32 @@ export const useStore = defineStore("blog", {
         });
         this.usedTags = response.data.usedTags;
       }
+    },
+    async createComment(commentInput: any) {
+      const response = await apolloClient.mutate({
+        mutation: gql`
+          mutation CreateComment($commentInput: CommentInput!) {
+            createComment(commentInput: $commentInput) {
+              comment {
+                title
+                text
+                owner {
+                  firstName
+                  lastName
+                }
+              }
+              success
+            }
+          }
+        `,
+        variables: {
+          commentInput: commentInput,
+        },
+      });
+      this.post.comments = [
+        ...this.post.comments,
+        response.data.createComment.comment,
+      ];
     },
   },
 });

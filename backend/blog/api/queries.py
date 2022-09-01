@@ -1,7 +1,7 @@
 import graphene
 from django.db.models import Q
 from taggit.models import Tag, TaggedItem
-from ..models import Category, Post, User
+from ..models import Category, Post, User, Comment
 from .types import Post as PostType, Category as CategoryType, User as UserType, Tag as TagType
 
 
@@ -47,7 +47,7 @@ class Query(graphene.ObjectType):
 
         return Post.objects \
             .select_related('category', 'owner') \
-            .prefetch_related('tags', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+            .prefetch_related('tags', 'comments', 'comments__owner', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
             .filter(post_filter)
 
     def resolve_post_by_slug(root, info, slug):
