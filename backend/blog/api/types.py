@@ -121,6 +121,7 @@ class PostLike(DjangoObjectType):
     class Meta:
         model = PostLikeModel
         fields = (
+            'id',
             'post',
             'user',
         )
@@ -130,6 +131,7 @@ class CommentLike(DjangoObjectType):
     class Meta:
         model = CommentLikeModel
         fields = (
+            'id',
             'comment',
             'user',
         )
