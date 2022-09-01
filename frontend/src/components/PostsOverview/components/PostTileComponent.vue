@@ -40,7 +40,19 @@ export default {
         alt="Post Image"
       />
     </div>
-    <div class="text-right">
+    <div class="w-1/2 float-left text-left">
+      <div class="m-2 icons-container">
+        <span class="ml-2 w-1/2">
+          <font-awesome-icon icon="fa-thumbs-up"></font-awesome-icon>
+          {{ post.postLikes.length }}
+        </span>
+        <span class="ml-5 w-1/2">
+          <font-awesome-icon icon="fa-comment"></font-awesome-icon>
+          {{ post.comments.length }}
+        </span>
+      </div>
+    </div>
+    <div class="text-right float-right w-1/2">
       <p class="m-2">{{ post.category.name }}</p>
     </div>
   </router-link>
@@ -55,5 +67,8 @@ export default {
 }
 .post-title {
   font-size: 1.4em;
+}
+.icons-container {
+  width: calc(100% - 1rem);
 }
 </style>

@@ -21,3 +21,11 @@ class CommentInput(graphene.InputObjectType):
     text = graphene.String()
     post = graphene.ID()
     owner = graphene.ID()
+
+class PostLikeInput(graphene.InputObjectType):
+    post = graphene.ID()
+    user = graphene.ID()
+
+class CommentLikeInput(graphene.InputObjectType):
+    comment = graphene.ID()
+    user = graphene.ID()

@@ -8,9 +8,14 @@ import { apolloClient } from "./api/client";
 import "./global.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faMinus,
+  faThumbsUp,
+  faComment,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlus, faMinus);
+library.add(faPlus, faMinus, faThumbsUp, faComment);
 
 const app = createApp({
   setup() {
