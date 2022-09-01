@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <p class="font-bold text-xl mb-4">
+  <p class="font-bold text-xl mb-5">
     <span>Comments</span>
   </p>
   <button
@@ -29,8 +29,8 @@ export default {
     class="py-2 px-4 border-b border-black bg-gray-50 hover:bg-gray-100 dark:bg-slate-700 hover:dark:bg-slate-600 rounded-3xl"
   >
     <font-awesome-icon
-      :icon="commentFormActive ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"
-      class="mr-2"
+      icon="fa-solid fa-plus"
+      :class="['mr-2', commentFormActive ? 'icon-diagonal' : 'icon-vertical']"
     />
     Add a comment
   </button>
@@ -55,4 +55,13 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.icon-vertical {
+  rotate: 0deg;
+  transition: 300ms;
+}
+.icon-diagonal {
+  rotate: 135deg;
+  transition: 300ms;
+}
+</style>

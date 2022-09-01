@@ -59,6 +59,7 @@ export const useStore = defineStore("blog", {
             postBySlug(slug: $slug) {
               id
               title
+              slug
               text
               image
               dateCreated
@@ -89,7 +90,7 @@ export const useStore = defineStore("blog", {
           slug: postSlug,
         },
       });
-      this.post = structuredClone(response.data.postBySlug);
+      this.post = response.data.postBySlug;
     },
     async fetchTags() {
       if (this.tags.length === 0) {
@@ -122,7 +123,7 @@ export const useStore = defineStore("blog", {
       }
     },
     async createComment(commentInput: any) {
-      const response = await apolloClient.mutate({
+      await apolloClient.mutate({
         mutation: gql`
           mutation CreateComment($commentInput: CommentInput!) {
             createComment(commentInput: $commentInput) {
@@ -142,10 +143,7 @@ export const useStore = defineStore("blog", {
           commentInput: commentInput,
         },
       });
-      this.post.comments = [
-        ...this.post.comments,
-        response.data.createComment.comment,
-      ];
+      this.fetchPost(this.post.slug);
     },
   },
 });
