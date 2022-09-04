@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref } from "vue";
-import { useStore } from "../store/blog";
+import { usePostStore } from "../store/blog";
 import { useRoute } from "vue-router";
 
 export default {
@@ -25,9 +25,9 @@ export default {
         title: title.value,
         text: text.value,
         post: props.postId,
-        owner: useStore().getUserID,
+        owner: usePostStore().getUserID,
       };
-      useStore().createComment(commentInput);
+      usePostStore().createComment(commentInput);
 
       ctxt.emit("toggle-comment-form");
     };

@@ -2,10 +2,10 @@ import { defineStore } from "pinia";
 import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 
-export const useStore = defineStore("blog", {
+export const usePostStore = defineStore("blog", {
   state: () => ({
     posts: [],
-    post: null,
+    post: {},
     tags: [],
     usedTags: [],
     userID: 3, // todo

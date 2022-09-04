@@ -5,10 +5,9 @@ import {
   InMemoryCache,
 } from "@apollo/client/core";
 
-// HTTP connection to the API
 const httpLink = createHttpLink({
-  // You should use an absolute URL here
   uri: import.meta.env.VITE_GRAPHQL_API_URL,
+  credentials: "same-origin",
 });
 
 const defaultOptions: DefaultOptions = {

@@ -1,4 +1,5 @@
 import graphene
+import graphql_jwt
 
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
@@ -141,6 +142,10 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
 
 
 class Mutation(graphene.ObjectType):
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
+
     create_category = CreateCategory.Field()
     update_category = UpdateCategory.Field()
     create_post = CreatePost.Field()

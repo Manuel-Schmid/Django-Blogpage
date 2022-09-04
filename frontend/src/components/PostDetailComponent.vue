@@ -2,7 +2,7 @@
 import CommentSectionComponent from "./CommentSectionComponent.vue";
 import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 import { ref } from "vue";
-import { useStore } from "../store/blog";
+import { usePostStore } from "../store/blog";
 
 export default {
   name: "PostDetailComponent",
@@ -13,7 +13,7 @@ export default {
 
   setup(props: any) {
     let postLiked = ref(false);
-    let store = useStore();
+    let store = usePostStore();
 
     // const postLikeInput = {
     //   post: props.postData.id,
