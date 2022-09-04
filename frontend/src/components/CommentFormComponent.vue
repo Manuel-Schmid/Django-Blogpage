@@ -27,8 +27,7 @@ export default {
         post: props.postId,
         owner: useStore().getUserID,
       };
-      const store = useStore();
-      store.createComment(commentInput);
+      useStore().createComment(commentInput);
 
       ctxt.emit("toggle-comment-form");
     };

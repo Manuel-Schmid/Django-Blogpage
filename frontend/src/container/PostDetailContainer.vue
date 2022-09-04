@@ -18,6 +18,11 @@ export default {
     const store = usePostsStore();
     store.fetchPost(route.params.slug as string);
 
+    // const postLike = store.fetchPostLike({
+    //   postId: store.getPost,
+    //   userId: store.getUserID,
+    // });
+
     return { store };
   },
 };
