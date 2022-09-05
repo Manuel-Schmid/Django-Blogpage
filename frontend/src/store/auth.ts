@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
+import router from "../router/router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -30,6 +31,7 @@ export const useAuthStore = defineStore("auth", {
       });
       this.authToken = response.data.tokenAuth.token;
       this.username = response.data.tokenAuth.payload.username;
+      await router.push({ name: "posts" });
     },
     persist: {
       enabled: true,
