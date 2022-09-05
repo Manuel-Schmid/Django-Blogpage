@@ -8,12 +8,14 @@ export const useStore = defineStore("blog", {
     post: null,
     tags: [],
     usedTags: [],
+    userID: 3, // todo
   }),
   getters: {
     getPosts: (state) => state.posts,
     getPost: (state) => state.post,
     getTags: (state) => state.tags,
     getUsedTags: (state) => state.usedTags,
+    getUserID: (state) => state.userID,
   },
   actions: {
     async fetchPosts(
@@ -55,7 +57,9 @@ export const useStore = defineStore("blog", {
         query: gql`
           query getPostBySlug($slug: String!) {
             postBySlug(slug: $slug) {
+              id
               title
+              slug
               text
               image
               dateCreated
@@ -70,6 +74,14 @@ export const useStore = defineStore("blog", {
               tags {
                 name
                 slug
+              }
+              comments {
+                title
+                text
+                owner {
+                  firstName
+                  lastName
+                }
               }
             }
           }
@@ -109,6 +121,29 @@ export const useStore = defineStore("blog", {
         });
         this.usedTags = response.data.usedTags;
       }
+    },
+    async createComment(commentInput: any) {
+      await apolloClient.mutate({
+        mutation: gql`
+          mutation CreateComment($commentInput: CommentInput!) {
+            createComment(commentInput: $commentInput) {
+              comment {
+                title
+                text
+                owner {
+                  firstName
+                  lastName
+                }
+              }
+              success
+            }
+          }
+        `,
+        variables: {
+          commentInput: commentInput,
+        },
+      });
+      this.fetchPost(this.post.slug);
     },
   },
 });

@@ -6,6 +6,11 @@ import router from "./router/router";
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import { apolloClient } from "./api/client";
 import "./global.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faPlus, faMinus);
 
 const app = createApp({
   setup() {
@@ -13,7 +18,7 @@ const app = createApp({
   },
 
   render: () => h(App),
-});
+}).component("font-awesome-icon", FontAwesomeIcon);
 const pinia = createPinia();
 pinia.use(piniaPersist);
 

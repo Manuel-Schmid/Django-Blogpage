@@ -97,6 +97,7 @@ class Post(DjangoObjectType):
             'text',
             'image',
             'category',
+            'comments',
             'owner',
             'date_created',
         )

@@ -1,9 +1,13 @@
 <script lang="ts">
+import CommentSectionComponent from "./CommentSectionComponent.vue";
 import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 
 export default {
   name: "PostDetailComponent",
   props: ["postData"],
+  components: {
+    CommentSectionComponent,
+  },
 
   setup() {
     return { formatDateLong, getImageURL, formatFullname };
@@ -45,28 +49,38 @@ export default {
             alt="Post Image"
           />
         </div>
-        <div class="mt-8 mr-0 mb-1 ml-8 flex m-0">
-          <p class="font-bold">Category:&nbsp</p>
-          <router-link
-            :to="{
-              name: 'categoryPosts',
-              params: { slug: postData.category.slug },
-            }"
-            class="text-black no-underline"
-          >
-            {{ postData.category.name }}
-          </router-link>
-        </div>
-        <div class="ml-8 flex m-0">
-          <p class="font-bold">Tags:&nbsp</p>
-          <router-link
-            v-for="tag in postData.tags"
-            :to="{ name: 'posts', query: { tag: tag.slug } }"
-            :key="tag.slug"
-            class="text-black no-underline"
-          >
-            {{ tag.name }},&nbsp;
-          </router-link>
+        <div class="mt-4 w-full">
+          <div class="w-full">
+            <div class="mr-0 mb-1 ml-8 flex m-0">
+              <p class="font-bold mr-1">Category:</p>
+              <router-link
+                :to="{
+                  name: 'categoryPosts',
+                  params: { slug: postData.category.slug },
+                }"
+                class="text-black no-underline"
+              >
+                {{ postData.category.name }}
+              </router-link>
+            </div>
+            <div class="ml-8 flex m-0">
+              <p class="font-bold mr-1">Tags:</p>
+              <router-link
+                v-for="tag in postData.tags"
+                :to="{ name: 'posts', query: { tag: tag.slug } }"
+                :key="tag.slug"
+                class="text-black no-underline mr-1"
+              >
+                {{ tag.name }},
+              </router-link>
+            </div>
+            <div class="w-full mt-8">
+              <CommentSectionComponent
+                :post-id="postData.id"
+                :comments="postData.comments"
+              ></CommentSectionComponent>
+            </div>
+          </div>
         </div>
       </div>
     </div>
