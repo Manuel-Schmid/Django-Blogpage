@@ -27,5 +27,5 @@ class PostLikeInput(graphene.InputObjectType):
     user = graphene.ID()
 
 class CommentLikeInput(graphene.InputObjectType):
-    comment = graphene.ID(required=False)
-    user = graphene.ID(required=False)
+    comment = graphene.ID()
+    user = graphene.ID()

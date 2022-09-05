@@ -15,18 +15,6 @@ export default {
     let postLiked = ref(false);
     let store = useStore();
 
-    // const postLikeInput = {
-    //   post: props.postData.id,
-    //   user: store.getUserID,
-    // };
-
-    // let postLikeData = store.fetchPostLike(
-    //   postLikeInput.post,
-    //   postLikeInput.user
-    // );
-    //
-    // console.log(postLikeData);
-
     const togglePostLike = (post: Number, user: Number) => {
       const postLikeInput = {
         post: post,
