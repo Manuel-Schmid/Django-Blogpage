@@ -5,9 +5,11 @@ import { apolloClient } from "../api/client";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     authToken: "",
+    username: "",
   }),
   getters: {
     getAuthToken: (state) => state.authToken,
+    getUsername: (state) => state.username,
   },
   actions: {
     async fetchAuthToken(username: String, password: String) {
@@ -27,6 +29,7 @@ export const useAuthStore = defineStore("auth", {
         },
       });
       this.authToken = response.data.tokenAuth.token;
+      this.username = response.data.tokenAuth.payload.username;
     },
     persist: {
       enabled: true,
