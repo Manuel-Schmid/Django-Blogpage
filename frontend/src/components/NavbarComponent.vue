@@ -66,7 +66,10 @@ function updateTheme() {
         <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <div class="nav-item">My Blog</div>
+        <router-link class="nav-item" :to="{ name: 'profile' }">
+          Profile
+        </router-link>
+        <!--          My Blog-->
         <router-link class="nav-item" :to="{ name: 'login' }">
           Login
         </router-link>
