@@ -65,7 +65,6 @@ MIDDLEWARE = [
 ]
 
 GRAPHENE = {
-    "SCHEMA": "mysite.myschema.schema",
     "MIDDLEWARE": [
         "graphql_jwt.middleware.JSONWebTokenMiddleware",
     ],
