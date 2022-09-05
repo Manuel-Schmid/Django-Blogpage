@@ -52,7 +52,7 @@ export default {
         <div class="mt-4 w-full">
           <div class="w-full">
             <div class="mr-0 mb-1 ml-8 flex m-0">
-              <p class="font-bold">Category:&nbsp</p>
+              <p class="font-bold mr-1">Category:</p>
               <router-link
                 :to="{
                   name: 'categoryPosts',
@@ -64,14 +64,14 @@ export default {
               </router-link>
             </div>
             <div class="ml-8 flex m-0">
-              <p class="font-bold">Tags:&nbsp</p>
+              <p class="font-bold mr-1">Tags:</p>
               <router-link
                 v-for="tag in postData.tags"
                 :to="{ name: 'posts', query: { tag: tag.slug } }"
                 :key="tag.slug"
-                class="text-black no-underline"
+                class="text-black no-underline mr-1"
               >
-                {{ tag.name }},&nbsp;
+                {{ tag.name }},
               </router-link>
             </div>
             <div class="w-full mt-8">
