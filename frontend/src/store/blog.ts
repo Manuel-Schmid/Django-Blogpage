@@ -41,6 +41,12 @@ export const useStore = defineStore("blog", {
                 firstName
                 lastName
               }
+              comments {
+                id
+              }
+              postLikes {
+                id
+              }
             }
           }
         `,
@@ -74,6 +80,9 @@ export const useStore = defineStore("blog", {
               tags {
                 name
                 slug
+              }
+              postLikes {
+                id
               }
               comments {
                 title

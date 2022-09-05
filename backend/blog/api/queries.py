@@ -47,7 +47,7 @@ class Query(graphene.ObjectType):
 
         return Post.objects \
             .select_related('category', 'owner') \
-            .prefetch_related('tags', 'comments', 'comments__owner', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+            .prefetch_related('tags', 'comments', 'comments__owner', 'post_likes', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
             .filter(post_filter)
 
     def resolve_post_by_slug(root, info, slug):
