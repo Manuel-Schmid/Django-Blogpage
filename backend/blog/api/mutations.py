@@ -1,10 +1,10 @@
 import graphene
 
 from graphene_file_upload.scalars import Upload
-from blog.api.inputs import PostInput, CategoryInput, CommentInput
-from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, GraphqlOutput
-from blog.models import Post, Category, Comment
-from blog.forms import CategoryForm, PostForm, CommentForm
+from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
+from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, CommentLike as CommentLikeType, PostLike as PostLikeType, GraphqlOutput
+from blog.models import Post, Category, Comment, PostLike
+from blog.forms import CategoryForm, PostForm, CommentForm, PostLikeForm
 
 
 class CreateCategory(graphene.Mutation, GraphqlOutput):
@@ -51,6 +51,33 @@ class CreatePost(graphene.Mutation, GraphqlOutput):
             post = form.save()
             return CreatePost(post=post, success=True)
         return CreatePost(success=False, errors=form.errors.get_json_data())
+
+
+class CreatePostLike(graphene.Mutation, GraphqlOutput):
+    post_like = graphene.Field(PostLikeType)
+
+    class Arguments:
+        post_like_input = PostLikeInput(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, post_like_input):
+        form = PostLikeForm(data=post_like_input)
+        if form.is_valid():
+            post_like = form.save()
+            return CreatePostLike(post_like=post_like, success=True)
+        return CreatePostLike(success=False, errors=form.errors.get_json_data())
+
+
+class DeletePostLike(graphene.Mutation, GraphqlOutput):
+    success = graphene.Boolean()
+
+    class Arguments:
+        post_like_input = PostLikeInput()
+
+    @classmethod
+    def mutate(cls, root, info, post_like_input):
+        PostLike.objects.filter(post=post_like_input.post, user=post_like_input.user).delete()
+        return cls(success=True)
 
 
 class UpdatePost(graphene.Mutation, GraphqlOutput):
@@ -118,6 +145,8 @@ class Mutation(graphene.ObjectType):
     update_category = UpdateCategory.Field()
     create_post = CreatePost.Field()
     update_post = UpdatePost.Field()
+    create_post_like = CreatePostLike.Field()
+    delete_post_like = DeletePostLike.Field()
     create_comment = CreateComment.Field()
     update_comment = UpdateComment.Field()
     test_mutation = UploadMutation.Field()

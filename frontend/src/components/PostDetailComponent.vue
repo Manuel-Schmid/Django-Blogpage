@@ -1,6 +1,8 @@
 <script lang="ts">
 import CommentSectionComponent from "./CommentSectionComponent.vue";
 import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
+import { ref } from "vue";
+import { useStore } from "../store/blog";
 
 export default {
   name: "PostDetailComponent",
@@ -9,8 +11,32 @@ export default {
     CommentSectionComponent,
   },
 
-  setup() {
-    return { formatDateLong, getImageURL, formatFullname };
+  setup(props: any) {
+    let postLiked = ref(false);
+    let store = useStore();
+
+    const togglePostLike = (post: Number, user: Number) => {
+      const postLikeInput = {
+        post: post,
+        user: user,
+      };
+      if (postLiked.value) {
+        store.deletePostLike(postLikeInput);
+      } else {
+        store.createPostLike(postLikeInput);
+      }
+
+      postLiked.value = !postLiked.value;
+    };
+
+    return {
+      formatDateLong,
+      getImageURL,
+      formatFullname,
+      postLiked,
+      store,
+      togglePostLike,
+    };
   },
 };
 </script>
@@ -51,6 +77,15 @@ export default {
         </div>
         <div class="mt-4 w-full">
           <div class="w-full">
+            <div class="float-right text-center w-min mt-2 mr-16">
+              <font-awesome-icon
+                @click="togglePostLike(postData.id, store.getUserID)"
+                icon="fa-thumbs-up"
+                class="text-3xl mb-0.5"
+                :class="postLiked ? 'text-blue-600' : ''"
+              ></font-awesome-icon>
+              <span class="w-full">{{ postData.postLikes.length }}</span>
+            </div>
             <div class="mr-0 mb-1 ml-8 flex m-0">
               <p class="font-bold mr-1">Category:</p>
               <router-link

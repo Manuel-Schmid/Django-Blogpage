@@ -83,6 +83,9 @@ export const useStore = defineStore("blog", {
               }
               postLikes {
                 id
+                user {
+                  id
+                }
               }
               comments {
                 title
@@ -150,6 +153,57 @@ export const useStore = defineStore("blog", {
         `,
         variables: {
           commentInput: commentInput,
+        },
+      });
+      this.fetchPost(this.post.slug);
+    },
+
+    fetchPostLike(postId: Number, userId: Number) {
+      const response = apolloClient.query({
+        query: gql`
+          query postLikeByUserAndPost($postId: ID, $userId: ID) {
+            postLike(postId: $postId, userId: $userId) {
+              id
+            }
+          }
+        `,
+        variables: {
+          postId: postId,
+          userId: userId,
+        },
+      });
+      return response;
+    },
+
+    async createPostLike(postLikeInput: any) {
+      await apolloClient.mutate({
+        mutation: gql`
+          mutation creatPostLike($postLikeInput: PostLikeInput!) {
+            createPostLike(postLikeInput: $postLikeInput) {
+              postLike {
+                id
+              }
+            }
+          }
+        `,
+        variables: {
+          postLikeInput: postLikeInput,
+        },
+      });
+      this.fetchPost(this.post.slug);
+    },
+
+    async deletePostLike(postLikeInput: any) {
+      await apolloClient.mutate({
+        mutation: gql`
+          mutation postLikeByUserAndPost($postLikeInput: PostLikeInput!) {
+            deletePostLike(postLikeInput: $postLikeInput) {
+              success
+            }
+          }
+        `,
+        variables: {
+          postLikeInput: postLikeInput,
         },
       });
       this.fetchPost(this.post.slug);
