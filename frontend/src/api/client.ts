@@ -1,13 +1,26 @@
 import {
   ApolloClient,
+  ApolloLink,
+  concat,
   createHttpLink,
   DefaultOptions,
   InMemoryCache,
 } from "@apollo/client/core";
+import { useAuthStore } from "../store/auth";
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_API_URL,
   credentials: "same-origin",
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token = useAuthStore().getAuthToken;
+  operation.setContext({
+    headers: {
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  });
+  return forward(operation);
 });
 
 const defaultOptions: DefaultOptions = {
@@ -21,12 +34,10 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
-// Cache implementation
 const cache = new InMemoryCache();
 
-// Create the apollo client
 export const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: concat(authMiddleware, httpLink),
   cache,
   defaultOptions,
 });
