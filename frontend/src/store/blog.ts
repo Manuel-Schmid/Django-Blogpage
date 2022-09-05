@@ -117,9 +117,6 @@ export const usePostStore = defineStore("blog", {
             }
           }
         `,
-        variables: {
-          slug: postSlug,
-        },
       });
       this.user = response.data.postBySlug;
     },

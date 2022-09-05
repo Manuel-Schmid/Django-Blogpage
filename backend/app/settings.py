@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import django
@@ -47,9 +48,11 @@ INSTALLED_APPS = [
     'graphiql_debug_toolbar',
     'taggit',
     'corsheaders',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'graphiql_debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -74,9 +76,23 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
+GRAPHQL_JWT = {
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=1),
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_COOKIE_SECURE': False,
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+    'JWT_VERIFY': True,
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_ALLOW_ANY_CLASSES': [
+        'graphql_jwt.ObtainJSONWebToken',
+        'graphql_jwt.Refresh',
+    ],
+}
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
-    'http://blogapp.com:8080',
+    'http://frontend.blogapp.com:8080',
 ]
 
 ROOT_URLCONF = 'app.urls'

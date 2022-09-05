@@ -9,7 +9,7 @@ class Query(graphene.ObjectType):
     categories = graphene.List(CategoryType)
     category_by_id = graphene.Field(CategoryType, id=graphene.ID())
     users = graphene.List(UserType)
-    user_by_id = graphene.Field(UserType, id=graphene.ID())
+    user = graphene.Field(UserType, id=graphene.ID())
     tags = graphene.List(TagType)
     used_tags = graphene.List(TagType)
     posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
@@ -33,8 +33,8 @@ class Query(graphene.ObjectType):
     def resolve_users(root, info, **kwargs):
         return User.objects.all()
 
-    def resolve_user_by_id(root, info, id):
-        return User.objects.get(pk=id)
+    def resolve_user(root, info):
+        return User.objects.get(pk=info.context.user.id)
 
     def resolve_tags(root, info, **kwargs):
         return Tag.objects.all()
