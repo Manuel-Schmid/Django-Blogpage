@@ -8,6 +8,9 @@ export const useAuthStore = defineStore("auth", {
     authToken: "",
     username: "",
   }),
+  persist: {
+    enabled: true,
+  },
   getters: {
     getAuthToken: (state) => state.authToken,
     getUsername: (state) => state.username,
@@ -32,9 +35,6 @@ export const useAuthStore = defineStore("auth", {
       this.authToken = response.data.tokenAuth.token;
       this.username = response.data.tokenAuth.payload.username;
       await router.push({ name: "posts" });
-    },
-    persist: {
-      enabled: true,
     },
   },
 });

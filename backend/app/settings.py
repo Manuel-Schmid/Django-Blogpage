@@ -94,6 +94,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://frontend.blogapp.com:8080',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
