@@ -8,14 +8,12 @@ export const usePostStore = defineStore("blog", {
     post: {},
     tags: [],
     usedTags: [],
-    userID: 3, // todo
   }),
   getters: {
     getPosts: (state) => state.posts,
     getPost: (state) => state.post,
     getTags: (state) => state.tags,
     getUsedTags: (state) => state.usedTags,
-    getUserID: (state) => state.userID,
   },
   actions: {
     async fetchPosts(

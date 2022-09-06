@@ -12,7 +12,7 @@ export default {
     let authStore = useAuthStore();
 
     const submitLogin = () => {
-      authStore.fetchAuthToken(username.value, password.value);
+      authStore.fetchRefreshToken(username.value, password.value);
     };
 
     return { username, password, submitLogin };

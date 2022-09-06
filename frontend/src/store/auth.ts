@@ -5,22 +5,23 @@ import router from "../router/router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    authToken: "",
-    username: "",
+    refreshToken: "",
+    user: {},
   }),
+  persist: {
+    enabled: true,
+  },
   getters: {
-    getAuthToken: (state) => state.authToken,
-    getUsername: (state) => state.username,
+    getRefreshToken: (state) => state.refreshToken,
+    getUser: (state) => state.user,
   },
   actions: {
-    async fetchAuthToken(username: String, password: String) {
+    async fetchRefreshToken(username: String, password: String) {
       const response = await apolloClient.mutate({
         mutation: gql`
           mutation TokenAuth($username: String!, $password: String!) {
             tokenAuth(username: $username, password: $password) {
-              token
-              payload
-              refreshExpiresIn
+              refreshToken
             }
           }
         `,
@@ -29,12 +30,35 @@ export const useAuthStore = defineStore("auth", {
           password: password,
         },
       });
-      this.authToken = response.data.tokenAuth.token;
-      this.username = response.data.tokenAuth.payload.username;
-      await router.push({ name: "posts" });
+      if (response.data !== null) {
+        this.refreshToken = response.data.tokenAuth.refreshToken;
+        await this.fetchUser();
+        await router.push({ name: "posts" });
+      } else {
+        // inform user login failed
+        console.log("login failed");
+      }
     },
-    persist: {
-      enabled: true,
+    async fetchUser() {
+      this.user = {};
+      const response = await apolloClient.query({
+        query: gql`
+          {
+            user {
+              username
+              email
+              firstName
+              lastName
+            }
+          }
+        `,
+      });
+      if (response.data !== null) {
+        this.user = response.data.user;
+      } else {
+        // inform user login failed
+        console.log("login failed");
+      }
     },
   },
 });
