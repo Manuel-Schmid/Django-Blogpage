@@ -6,6 +6,16 @@ import { useAuthStore } from "../store/auth";
 export default {
   name: "profileComponent",
   props: ["userData"],
+
+  setup() {
+    const logout = () => {
+      apolloClient.resetStore();
+      useAuthStore().fetchUser();
+      router.push({ name: "posts" });
+    };
+
+    return { logout };
+  },
 };
 </script>
 
@@ -49,6 +59,12 @@ export default {
             </tr>
           </tbody>
         </table>
+        <button
+          @click="logout"
+          class="float-right mt-6 py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        >
+          Logout
+        </button>
       </div>
     </div>
   </div>
