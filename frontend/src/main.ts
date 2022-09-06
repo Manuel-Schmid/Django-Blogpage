@@ -13,9 +13,10 @@ import {
   faMinus,
   faThumbsUp,
   faComment,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlus, faMinus, faThumbsUp, faComment);
+library.add(faPlus, faMinus, faThumbsUp, faComment, faUser);
 
 const app = createApp({
   setup() {

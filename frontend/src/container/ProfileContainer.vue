@@ -4,17 +4,14 @@
 
 <script lang="ts">
 import ProfileComponent from "../components/ProfileComponent.vue";
-import { useRoute } from "vue-router";
-import { usePostStore as usePostsStore } from "../store/blog";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "profileContainer",
   components: { ProfileComponent },
 
   setup() {
-    const route = useRoute();
-    const store = usePostsStore();
-    store.fetchUser();
+    const store = useAuthStore();
 
     return { store };
   },
