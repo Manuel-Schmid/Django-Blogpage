@@ -164,16 +164,22 @@ export const usePostStore = defineStore("blog", {
       if (this.post) {
         await apolloClient.mutate({
           mutation: gql`
-            mutation createPostLike($postID: ID!) {
-              createPostLike(postId: $postID) {
+            mutation createPostLike($postLikeInput: PostLikeInput!) {
+              createPostLike(postLikeInput: $postLikeInput) {
                 postLike {
                   id
+                  post {
+                    id
+                    likeCount
+                  }
                 }
               }
             }
           `,
           variables: {
-            postID: this.post.id,
+            postLikeInput: {
+              post: this.post.id,
+            },
           },
         });
         if (this.post) {
@@ -185,14 +191,16 @@ export const usePostStore = defineStore("blog", {
       if (this.post) {
         await apolloClient.mutate({
           mutation: gql`
-            mutation deletePostLike($postID: ID!) {
-              deletePostLike(postId: $postID) {
+            mutation deletePostLike($postLikeInput: PostLikeInput!) {
+              deletePostLike(postLikeInput: $postLikeInput) {
                 success
               }
             }
           `,
           variables: {
-            postID: this.post.id,
+            postLikeInput: {
+              post: this.post.id,
+            },
           },
         });
         if (this.post) {
