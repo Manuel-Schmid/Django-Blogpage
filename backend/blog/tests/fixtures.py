@@ -18,7 +18,7 @@ def users():
 
 
 @pytest.fixture
-def auth(users, client):
+def auth(users, client_query):
     auth_query = '''
         mutation TokenAuth($username: String!, $password: String!) {
           tokenAuth(username: $username, password: $password) {
@@ -34,10 +34,7 @@ def auth(users, client):
         "password": 'password1'
     }
 
-    def func(*args, **kwargs):
-        return graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
-
-    return func(auth_query, variables=credentials)
+    return client_query(auth_query, variables=credentials)
 
 
 @pytest.fixture
@@ -83,13 +80,13 @@ def posts(categories, users):
 
 
 @pytest.fixture
-def post_likes(posts):
+def post_likes(posts, users):
     PostLike.objects.create(
-        user=User.objects.all()[0],
+        user=users[0],
         post=posts[1]
     )
     PostLike.objects.create(
-        user=User.objects.all()[1],
+        user=users[1],
         post=posts[1]
     )
     return PostLike.objects.all()

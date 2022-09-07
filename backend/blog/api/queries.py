@@ -19,14 +19,6 @@ class Query(graphene.ObjectType):
     used_tags = graphene.List(TagType)
     posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
-    post_like = graphene.Field(PostLikeType, post_id=graphene.ID())
-
-    def resolve_post_like(root, info, post_id):
-        user = info.context.user
-        if user.is_authenticated:
-            post = Post.objects.get(pk=post_id)
-            user = User.objects.get(pk=info.context.user.id)
-            return PostLike.objects.filter(post=post, user=user).first()
 
     def resolve_categories(root, info, **kwargs):
         return Category.objects.all()
@@ -67,6 +59,7 @@ class Query(graphene.ObjectType):
                               'comments',
                               'comments__owner',
                               'post_likes',
+                              'post_likes__user',
                               'owner__posts',
                               'owner__posts__tags',
                               'owner__posts__category') \
