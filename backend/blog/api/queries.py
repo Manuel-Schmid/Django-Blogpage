@@ -1,8 +1,13 @@
 import graphene
 from django.db.models import Q
 from taggit.models import Tag, TaggedItem
-from ..models import Category, Post, User, Comment, PostLike
-from .types import Post as PostType, Category as CategoryType, User as UserType, Tag as TagType, PostLike as PostLikeType, CommentLike as CommentLikeType
+from ..models import Category, Post, User, PostLike
+from .types import \
+    Post as PostType,\
+    Category as CategoryType, \
+    User as UserType, \
+    Tag as TagType, \
+    PostLike as PostLikeType
 
 
 class Query(graphene.ObjectType):
@@ -16,11 +21,10 @@ class Query(graphene.ObjectType):
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
     post_like = graphene.Field(PostLikeType, post_id=graphene.ID())
 
-
     def resolve_post_like(root, info, post_id):
         user = info.context.user
         if user.is_authenticated:
-            post = Post.objects.get(pk=post_id);
+            post = Post.objects.get(pk=post_id)
             user = User.objects.get(pk=info.context.user.id)
             return PostLike.objects.filter(post=post, user=user).first()
 
@@ -59,7 +63,13 @@ class Query(graphene.ObjectType):
 
         return Post.objects \
             .select_related('category', 'owner') \
-            .prefetch_related('tags', 'comments', 'comments__owner', 'post_likes', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+            .prefetch_related('tags',
+                              'comments',
+                              'comments__owner',
+                              'post_likes',
+                              'owner__posts',
+                              'owner__posts__tags',
+                              'owner__posts__category') \
             .filter(post_filter)
 
     def resolve_post_by_slug(root, info, slug):

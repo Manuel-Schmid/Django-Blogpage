@@ -3,9 +3,14 @@ import graphql_jwt
 
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput
-from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, CommentLike as CommentLikeType, PostLike as PostLikeType, GraphqlOutput
+from blog.api.types import \
+    Category as CategoryType, \
+    Post as PostType, \
+    Comment as CommentType, \
+    PostLike as PostLikeType, \
+    GraphqlOutput
 from blog.models import Post, Category, Comment, PostLike, User
-from blog.forms import CategoryForm, PostForm, CommentForm, PostLikeForm
+from blog.forms import CategoryForm, PostForm, CommentForm
 
 
 class CreateCategory(graphene.Mutation, GraphqlOutput):
@@ -64,7 +69,7 @@ class CreatePostLike(graphene.Mutation, GraphqlOutput):
     def mutate(cls, root, info, post_id):
         user = info.context.user
         if user.is_authenticated:
-            post = Post.objects.get(pk=post_id);
+            post = Post.objects.get(pk=post_id)
             user = User.objects.get(pk=info.context.user.id)
             post_like = PostLike.objects.create(post=post, user=user)
             return CreatePostLike(post_like=post_like, success=True)
@@ -81,7 +86,7 @@ class DeletePostLike(graphene.Mutation, GraphqlOutput):
     def mutate(cls, root, info, post_id):
         user = info.context.user
         if user.is_authenticated:
-            post = Post.objects.get(pk=post_id);
+            post = Post.objects.get(pk=post_id)
             user = User.objects.get(pk=info.context.user.id)
             PostLike.objects.filter(post=post, user=user).delete()
             return cls(success=True)

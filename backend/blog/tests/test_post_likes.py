@@ -70,4 +70,4 @@ def test_delete_post_like(auth, client_query, post_likes):
 
     success = data_post_likes.get('success', None)
     assert success is not None
-    assert success == True
+    assert success

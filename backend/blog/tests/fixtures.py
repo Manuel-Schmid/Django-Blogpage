@@ -94,6 +94,7 @@ def post_likes(posts):
     )
     return PostLike.objects.all()
 
+
 @pytest.fixture
 def client_query(client):
     def func(*args, **kwargs):

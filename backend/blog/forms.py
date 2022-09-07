@@ -27,6 +27,7 @@ class PostLikeForm(ModelForm):
         model = PostLike
         fields = ['post', 'user']
 
+
 class CommentForm(ModelForm):
 
     class Meta:
