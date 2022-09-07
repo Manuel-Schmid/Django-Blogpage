@@ -1,5 +1,5 @@
 <script lang="ts">
-import CommentSectionComponent from "./CommentSectionComponent.vue";
+import CommentSectionComponent from "../components/CommentSectionComponent.vue";
 import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 import { ref } from "vue";
 import { usePostStore } from "../store/blog";
@@ -71,12 +71,14 @@ export default {
         </div>
         <div class="mt-4 w-full">
           <div class="w-full">
-            <div class="float-right text-center w-min mt-2 mr-16">
+            <div
+              class="float-right text-center w-min mt-2 mr-16 cursor-pointer"
+            >
               <font-awesome-icon
-                @click="togglePostLike(postData.id)"
                 icon="fa-thumbs-up"
                 class="text-3xl mb-0.5"
-                :class="postLiked ? 'text-blue-600' : ''"
+                :class="postLiked ? 'text-blue-700' : ''"
+                @click="togglePostLike(postData.id)"
               ></font-awesome-icon>
               <span class="w-full">{{ postData.likeCount }}</span>
             </div>

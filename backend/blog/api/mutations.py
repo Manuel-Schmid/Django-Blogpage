@@ -117,11 +117,15 @@ class CreateComment(graphene.Mutation, GraphqlOutput):
 
     @classmethod
     def mutate(cls, root, info, comment_input):
-        form = CommentForm(data=comment_input)
-        if form.is_valid():
-            comment = form.save()
-            return CreateComment(comment=comment, success=True)
-        return CreateComment(success=False, errors=form.errors.get_json_data())
+        user = info.context.user
+        if user.is_authenticated:
+            comment_input['owner'] = info.context.user.id
+            form = CommentForm(data=comment_input)
+            if form.is_valid():
+                comment = form.save()
+                return CreateComment(comment=comment, success=True)
+            return CreateComment(success=False, errors=form.errors.get_json_data())
+        return None
 
 
 class UpdateComment(graphene.Mutation, GraphqlOutput):
@@ -133,11 +137,15 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
     @classmethod
     def mutate(cls, root, info, comment_input):
         comment = Comment.objects.get(pk=comment_input.get('id'))
-        form = CommentForm(instance=comment, data=comment_input)
-        if form.is_valid():
-            comment = form.save()
-            return UpdateComment(comment=comment, success=True)
-        return UpdateComment(success=False, errors=form.errors.get_json_data())
+        user = info.context.user
+        if user.is_authenticated:
+            comment_input['owner'] = info.context.user.id
+            form = CommentForm(instance=comment, data=comment_input)
+            if form.is_valid():
+                comment = form.save()
+                return UpdateComment(comment=comment, success=True)
+            return UpdateComment(success=False, errors=form.errors.get_json_data())
+        return None
 
 
 class UploadMutation(graphene.Mutation, GraphqlOutput):

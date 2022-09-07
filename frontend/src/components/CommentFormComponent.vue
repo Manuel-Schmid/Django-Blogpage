@@ -26,7 +26,6 @@ export default {
         title: title.value,
         text: text.value,
         post: props.postId,
-        owner: useAuthStore().getUser.id,
       };
       usePostStore().createComment(commentInput);
 

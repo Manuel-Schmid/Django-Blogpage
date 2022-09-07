@@ -4,7 +4,7 @@ import CommentFormComponent from "./CommentFormComponent.vue";
 import { ref } from "vue";
 
 export default {
-  name: "CommenSectionComponent",
+  name: "CommentSectionComponent",
   props: {
     postId: String,
     comments: {},
