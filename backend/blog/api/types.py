@@ -99,12 +99,11 @@ class Post(DjangoObjectType):
     def resolve_is_liked(self, info, **kwargs):
         user = info.context.user
         if user.is_authenticated:
-            return len(list(filter(lambda post_like: post_like.user == user, self.post_likes.all()))) == 1
+            return len(list(filter(lambda post_like: post_like.user == user, self.post_likes.all()))) > 0
         return False
 
     def resolve_like_count(self, info, **kwargs):
         return self.post_likes.count()
-        # return len(self.post_likes.all())
 
     class Meta:
         model = PostModel
