@@ -62,8 +62,8 @@ export const usePostStore = defineStore("blog", {
       });
       this.posts = response.data.posts;
     },
-    async fetchPost(postSlug: string | undefined) {
-      this.post = null;
+    async fetchPost(postSlug: string | undefined, reload: boolean) {
+      if (reload) this.post = null;
       const response = await apolloClient.query({
         query: gql`
           query getPostBySlug($slug: String!) {
@@ -157,7 +157,7 @@ export const usePostStore = defineStore("blog", {
         },
       });
       if (this.post) {
-        await this.fetchPost(this.post.slug);
+        await this.fetchPost(this.post.slug, false);
       }
     },
     async createPostLike() {
@@ -177,7 +177,7 @@ export const usePostStore = defineStore("blog", {
           },
         });
         if (this.post) {
-          await this.fetchPost(this.post.slug);
+          await this.fetchPost(this.post.slug, false);
         }
       }
     },
@@ -196,7 +196,7 @@ export const usePostStore = defineStore("blog", {
           },
         });
         if (this.post) {
-          await this.fetchPost(this.post.slug);
+          await this.fetchPost(this.post.slug, false);
         }
       }
     },
