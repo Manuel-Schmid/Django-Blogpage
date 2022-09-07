@@ -77,7 +77,11 @@ export default {
               <font-awesome-icon
                 icon="fa-thumbs-up"
                 class="text-3xl mb-0.5"
-                :class="postLiked ? 'text-blue-700' : ''"
+                :class="
+                  postLiked
+                    ? 'text-blue-700 dark:text-slate-400'
+                    : 'dark:text-white'
+                "
                 @click="togglePostLike(postData.id)"
               ></font-awesome-icon>
               <span class="w-full">{{ postData.likeCount }}</span>

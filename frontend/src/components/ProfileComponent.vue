@@ -12,21 +12,16 @@ export default {
 <template>
   <div class="profile-container">
     <div v-if="userData" class="w-min m-auto mt-36 text-center">
-      <p class="text-xl mb-4">
+      <p class="text-xl mb-8">
         <font-awesome-icon icon="fa-solid fa-user" class="mr-2" />About
       </p>
       <div class="w-min">
         <table
-          class="table-auto text-sm text-left text-gray-700 dark:text-gray-400 text-center"
+          class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 text-center"
         >
           <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
-            <tr>
-              <th scope="col" class="py-3 px-6">Key</th>
-              <th scope="col" class="py-3 px-6">Item</th>
-            </tr>
-          </thead>
+            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-50"
+          ></thead>
           <tbody>
             <tr class="profile-table-row">
               <th scope="row">Username</th>
