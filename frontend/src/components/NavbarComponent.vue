@@ -73,7 +73,7 @@ function updateTheme() {
           My Blog
         </router-link>
         <router-link
-          v-if="authStore.getUser.username"
+          v-if="authStore.getUser"
           class="nav-item"
           :to="{ name: 'profile' }"
         >

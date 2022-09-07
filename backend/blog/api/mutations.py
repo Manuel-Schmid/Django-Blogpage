@@ -2,9 +2,9 @@ import graphene
 import graphql_jwt
 
 from graphene_file_upload.scalars import Upload
-from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
+from blog.api.inputs import PostInput, CategoryInput, CommentInput
 from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, CommentLike as CommentLikeType, PostLike as PostLikeType, GraphqlOutput
-from blog.models import Post, Category, Comment, PostLike
+from blog.models import Post, Category, Comment, PostLike, User
 from blog.forms import CategoryForm, PostForm, CommentForm, PostLikeForm
 
 
@@ -58,27 +58,34 @@ class CreatePostLike(graphene.Mutation, GraphqlOutput):
     post_like = graphene.Field(PostLikeType)
 
     class Arguments:
-        post_like_input = PostLikeInput(required=True)
+        post_id = graphene.ID(required=True)
 
     @classmethod
-    def mutate(cls, root, info, post_like_input):
-        form = PostLikeForm(data=post_like_input)
-        if form.is_valid():
-            post_like = form.save()
+    def mutate(cls, root, info, post_id):
+        user = info.context.user
+        if user.is_authenticated:
+            post = Post.objects.get(pk=post_id);
+            user = User.objects.get(pk=info.context.user.id)
+            post_like = PostLike.objects.create(post=post, user=user)
             return CreatePostLike(post_like=post_like, success=True)
-        return CreatePostLike(success=False, errors=form.errors.get_json_data())
+        return None
 
 
 class DeletePostLike(graphene.Mutation, GraphqlOutput):
     success = graphene.Boolean()
 
     class Arguments:
-        post_like_input = PostLikeInput()
+        post_id = graphene.ID(required=True)
 
     @classmethod
-    def mutate(cls, root, info, post_like_input):
-        PostLike.objects.filter(post=post_like_input.post, user=post_like_input.user).delete()
-        return cls(success=True)
+    def mutate(cls, root, info, post_id):
+        user = info.context.user
+        if user.is_authenticated:
+            post = Post.objects.get(pk=post_id);
+            user = User.objects.get(pk=info.context.user.id)
+            PostLike.objects.filter(post=post, user=user).delete()
+            return cls(success=True)
+        return None
 
 
 class UpdatePost(graphene.Mutation, GraphqlOutput):

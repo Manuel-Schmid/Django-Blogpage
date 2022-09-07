@@ -83,10 +83,21 @@ class Tag(DjangoObjectType):
 
 
 class Post(DjangoObjectType):
+    is_liked = graphene.Boolean()
+    like_count = graphene.Int()
     tags = graphene.List(Tag)
 
     def resolve_tags(self, info, **kwargs):
         return self.tags.all()
+
+    def resolve_is_liked(self, info, **kwargs):
+        user = info.context.user
+        if user.is_authenticated:
+            return PostLikeModel.objects.filter(post=self, user=info.context.user).exists()
+        return False
+
+    def resolve_like_count(self, info, **kwargs):
+        return PostLikeModel.objects.filter(post=self).count()
 
     class Meta:
         model = PostModel

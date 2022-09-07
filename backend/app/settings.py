@@ -76,10 +76,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 GRAPHQL_JWT = {
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=20),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=1),
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_COOKIE_SECURE': False,
+    'JWT_COOKIE_SECURE': False,  # TODO do not use in production
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
     'JWT_VERIFY': True,
     'JWT_ALLOW_REFRESH': True,

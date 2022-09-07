@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { usePostStore } from "../store/blog";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "CommentFormComponent",
@@ -25,7 +26,7 @@ export default {
         title: title.value,
         text: text.value,
         post: props.postId,
-        owner: usePostStore().getUserID,
+        owner: useAuthStore().getUser.id,
       };
       usePostStore().createComment(commentInput);
 

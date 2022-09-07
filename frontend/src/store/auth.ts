@@ -5,8 +5,8 @@ import router from "../router/router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    refreshToken: "",
-    user: {},
+    refreshToken: null,
+    user: null,
   }),
   persist: {
     enabled: true,
@@ -35,16 +35,16 @@ export const useAuthStore = defineStore("auth", {
         await this.fetchUser();
         await router.push({ name: "posts" });
       } else {
-        // inform user login failed
-        console.log("login failed");
+        // todo
       }
     },
     async fetchUser() {
-      this.user = {};
+      this.user = null;
       const response = await apolloClient.query({
         query: gql`
           {
             user {
+              id
               username
               email
               firstName
@@ -56,8 +56,7 @@ export const useAuthStore = defineStore("auth", {
       if (response.data !== null) {
         this.user = response.data.user;
       } else {
-        // inform user login failed
-        console.log("login failed");
+        // todo
       }
     },
   },

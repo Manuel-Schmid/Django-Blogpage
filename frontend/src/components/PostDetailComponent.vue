@@ -11,21 +11,16 @@ export default {
     CommentSectionComponent,
   },
 
-  setup(props: any) {
-    let postLiked = ref(false);
-    let store = usePostStore();
+  setup(props: { postData: any }) {
+    const postLiked = ref(!!props.postData?.isLiked);
+    let postStore = usePostStore();
 
-    const togglePostLike = (post: Number, user: Number) => {
-      const postLikeInput = {
-        post: post,
-        user: user,
-      };
+    const togglePostLike = (post: Number) => {
       if (postLiked.value) {
-        store.deletePostLike(postLikeInput);
+        postStore.deletePostLike();
       } else {
-        store.createPostLike(postLikeInput);
+        postStore.createPostLike();
       }
-
       postLiked.value = !postLiked.value;
     };
 
@@ -34,7 +29,6 @@ export default {
       getImageURL,
       formatFullname,
       postLiked,
-      store,
       togglePostLike,
     };
   },
@@ -43,7 +37,7 @@ export default {
 
 <template>
   <div class="post-container p-12 flex justify-center items-center">
-    <div v-if="postData" class="post">
+    <div class="post">
       <div>
         <div class="w-full relative">
           <div class="post-title leading-5 text-black font-bold mb-3">
@@ -79,12 +73,12 @@ export default {
           <div class="w-full">
             <div class="float-right text-center w-min mt-2 mr-16">
               <font-awesome-icon
-                @click="togglePostLike(postData.id, store.getUserID)"
+                @click="togglePostLike(postData.id)"
                 icon="fa-thumbs-up"
                 class="text-3xl mb-0.5"
                 :class="postLiked ? 'text-blue-600' : ''"
               ></font-awesome-icon>
-              <span class="w-full">{{ postData.postLikes.length }}</span>
+              <span class="w-full">{{ postData.likeCount }}</span>
             </div>
             <div class="mr-0 mb-1 ml-8 flex m-0">
               <p class="font-bold mr-1">Category:</p>

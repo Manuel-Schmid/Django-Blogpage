@@ -1,14 +1,23 @@
 import { defineStore } from "pinia";
 import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
+import { Post, Tag } from "../api/models";
+
+export type PostState = {
+  posts: Post[];
+  post: Post | null;
+  tags: Tag[];
+  usedTags: Tag[];
+};
 
 export const usePostStore = defineStore("blog", {
-  state: () => ({
-    posts: [],
-    post: {},
-    tags: [],
-    usedTags: [],
-  }),
+  state: () =>
+    ({
+      posts: [],
+      post: null,
+      tags: [],
+      usedTags: [],
+    } as PostState),
   getters: {
     getPosts: (state) => state.posts,
     getPost: (state) => state.post,
@@ -31,6 +40,7 @@ export const usePostStore = defineStore("blog", {
               title
               image
               dateCreated
+              likeCount
               category {
                 name
                 slug
@@ -40,9 +50,6 @@ export const usePostStore = defineStore("blog", {
                 lastName
               }
               comments {
-                id
-              }
-              postLikes {
                 id
               }
             }
@@ -66,6 +73,8 @@ export const usePostStore = defineStore("blog", {
               slug
               text
               image
+              isLiked
+              likeCount
               dateCreated
               category {
                 name
@@ -78,12 +87,6 @@ export const usePostStore = defineStore("blog", {
               tags {
                 name
                 slug
-              }
-              postLikes {
-                id
-                user {
-                  id
-                }
               }
               comments {
                 title
@@ -153,58 +156,49 @@ export const usePostStore = defineStore("blog", {
           commentInput: commentInput,
         },
       });
-      this.fetchPost(this.post.slug);
+      if (this.post) {
+        await this.fetchPost(this.post.slug);
+      }
     },
-
-    fetchPostLike(postId: Number, userId: Number) {
-      const response = apolloClient.query({
-        query: gql`
-          query postLikeByUserAndPost($postId: ID, $userId: ID) {
-            postLike(postId: $postId, userId: $userId) {
-              id
-            }
-          }
-        `,
-        variables: {
-          postId: postId,
-          userId: userId,
-        },
-      });
-      return response;
-    },
-
-    async createPostLike(postLikeInput: any) {
-      await apolloClient.mutate({
-        mutation: gql`
-          mutation creatPostLike($postLikeInput: PostLikeInput!) {
-            createPostLike(postLikeInput: $postLikeInput) {
-              postLike {
-                id
+    async createPostLike() {
+      if (this.post) {
+        await apolloClient.mutate({
+          mutation: gql`
+            mutation createPostLike($postID: ID!) {
+              createPostLike(postId: $postID) {
+                postLike {
+                  id
+                }
               }
             }
-          }
-        `,
-        variables: {
-          postLikeInput: postLikeInput,
-        },
-      });
-      this.fetchPost(this.post.slug);
+          `,
+          variables: {
+            postID: this.post.id,
+          },
+        });
+        if (this.post) {
+          await this.fetchPost(this.post.slug);
+        }
+      }
     },
-
-    async deletePostLike(postLikeInput: any) {
-      await apolloClient.mutate({
-        mutation: gql`
-          mutation postLikeByUserAndPost($postLikeInput: PostLikeInput!) {
-            deletePostLike(postLikeInput: $postLikeInput) {
-              success
+    async deletePostLike() {
+      if (this.post) {
+        await apolloClient.mutate({
+          mutation: gql`
+            mutation deletePostLike($postID: ID!) {
+              deletePostLike(postId: $postID) {
+                success
+              }
             }
-          }
-        `,
-        variables: {
-          postLikeInput: postLikeInput,
-        },
-      });
-      this.fetchPost(this.post.slug);
+          `,
+          variables: {
+            postID: this.post.id,
+          },
+        });
+        if (this.post) {
+          await this.fetchPost(this.post.slug);
+        }
+      }
     },
   },
 });

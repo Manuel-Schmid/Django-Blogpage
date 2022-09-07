@@ -17,6 +17,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  GenericScalar: any;
   GraphqlError: any;
   Upload: any;
 };
@@ -25,11 +26,13 @@ export type Category = {
   __typename?: "Category";
   id: Scalars["ID"];
   name: Scalars["String"];
+  slug: Scalars["String"];
 };
 
 export type CategoryInput = {
   id?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]>;
 };
 
 export type Comment = {
@@ -70,15 +73,34 @@ export type CreatePost = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+export type CreatePostLike = {
+  __typename?: "CreatePostLike";
+  errors?: Maybe<Scalars["GraphqlError"]>;
+  postLike?: Maybe<PostLike>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type DeletePostLike = {
+  __typename?: "DeletePostLike";
+  errors?: Maybe<Scalars["GraphqlError"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   createCategory?: Maybe<CreateCategory>;
   createComment?: Maybe<CreateComment>;
   createPost?: Maybe<CreatePost>;
+  createPostLike?: Maybe<CreatePostLike>;
+  deletePostLike?: Maybe<DeletePostLike>;
+  refreshToken?: Maybe<Refresh>;
   testMutation?: Maybe<UploadMutation>;
+  /** Obtain JSON Web Token mutation */
+  tokenAuth?: Maybe<ObtainJsonWebToken>;
   updateCategory?: Maybe<UpdateCategory>;
   updateComment?: Maybe<UpdateComment>;
   updatePost?: Maybe<UpdatePost>;
+  verifyToken?: Maybe<Verify>;
 };
 
 export type MutationCreateCategoryArgs = {
@@ -93,8 +115,25 @@ export type MutationCreatePostArgs = {
   postInput: PostInput;
 };
 
+export type MutationCreatePostLikeArgs = {
+  postId: Scalars["ID"];
+};
+
+export type MutationDeletePostLikeArgs = {
+  postId: Scalars["ID"];
+};
+
+export type MutationRefreshTokenArgs = {
+  refreshToken?: InputMaybe<Scalars["String"]>;
+};
+
 export type MutationTestMutationArgs = {
   fileInput: Scalars["Upload"];
+};
+
+export type MutationTokenAuthArgs = {
+  password: Scalars["String"];
+  username: Scalars["String"];
 };
 
 export type MutationUpdateCategoryArgs = {
@@ -109,13 +148,30 @@ export type MutationUpdatePostArgs = {
   postInput: PostInput;
 };
 
+export type MutationVerifyTokenArgs = {
+  token?: InputMaybe<Scalars["String"]>;
+};
+
+/** Obtain JSON Web Token mutation */
+export type ObtainJsonWebToken = {
+  __typename?: "ObtainJSONWebToken";
+  payload: Scalars["GenericScalar"];
+  refreshExpiresIn: Scalars["Int"];
+  refreshToken: Scalars["String"];
+  token: Scalars["String"];
+};
+
 export type Post = {
   __typename?: "Post";
   category: Category;
+  comments: Array<Comment>;
   dateCreated: Scalars["DateTime"];
   id: Scalars["ID"];
   image?: Maybe<Scalars["String"]>;
+  isLiked?: Maybe<Scalars["Boolean"]>;
+  likeCount?: Maybe<Scalars["Int"]>;
   owner: User;
+  postLikes: Array<PostLike>;
   slug: Scalars["String"];
   tags?: Maybe<Array<Maybe<Tag>>>;
   text: Scalars["String"];
@@ -130,13 +186,23 @@ export type PostInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type PostLike = {
+  __typename?: "PostLike";
+  id: Scalars["ID"];
+  post: Post;
+  user: User;
+};
+
 export type Query = {
   __typename?: "Query";
   categories?: Maybe<Array<Maybe<Category>>>;
   categoryById?: Maybe<Category>;
   postBySlug?: Maybe<Post>;
+  postLike?: Maybe<PostLike>;
   posts?: Maybe<Array<Maybe<Post>>>;
-  userById?: Maybe<User>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+  usedTags?: Maybe<Array<Maybe<Tag>>>;
+  user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -148,8 +214,21 @@ export type QueryPostBySlugArgs = {
   slug?: InputMaybe<Scalars["String"]>;
 };
 
-export type QueryUserByIdArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
+export type QueryPostLikeArgs = {
+  postId?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryPostsArgs = {
+  categorySlug?: InputMaybe<Scalars["String"]>;
+  tagSlug?: InputMaybe<Scalars["String"]>;
+};
+
+export type Refresh = {
+  __typename?: "Refresh";
+  payload: Scalars["GenericScalar"];
+  refreshExpiresIn: Scalars["Int"];
+  refreshToken: Scalars["String"];
+  token: Scalars["String"];
 };
 
 export type Tag = {
@@ -195,4 +274,9 @@ export type User = {
   posts: Array<Post>;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
+};
+
+export type Verify = {
+  __typename?: "Verify";
+  payload: Scalars["GenericScalar"];
 };

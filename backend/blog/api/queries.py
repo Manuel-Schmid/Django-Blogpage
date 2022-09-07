@@ -9,20 +9,20 @@ class Query(graphene.ObjectType):
     categories = graphene.List(CategoryType)
     category_by_id = graphene.Field(CategoryType, id=graphene.ID())
     users = graphene.List(UserType)
-    user = graphene.Field(UserType, id=graphene.ID())
+    user = graphene.Field(UserType)
     tags = graphene.List(TagType)
     used_tags = graphene.List(TagType)
     posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
-    post_like = graphene.Field(PostLikeType, post_id=graphene.ID(), user_id=graphene.ID())
+    post_like = graphene.Field(PostLikeType, post_id=graphene.ID())
 
 
-    def resolve_post_like(root, info, **kwargs):
-        post_id = kwargs.get('post_id', None)
-        user_id = kwargs.get('user_id', None)
-        if post_id is None or user_id is None:
-            return None
-        return PostLike.objects.filter(post=post_id, user=user_id).first()
+    def resolve_post_like(root, info, post_id):
+        user = info.context.user
+        if user.is_authenticated:
+            post = Post.objects.get(pk=post_id);
+            user = User.objects.get(pk=info.context.user.id)
+            return PostLike.objects.filter(post=post, user=user).first()
 
     def resolve_categories(root, info, **kwargs):
         return Category.objects.all()
@@ -34,7 +34,10 @@ class Query(graphene.ObjectType):
         return User.objects.all()
 
     def resolve_user(root, info):
-        return User.objects.get(pk=info.context.user.id)
+        user = info.context.user
+        if user.is_authenticated:
+            return User.objects.get(pk=info.context.user.id)
+        return None
 
     def resolve_tags(root, info, **kwargs):
         return Tag.objects.all()
