@@ -17,11 +17,11 @@ export default {
     let postStore = usePostStore();
     let authStore = useAuthStore();
 
-    const togglePostLike = (post: Number) => {
+    const togglePostLike = async (post: Number) => {
       if (postLiked.value) {
-        postStore.deletePostLike();
+        await postStore.deletePostLike();
       } else {
-        postStore.createPostLike();
+        await postStore.createPostLike();
       }
       postLiked.value = !postLiked.value;
     };
@@ -76,15 +76,25 @@ export default {
           <div class="w-full">
             <div class="float-right text-center w-min mt-2 mr-16">
               <font-awesome-icon
+                v-if="authStore.getUser"
+                icon="fa-thumbs-up"
+                class="text-3xl mb-0.5 cursor-pointer"
+                :class="[
+                  postLiked
+                    ? 'text-blue-700 dark:text-white'
+                    : 'dark:text-slate-500',
+                ]"
+                @click="togglePostLike(postData.id)"
+              ></font-awesome-icon>
+              <font-awesome-icon
+                v-else
                 icon="fa-thumbs-up"
                 class="text-3xl mb-0.5"
                 :class="[
                   postLiked
                     ? 'text-blue-700 dark:text-white'
                     : 'dark:text-slate-500',
-                  authStore.getUser && 'cursor-pointer',
                 ]"
-                @click="authStore.getUser && togglePostLike(postData.id)"
               ></font-awesome-icon>
               <span class="w-full cursor-default">{{
                 postData.likeCount
