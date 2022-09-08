@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 import { Post, Tag } from "../api/models";
+import PostsByTagAndCategorySlug from "../graphql/posts.gql";
 
 export type PostState = {
   posts: Post[];
@@ -30,31 +31,7 @@ export const usePostStore = defineStore("blog", {
       categorySlugParam: string | undefined
     ) {
       const response = await apolloClient.query({
-        query: gql`
-          query postsByTagAndCategorySlug(
-            $tagSlug: String
-            $categorySlug: String
-          ) {
-            posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
-              slug
-              title
-              image
-              dateCreated
-              likeCount
-              category {
-                name
-                slug
-              }
-              owner {
-                firstName
-                lastName
-              }
-              comments {
-                id
-              }
-            }
-          }
-        `,
+        query: PostsByTagAndCategorySlug,
         variables: {
           tagSlug: tagSlugParam,
           categorySlug: categorySlugParam,
