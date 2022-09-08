@@ -1,6 +1,5 @@
 import graphene
 import graphql_jwt
-from graphql_jwt.decorators import login_required
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
 from blog.api.types import \
@@ -10,7 +9,7 @@ from blog.api.types import \
     PostLike as PostLikeType, \
     GraphqlOutput
 from blog.models import Post, Category, Comment, PostLike, User
-from blog.forms import CategoryForm, PostForm, CommentForm, PostLikeForm
+from blog.forms import CategoryForm, PostForm, PostLikeForm, CreateCommentForm, UpdateCommentForm
 
 
 class CreateCategory(graphene.Mutation, GraphqlOutput):
@@ -99,7 +98,6 @@ class UpdatePost(graphene.Mutation, GraphqlOutput):
         post_input = PostInput(required=True)
 
     @classmethod
-    @login_required
     def mutate(cls, root, info, post_input):
         post = Post.objects.get(slug=post_input.get('slug'))
         form = PostForm(instance=post, data=post_input)
@@ -120,7 +118,7 @@ class CreateComment(graphene.Mutation, GraphqlOutput):
         user = info.context.user
         if user.is_authenticated:
             comment_input['owner'] = user.id
-            form = CommentForm(data=comment_input)
+            form = CreateCommentForm(data=comment_input)
             if form.is_valid():
                 comment = form.save()
                 return CreateComment(comment=comment, success=True)
@@ -135,11 +133,9 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
         comment_input = CommentInput(required=True)
 
     @classmethod
-    @login_required
     def mutate(cls, root, info, comment_input):
         comment = Comment.objects.get(pk=comment_input.get('id'))
-        comment_input['owner'] = comment.owner
-        form = CommentForm(instance=comment, data=comment_input)
+        form = UpdateCommentForm(instance=comment, data=comment_input)
         if form.is_valid():
             comment = form.save()
             return UpdateComment(comment=comment, success=True)
