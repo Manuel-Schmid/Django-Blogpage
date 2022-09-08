@@ -79,8 +79,8 @@ export default {
                 class="text-3xl mb-0.5"
                 :class="
                   postLiked
-                    ? 'text-blue-700 dark:text-slate-400'
-                    : 'dark:text-white'
+                    ? 'text-blue-700 dark:text-white'
+                    : 'dark:text-slate-500'
                 "
                 @click="togglePostLike(postData.id)"
               ></font-awesome-icon>

@@ -1,13 +1,12 @@
 import graphene
 from django.db.models import Q
 from taggit.models import Tag, TaggedItem
-from ..models import Category, Post, User, PostLike
+from ..models import Category, Post, User
 from .types import \
     Post as PostType,\
     Category as CategoryType, \
     User as UserType, \
-    Tag as TagType, \
-    PostLike as PostLikeType
+    Tag as TagType
 
 
 class Query(graphene.ObjectType):

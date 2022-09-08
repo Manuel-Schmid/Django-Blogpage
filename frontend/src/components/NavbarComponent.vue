@@ -69,9 +69,6 @@ function updateTheme() {
         <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <router-link class="nav-item" :to="{ name: 'posts' }">
-          My Blog
-        </router-link>
         <router-link
           v-if="authStore.getUser"
           class="nav-item"
@@ -93,7 +90,7 @@ function updateTheme() {
   z-index: 100;
 }
 .nav-item {
-  transition: background-color 200ms;
+  transition: background-color 100ms;
   @apply pt-2 pr-5 pb-2 pl-5 mt-0 mr-1 mb-0 ml-1 leading-5 font-bold text-center hover:cursor-pointer hover:bg-zinc-200 dark:hover:bg-gray-700 dark:border-white;
 }
 .nav-item:hover {

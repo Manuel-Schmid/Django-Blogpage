@@ -59,5 +59,33 @@ export const useAuthStore = defineStore("auth", {
         // todo
       }
     },
+    async logoutUser() {
+      this.user = this.refreshToken = null;
+      // delete cookies
+      const responseDeleteTokenCookie = await apolloClient.query({
+        query: gql`
+          mutation {
+            deleteTokenCookie {
+              deleted
+            }
+          }
+        `,
+      });
+      const ResponseDeleteRefreshTokenCookie = await apolloClient.query({
+        query: gql`
+          mutation {
+            deleteRefreshTokenCookie {
+              deleted
+            }
+          }
+        `,
+      });
+      if (
+        responseDeleteTokenCookie.data.deleteTokenCookie.deleted &&
+        ResponseDeleteRefreshTokenCookie.data.deleteRefreshTokenCookie.deleted
+      ) {
+        await apolloClient.resetStore();
+      }
+    },
   },
 });
