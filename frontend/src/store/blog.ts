@@ -136,42 +136,38 @@ export const usePostStore = defineStore("blog", {
       }
     },
     async createComment(commentInput: any) {
-      await apolloClient.mutate({
-        mutation: gql`
-          mutation CreateComment($commentInput: CommentInput!) {
-            createComment(commentInput: $commentInput) {
-              comment {
-                title
-                text
-                owner {
-                  firstName
-                  lastName
-                }
-              }
-              success
-            }
-          }
-        `,
-        variables: {
-          commentInput: commentInput,
-        },
-      });
       if (this.post) {
+        await apolloClient.mutate({
+          mutation: gql`
+            mutation CreateComment($commentInput: CommentInput!) {
+              createComment(commentInput: $commentInput) {
+                comment {
+                  title
+                  text
+                  owner {
+                    firstName
+                    lastName
+                  }
+                }
+                success
+              }
+            }
+          `,
+          variables: {
+            commentInput: commentInput,
+          },
+        });
         await this.fetchPost(this.post.slug, false);
       }
     },
     async createPostLike() {
       if (this.post) {
-        await apolloClient.mutate({
+        const response = await apolloClient.mutate({
           mutation: gql`
             mutation createPostLike($postLikeInput: PostLikeInput!) {
               createPostLike(postLikeInput: $postLikeInput) {
                 postLike {
                   id
-                  post {
-                    id
-                    likeCount
-                  }
                 }
               }
             }
@@ -182,7 +178,7 @@ export const usePostStore = defineStore("blog", {
             },
           },
         });
-        if (this.post) {
+        if (response.data.createPostLike.postLike) {
           await this.fetchPost(this.post.slug, false);
         }
       }
@@ -203,9 +199,7 @@ export const usePostStore = defineStore("blog", {
             },
           },
         });
-        if (this.post) {
-          await this.fetchPost(this.post.slug, false);
-        }
+        await this.fetchPost(this.post.slug, false);
       }
     },
   },
