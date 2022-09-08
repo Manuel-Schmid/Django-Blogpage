@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL("DELETE FROM blog_postlike WHERE id NOT IN (select MAX(id) from blog_postlike group by post_id, user_id);", migrations.RunSQL.noop),
         migrations.AlterUniqueTogether(
             name='postlike',
             unique_together={('post', 'user')},
