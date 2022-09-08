@@ -89,12 +89,7 @@ export default {
               <font-awesome-icon
                 v-else
                 icon="fa-thumbs-up"
-                class="text-3xl mb-0.5"
-                :class="[
-                  postLiked
-                    ? 'text-blue-700 dark:text-white'
-                    : 'dark:text-slate-500',
-                ]"
+                class="text-3xl mb-0.5 dark:text-slate-500"
               ></font-awesome-icon>
               <span class="w-full cursor-default">{{
                 postData.likeCount
