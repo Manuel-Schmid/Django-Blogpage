@@ -8,10 +8,9 @@ export default {
   props: ["userData"],
 
   setup() {
-    const logout = () => {
-      apolloClient.resetStore();
-      useAuthStore().fetchUser();
-      router.push({ name: "posts" });
+    const logout = async () => {
+      await useAuthStore().logoutUser();
+      await router.push({ name: "posts" });
     };
 
     return { logout };

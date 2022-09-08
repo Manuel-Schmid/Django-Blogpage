@@ -59,5 +59,29 @@ export const useAuthStore = defineStore("auth", {
         // todo
       }
     },
+    async logoutUser() {
+      this.user = this.refreshToken = null;
+      // delete cookies
+      await apolloClient.query({
+        query: gql`
+          mutation {
+            deleteTokenCookie {
+              deleted
+            }
+          }
+        `,
+      });
+      await apolloClient.query({
+        query: gql`
+          mutation {
+            deleteRefreshTokenCookie {
+              deleted
+            }
+          }
+        `,
+      });
+      // reset store
+      await apolloClient.resetStore();
+    },
   },
 });
