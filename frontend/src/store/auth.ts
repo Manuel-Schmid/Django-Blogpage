@@ -62,7 +62,7 @@ export const useAuthStore = defineStore("auth", {
     async logoutUser() {
       this.user = this.refreshToken = null;
       // delete cookies
-      await apolloClient.query({
+      const responseDeleteTokenCookie = await apolloClient.query({
         query: gql`
           mutation {
             deleteTokenCookie {
@@ -71,7 +71,7 @@ export const useAuthStore = defineStore("auth", {
           }
         `,
       });
-      await apolloClient.query({
+      const ResponseDeleteRefreshTokenCookie = await apolloClient.query({
         query: gql`
           mutation {
             deleteRefreshTokenCookie {
@@ -80,8 +80,12 @@ export const useAuthStore = defineStore("auth", {
           }
         `,
       });
-      // reset store
-      await apolloClient.resetStore();
+      if (
+        responseDeleteTokenCookie.data.deleteTokenCookie.deleted &&
+        ResponseDeleteRefreshTokenCookie.data.deleteRefreshTokenCookie.deleted
+      ) {
+        await apolloClient.resetStore();
+      }
     },
   },
 });
