@@ -1,6 +1,6 @@
 import graphene
 import graphql_jwt
-
+from graphql_jwt.decorators import login_required
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
 from blog.api.types import \
@@ -99,6 +99,7 @@ class UpdatePost(graphene.Mutation, GraphqlOutput):
         post_input = PostInput(required=True)
 
     @classmethod
+    @login_required
     def mutate(cls, root, info, post_input):
         post = Post.objects.get(slug=post_input.get('slug'))
         form = PostForm(instance=post, data=post_input)
@@ -136,15 +137,12 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
     @classmethod
     def mutate(cls, root, info, comment_input):
         comment = Comment.objects.get(pk=comment_input.get('id'))
-        user = info.context.user
-        if user.is_authenticated:
-            comment_input['owner'] = user.id
-            form = CommentForm(instance=comment, data=comment_input)
-            if form.is_valid():
-                comment = form.save()
-                return UpdateComment(comment=comment, success=True)
-            return UpdateComment(success=False, errors=form.errors.get_json_data())
-        return None
+        comment_input['owner'] = comment.owner
+        form = CommentForm(instance=comment, data=comment_input)
+        if form.is_valid():
+            comment = form.save()
+            return UpdateComment(comment=comment, success=True)
+        return UpdateComment(success=False, errors=form.errors.get_json_data())
 
 
 class UploadMutation(graphene.Mutation, GraphqlOutput):
