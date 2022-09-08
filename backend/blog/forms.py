@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-from django.db import models
 from blog.models import User, Category, Post, Comment, PostLike
 
 

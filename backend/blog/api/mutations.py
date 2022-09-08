@@ -135,6 +135,7 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
         comment_input = CommentInput(required=True)
 
     @classmethod
+    @login_required
     def mutate(cls, root, info, comment_input):
         comment = Comment.objects.get(pk=comment_input.get('id'))
         comment_input['owner'] = comment.owner
