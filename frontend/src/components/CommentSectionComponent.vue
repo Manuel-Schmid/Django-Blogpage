@@ -2,6 +2,7 @@
 import { formatFullname } from "../helper/helper";
 import CommentFormComponent from "./CommentFormComponent.vue";
 import { ref } from "vue";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "CommentSectionComponent",
@@ -15,16 +16,18 @@ export default {
 
   setup() {
     let commentFormActive = ref(false);
-    return { formatFullname, commentFormActive };
+    let authStore = useAuthStore();
+    return { formatFullname, commentFormActive, authStore };
   },
 };
 </script>
 
 <template>
   <p class="font-bold text-xl mb-5">
-    <span>Comments</span>
+    <span>Comments:</span>
   </p>
   <button
+    v-if="authStore.getUser"
     @click="commentFormActive = !commentFormActive"
     class="py-2 px-4 border-b border-black bg-gray-50 hover:bg-gray-100 dark:bg-slate-700 hover:dark:bg-slate-600 rounded-3xl"
   >

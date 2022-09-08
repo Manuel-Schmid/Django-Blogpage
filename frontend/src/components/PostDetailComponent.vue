@@ -3,6 +3,7 @@ import CommentSectionComponent from "../components/CommentSectionComponent.vue";
 import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 import { ref } from "vue";
 import { usePostStore } from "../store/blog";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "PostDetailComponent",
@@ -14,12 +15,13 @@ export default {
   setup(props: { postData: any }) {
     const postLiked = ref(!!props.postData?.isLiked);
     let postStore = usePostStore();
+    let authStore = useAuthStore();
 
-    const togglePostLike = (post: Number) => {
+    const togglePostLike = async (post: Number) => {
       if (postLiked.value) {
-        postStore.deletePostLike();
+        await postStore.deletePostLike();
       } else {
-        postStore.createPostLike();
+        await postStore.createPostLike();
       }
       postLiked.value = !postLiked.value;
     };
@@ -30,6 +32,7 @@ export default {
       formatFullname,
       postLiked,
       togglePostLike,
+      authStore,
     };
   },
 };
@@ -71,20 +74,26 @@ export default {
         </div>
         <div class="mt-4 w-full">
           <div class="w-full">
-            <div
-              class="float-right text-center w-min mt-2 mr-16 cursor-pointer"
-            >
+            <div class="float-right text-center w-min mt-2 mr-16">
               <font-awesome-icon
+                v-if="authStore.getUser"
                 icon="fa-thumbs-up"
-                class="text-3xl mb-0.5"
-                :class="
+                class="text-3xl mb-0.5 cursor-pointer"
+                :class="[
                   postLiked
                     ? 'text-blue-700 dark:text-white'
-                    : 'dark:text-slate-500'
-                "
+                    : 'dark:text-slate-500',
+                ]"
                 @click="togglePostLike(postData.id)"
               ></font-awesome-icon>
-              <span class="w-full">{{ postData.likeCount }}</span>
+              <font-awesome-icon
+                v-else
+                icon="fa-thumbs-up"
+                class="text-3xl mb-0.5 dark:text-slate-500"
+              ></font-awesome-icon>
+              <span class="w-full cursor-default">{{
+                postData.likeCount
+              }}</span>
             </div>
             <div class="mr-0 mb-1 ml-8 flex m-0">
               <p class="font-bold mr-1">Category:</p>
