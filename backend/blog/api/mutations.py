@@ -1,10 +1,15 @@
 import graphene
-
+import graphql_jwt
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
-from blog.api.types import Category as CategoryType, Post as PostType, Comment as CommentType, CommentLike as CommentLikeType, PostLike as PostLikeType, GraphqlOutput
-from blog.models import Post, Category, Comment, PostLike
-from blog.forms import CategoryForm, PostForm, CommentForm, PostLikeForm
+from blog.api.types import \
+    Category as CategoryType, \
+    Post as PostType, \
+    Comment as CommentType, \
+    PostLike as PostLikeType, \
+    GraphqlOutput
+from blog.models import Post, Category, Comment, PostLike, User
+from blog.forms import CategoryForm, PostForm, PostLikeForm, CreateCommentForm, UpdateCommentForm
 
 
 class CreateCategory(graphene.Mutation, GraphqlOutput):
@@ -61,24 +66,30 @@ class CreatePostLike(graphene.Mutation, GraphqlOutput):
 
     @classmethod
     def mutate(cls, root, info, post_like_input):
-        form = PostLikeForm(data=post_like_input)
-        if form.is_valid():
-            post_like = form.save()
-            return CreatePostLike(post_like=post_like, success=True)
-        return CreatePostLike(success=False, errors=form.errors.get_json_data())
+        user = info.context.user
+        if user.is_authenticated:
+            post_like_input['user'] = user.id
+            form = PostLikeForm(data=post_like_input)
+            if form.is_valid():
+                post_like = form.save()
+                return CreatePostLike(post_like=post_like, success=True)
+            return CreatePostLike(success=False, errors=form.errors.get_json_data())
+        return None
 
 
 class DeletePostLike(graphene.Mutation, GraphqlOutput):
     success = graphene.Boolean()
 
     class Arguments:
-        post_like_input = PostLikeInput()
+        post_like_input = PostLikeInput(required=True)
 
     @classmethod
     def mutate(cls, root, info, post_like_input):
-        PostLike.objects.filter(post=post_like_input.post, user=post_like_input.user).delete()
-        return cls(success=True)
-
+        user = info.context.user
+        if user.is_authenticated:
+            PostLike.objects.filter(post=post_like_input.post, user=user.id).delete()
+            return cls(success=True)
+        return None
 
 class UpdatePost(graphene.Mutation, GraphqlOutput):
     post = graphene.Field(PostType)
@@ -104,11 +115,15 @@ class CreateComment(graphene.Mutation, GraphqlOutput):
 
     @classmethod
     def mutate(cls, root, info, comment_input):
-        form = CommentForm(data=comment_input)
-        if form.is_valid():
-            comment = form.save()
-            return CreateComment(comment=comment, success=True)
-        return CreateComment(success=False, errors=form.errors.get_json_data())
+        user = info.context.user
+        if user.is_authenticated:
+            comment_input['owner'] = user.id
+            form = CreateCommentForm(data=comment_input)
+            if form.is_valid():
+                comment = form.save()
+                return CreateComment(comment=comment, success=True)
+            return CreateComment(success=False, errors=form.errors.get_json_data())
+        return None
 
 
 class UpdateComment(graphene.Mutation, GraphqlOutput):
@@ -120,7 +135,7 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
     @classmethod
     def mutate(cls, root, info, comment_input):
         comment = Comment.objects.get(pk=comment_input.get('id'))
-        form = CommentForm(instance=comment, data=comment_input)
+        form = UpdateCommentForm(instance=comment, data=comment_input)
         if form.is_valid():
             comment = form.save()
             return UpdateComment(comment=comment, success=True)
@@ -141,6 +156,10 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
 
 
 class Mutation(graphene.ObjectType):
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
+
     create_category = CreateCategory.Field()
     update_category = UpdateCategory.Field()
     create_post = CreatePost.Field()

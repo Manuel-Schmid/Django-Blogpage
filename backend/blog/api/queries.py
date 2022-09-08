@@ -1,28 +1,24 @@
 import graphene
 from django.db.models import Q
 from taggit.models import Tag, TaggedItem
-from ..models import Category, Post, User, Comment, PostLike
-from .types import Post as PostType, Category as CategoryType, User as UserType, Tag as TagType, PostLike as PostLikeType, CommentLike as CommentLikeType
+from ..models import Category, Post, User, PostLike
+from .types import \
+    Post as PostType,\
+    Category as CategoryType, \
+    User as UserType, \
+    Tag as TagType, \
+    PostLike as PostLikeType
 
 
 class Query(graphene.ObjectType):
     categories = graphene.List(CategoryType)
     category_by_id = graphene.Field(CategoryType, id=graphene.ID())
     users = graphene.List(UserType)
-    user_by_id = graphene.Field(UserType, id=graphene.ID())
+    user = graphene.Field(UserType)
     tags = graphene.List(TagType)
     used_tags = graphene.List(TagType)
     posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
-    post_like = graphene.Field(PostLikeType, post_id=graphene.ID(), user_id=graphene.ID())
-
-
-    def resolve_post_like(root, info, **kwargs):
-        post_id = kwargs.get('post_id', None)
-        user_id = kwargs.get('user_id', None)
-        if post_id is None or user_id is None:
-            return None
-        return PostLike.objects.filter(post=post_id, user=user_id).first()
 
     def resolve_categories(root, info, **kwargs):
         return Category.objects.all()
@@ -33,8 +29,11 @@ class Query(graphene.ObjectType):
     def resolve_users(root, info, **kwargs):
         return User.objects.all()
 
-    def resolve_user_by_id(root, info, id):
-        return User.objects.get(pk=id)
+    def resolve_user(root, info):
+        user = info.context.user
+        if user.is_authenticated:
+            return User.objects.get(pk=info.context.user.id)
+        return None
 
     def resolve_tags(root, info, **kwargs):
         return Tag.objects.all()
@@ -56,7 +55,14 @@ class Query(graphene.ObjectType):
 
         return Post.objects \
             .select_related('category', 'owner') \
-            .prefetch_related('tags', 'comments', 'comments__owner', 'post_likes', 'owner__posts', 'owner__posts__tags', 'owner__posts__category') \
+            .prefetch_related('tags',
+                              'comments',
+                              'comments__owner',
+                              'post_likes',
+                              'post_likes__user',
+                              'owner__posts',
+                              'owner__posts__tags',
+                              'owner__posts__category') \
             .filter(post_filter)
 
     def resolve_post_by_slug(root, info, slug):

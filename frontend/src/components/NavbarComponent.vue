@@ -1,5 +1,6 @@
 <script lang="ts">
 import { ref } from "vue";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "NavbarComponent",
@@ -18,7 +19,9 @@ export default {
       updateTheme();
     };
 
-    return { toggleDarkMode, isDarkMode };
+    const authStore = useAuthStore();
+
+    return { toggleDarkMode, isDarkMode, authStore };
   },
 
   mounted() {
@@ -66,8 +69,19 @@ function updateTheme() {
         <router-link class="nav-item" :to="{ name: 'posts' }">
           Posts
         </router-link>
-        <div class="nav-item">My Blog</div>
-        <div class="nav-item">Profile</div>
+        <router-link class="nav-item" :to="{ name: 'posts' }">
+          My Blog
+        </router-link>
+        <router-link
+          v-if="authStore.getUser"
+          class="nav-item"
+          :to="{ name: 'profile' }"
+        >
+          {{ authStore.getUser.username }}
+        </router-link>
+        <router-link v-else class="nav-item" :to="{ name: 'login' }">
+          Login
+        </router-link>
       </div>
     </nav>
   </header>

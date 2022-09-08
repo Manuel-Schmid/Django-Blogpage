@@ -2,7 +2,13 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django.utils import camelize
 from taggit.models import Tag as TagModel
-from blog.models import Category as CategoryModel, User as UserModel, Post as PostModel, Comment as CommentModel, PostLike as PostLikeModel, CommentLike as CommentLikeModel
+from blog.models import \
+    Category as CategoryModel, \
+    User as UserModel, \
+    Post as PostModel, \
+    Comment as CommentModel, \
+    PostLike as PostLikeModel, \
+    CommentLike as CommentLikeModel
 
 
 class GraphqlError(graphene.Scalar):
@@ -83,10 +89,21 @@ class Tag(DjangoObjectType):
 
 
 class Post(DjangoObjectType):
+    is_liked = graphene.Boolean()
+    like_count = graphene.Int()
     tags = graphene.List(Tag)
 
     def resolve_tags(self, info, **kwargs):
         return self.tags.all()
+
+    def resolve_is_liked(self, info, **kwargs):
+        user = info.context.user
+        if user.is_authenticated:
+            return len(list(filter(lambda post_like: post_like.user == user, self.post_likes.all()))) > 0
+        return False
+
+    def resolve_like_count(self, info, **kwargs):
+        return self.post_likes.count()
 
     class Meta:
         model = PostModel
@@ -116,6 +133,7 @@ class Comment(DjangoObjectType):
             'owner',
         )
 
+
 class PostLike(DjangoObjectType):
 
     class Meta:
@@ -125,6 +143,7 @@ class PostLike(DjangoObjectType):
             'post',
             'user',
         )
+
 
 class CommentLike(DjangoObjectType):
 

@@ -8,7 +8,7 @@
 <script lang="ts">
 import PostsOverviewComponent from "../components/PostsOverviewComponent.vue";
 import { useRoute } from "vue-router";
-import { useStore as usePostsStore } from "../../../store/blog";
+import { usePostStore as usePostsStore } from "../../../store/blog";
 
 export default {
   name: "PostOverviewContainer",

@@ -47,13 +47,12 @@ update_comment_query = '''
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_create_comment(client_query, posts):
+def test_create_comment(auth, client_query, posts):
     comment_input = {
         "input": {
             "title": "test",
             "text": "this a test",
-            "post": 1,
-            "owner": 1,
+            "post": 1
         }
     }
 
@@ -75,13 +74,12 @@ def test_create_comment(client_query, posts):
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_create_comment_too_long_fields(client_query, posts):
+def test_create_comment_too_long_fields(auth, client_query, posts):
     comment_input = {
         "input": {
             "title": "e" * 201,
             "text": "this a test",
-            "post": 1,
-            "owner": 1,
+            "post": 1
         }
     }
 
@@ -100,13 +98,12 @@ def test_create_comment_too_long_fields(client_query, posts):
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_create_comment_invalid_post_id(client_query, users):
+def test_create_comment_invalid_post_id(auth, client_query, users):
     comment_input = {
         "input": {
             "title": "test",
             "text": "this a test",
-            "post": 1,
-            "owner": 1,
+            "post": 1
         }
     }
 
@@ -130,8 +127,7 @@ def test_create_comment_invalid_owner_id(client_query, posts):
         "input": {
             "title": "test",
             "text": "this a test",
-            "post": 1,
-            "owner": 100,
+            "post": 1
         }
     }
 
@@ -142,22 +138,17 @@ def test_create_comment_invalid_owner_id(client_query, posts):
     data = content.get('data', None)
     assert data is not None
     data_create_comment = data.get('createComment', None)
-    assert data_create_comment is not None
-    assert data_create_comment['success'] is False
-    data_comment = data_create_comment.get('comment', None)
-    assert data_comment is None
-    assert 'owner' in data_create_comment['errors']
+    assert data_create_comment is None
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_update_comment(client_query, comments):
+def test_update_comment(auth, client_query, comments):
     comment_input = {
         "input": {
             "id": 1,
             "title": "test_comment3",
             "text": "test_text3",
-            "post": 2,
-            "owner": 2,
+            "post": 2
         }
     }
 
@@ -175,4 +166,4 @@ def test_update_comment(client_query, comments):
     assert data_comment['title'] == 'test_comment3'
     assert data_comment['text'] == 'test_text3'
     assert data_comment['post']['title'] == 'Test Post2'
-    assert data_comment['owner']['username'] == 'test_user2'
+    assert data_comment['owner']['username'] == 'test_user1'

@@ -20,7 +20,8 @@ class CommentInput(graphene.InputObjectType):
     title = graphene.String()
     text = graphene.String()
     post = graphene.ID()
-    owner = graphene.ID()
+    owner = graphene.ID(required=False)
+
 
 class PostLikeInput(graphene.InputObjectType):
     post = graphene.ID()

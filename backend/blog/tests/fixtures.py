@@ -3,14 +3,38 @@ from graphene_django.utils.testing import graphql_query
 from graphene_file_upload.django.testing import file_graphql_query
 from taggit.models import Tag, TaggedItem
 from django.contrib.contenttypes.models import ContentType
-from blog.models import Category, User, Post, Comment
+from blog.models import Category, User, Post, Comment, PostLike
 
 
 @pytest.fixture
 def users():
-    User.objects.create(username='test_user1''')
-    User.objects.create(username='test_user2')
+    user1 = User.objects.create(username='test_user1')
+    user1.set_password('password1')
+    user1.save()
+    user2 = User.objects.create(username='test_user2')
+    user2.set_password('password2')
+    user2.save()
     return User.objects.all()
+
+
+@pytest.fixture
+def auth(users, client_query):
+    auth_query = '''
+        mutation TokenAuth($username: String!, $password: String!) {
+          tokenAuth(username: $username, password: $password) {
+            token
+            payload
+            refreshExpiresIn
+          }
+        }
+        '''
+
+    credentials = {
+        "username": 'test_user1',
+        "password": 'password1'
+    }
+
+    return client_query(auth_query, variables=credentials)
 
 
 @pytest.fixture
@@ -53,6 +77,19 @@ def posts(categories, users):
         category=categories[1],
     )
     return Post.objects.all()
+
+
+@pytest.fixture
+def post_likes(posts, users):
+    PostLike.objects.create(
+        user=users[0],
+        post=posts[1]
+    )
+    PostLike.objects.create(
+        user=users[1],
+        post=posts[1]
+    )
+    return PostLike.objects.all()
 
 
 @pytest.fixture

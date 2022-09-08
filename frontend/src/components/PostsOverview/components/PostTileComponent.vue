@@ -44,7 +44,7 @@ export default {
       <div class="m-2 icons-container">
         <span class="ml-2 w-1/2">
           <font-awesome-icon icon="fa-thumbs-up"></font-awesome-icon>
-          {{ post.postLikes.length }}
+          {{ post.likeCount }}
         </span>
         <span class="ml-5 w-1/2">
           <font-awesome-icon icon="fa-comment"></font-awesome-icon>
