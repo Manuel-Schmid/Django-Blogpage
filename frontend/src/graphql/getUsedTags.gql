@@ -1,0 +1,6 @@
+query UsedTags{
+    usedTags {
+        name
+        slug
+    }
+}
