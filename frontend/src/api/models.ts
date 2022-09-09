@@ -80,10 +80,20 @@ export type CreatePostLike = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+export type DeleteJsonWebTokenCookie = {
+  __typename?: "DeleteJSONWebTokenCookie";
+  deleted: Scalars["Boolean"];
+};
+
 export type DeletePostLike = {
   __typename?: "DeletePostLike";
   errors?: Maybe<Scalars["GraphqlError"]>;
   success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type DeleteRefreshTokenCookie = {
+  __typename?: "DeleteRefreshTokenCookie";
+  deleted: Scalars["Boolean"];
 };
 
 export type Mutation = {
@@ -93,6 +103,8 @@ export type Mutation = {
   createPost?: Maybe<CreatePost>;
   createPostLike?: Maybe<CreatePostLike>;
   deletePostLike?: Maybe<DeletePostLike>;
+  deleteRefreshTokenCookie?: Maybe<DeleteRefreshTokenCookie>;
+  deleteTokenCookie?: Maybe<DeleteJsonWebTokenCookie>;
   refreshToken?: Maybe<Refresh>;
   testMutation?: Maybe<UploadMutation>;
   /** Obtain JSON Web Token mutation */
@@ -116,11 +128,11 @@ export type MutationCreatePostArgs = {
 };
 
 export type MutationCreatePostLikeArgs = {
-  postId: Scalars["ID"];
+  postLikeInput: PostLikeInput;
 };
 
 export type MutationDeletePostLikeArgs = {
-  postId: Scalars["ID"];
+  postLikeInput: PostLikeInput;
 };
 
 export type MutationRefreshTokenArgs = {
@@ -193,12 +205,16 @@ export type PostLike = {
   user: User;
 };
 
+export type PostLikeInput = {
+  post?: InputMaybe<Scalars["ID"]>;
+  user?: InputMaybe<Scalars["ID"]>;
+};
+
 export type Query = {
   __typename?: "Query";
   categories?: Maybe<Array<Maybe<Category>>>;
   categoryById?: Maybe<Category>;
   postBySlug?: Maybe<Post>;
-  postLike?: Maybe<PostLike>;
   posts?: Maybe<Array<Maybe<Post>>>;
   tags?: Maybe<Array<Maybe<Tag>>>;
   usedTags?: Maybe<Array<Maybe<Tag>>>;
@@ -212,10 +228,6 @@ export type QueryCategoryByIdArgs = {
 
 export type QueryPostBySlugArgs = {
   slug?: InputMaybe<Scalars["String"]>;
-};
-
-export type QueryPostLikeArgs = {
-  postId?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryPostsArgs = {
