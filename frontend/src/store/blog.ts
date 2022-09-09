@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { apolloClient } from "../api/client";
 import { Post, Tag } from "../api/models";
-import PostsByTagAndCategorySlug from "../graphql/getPosts.gql";
+import Posts from "../graphql/getPosts.gql";
 import PostBySlug from "../graphql/getPost.gql";
 import Tags from "../graphql/getTags.gql";
 import UsedTags from "../graphql/getUsedTags.gql";
@@ -33,13 +33,15 @@ export const usePostStore = defineStore("blog", {
   actions: {
     async fetchPosts(
       tagSlugParam: string | undefined,
-      categorySlugParam: string | undefined
+      categorySlugParam: string | undefined,
+      pageNr: number
     ) {
       const response = await apolloClient.query({
-        query: PostsByTagAndCategorySlug,
+        query: Posts,
         variables: {
           tagSlug: tagSlugParam,
           categorySlug: categorySlugParam,
+          pageNr: pageNr,
         },
       });
       this.posts = response.data.posts;

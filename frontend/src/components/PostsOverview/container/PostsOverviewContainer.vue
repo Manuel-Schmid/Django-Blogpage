@@ -19,7 +19,12 @@ export default {
   setup() {
     const route = useRoute();
     const store = usePostsStore();
-    store.fetchPosts(route.query.tag as string, route.params.slug as string);
+    const page = route.params.page ? route.params.page : 1;
+    store.fetchPosts(
+      route.query.tag as string,
+      route.params.slug as string,
+      page
+    );
     store.fetchUsedTags();
 
     return { store };

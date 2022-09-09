@@ -3,12 +3,14 @@ import { useRoute } from "vue-router";
 import { ref } from "vue";
 import PostTileComponent from "../components/PostTileComponent.vue";
 import TagListComponent from "../components/TagListComponent.vue";
+import PaginationComponent from "../components/PaginationComponent.vue";
 
 export default {
   name: "PostOverviewComponent",
   components: {
     PostTileComponent,
     TagListComponent,
+    PaginationComponent,
   },
 
   props: ["postsData", "tagsData"],
@@ -22,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <div class="post-overview-container p-12 flex justify-center items-center">
+  <div class="post-overview-container p-12">
     <div class="content-container w-full">
       <TagListComponent :tags="tagsData"></TagListComponent>
       <p
@@ -37,6 +39,7 @@ export default {
           :post="post"
         >
         </PostTileComponent>
+        <PaginationComponent></PaginationComponent>
       </div>
     </div>
   </div>

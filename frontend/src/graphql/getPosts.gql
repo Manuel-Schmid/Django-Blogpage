@@ -1,8 +1,9 @@
-query PostsByTagAndCategorySlug(
+query Posts(
     $tagSlug: String
     $categorySlug: String
+    $pageNr: Int
 ) {
-    posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
+    posts(tagSlug: $tagSlug, categorySlug: $categorySlug, pageNr:$pageNr) {
         slug
         title
         image
