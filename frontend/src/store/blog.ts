@@ -11,6 +11,7 @@ import DeletePostLike from "../graphql/deletePostLike.gql";
 
 export type PostState = {
   posts: Post[];
+  numPostPages: number;
   post: Post | null;
   tags: Tag[];
   usedTags: Tag[];
@@ -20,12 +21,14 @@ export const usePostStore = defineStore("blog", {
   state: () =>
     ({
       posts: [],
+      numPostPages: 0,
       post: null,
       tags: [],
       usedTags: [],
     } as PostState),
   getters: {
     getPosts: (state) => state.posts,
+    getNumPostPages: (state) => state.numPostPages,
     getPost: (state) => state.post,
     getTags: (state) => state.tags,
     getUsedTags: (state) => state.usedTags,
@@ -44,7 +47,8 @@ export const usePostStore = defineStore("blog", {
           pageNr: pageNr,
         },
       });
-      this.posts = response.data.posts;
+      this.posts = response.data.paginatedPosts.posts;
+      this.numPostPages = response.data.paginatedPosts.numPages;
     },
     async fetchPost(postSlug: string | undefined, reload: boolean) {
       if (reload) this.post = null;

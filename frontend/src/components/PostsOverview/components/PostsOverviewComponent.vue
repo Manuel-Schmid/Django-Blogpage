@@ -13,7 +13,7 @@ export default {
     PaginationComponent,
   },
 
-  props: ["postsData", "tagsData"],
+  props: ["postsData", "tagsData", "numPostPages"],
 
   setup() {
     let hover = ref("none");
@@ -39,7 +39,9 @@ export default {
           :post="post"
         >
         </PostTileComponent>
-        <PaginationComponent></PaginationComponent>
+        <PaginationComponent
+          :num-post-pages="numPostPages"
+        ></PaginationComponent>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 <template>
   <PostsOverviewComponent
     :posts-data="store.getPosts"
+    :num-post-pages="store.getNumPostPages"
     :tags-data="store.getUsedTags"
   />
 </template>

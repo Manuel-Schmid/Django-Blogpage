@@ -3,22 +3,25 @@ query Posts(
     $categorySlug: String
     $pageNr: Int
 ) {
-    posts(tagSlug: $tagSlug, categorySlug: $categorySlug, pageNr:$pageNr) {
-        slug
-        title
-        image
-        dateCreated
-        likeCount
-        category {
-            name
+    paginatedPosts(tagSlug: $tagSlug, categorySlug: $categorySlug, pageNr:$pageNr) {
+        posts {
             slug
+            title
+            image
+            dateCreated
+            likeCount
+            category {
+                name
+                slug
+            }
+            owner {
+                firstName
+                lastName
+            }
+            comments {
+                id
+            }
         }
-        owner {
-            firstName
-            lastName
-        }
-        comments {
-            id
-        }
+        numPages
     }
 }

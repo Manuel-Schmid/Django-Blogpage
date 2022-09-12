@@ -4,7 +4,8 @@ from django.db.models import Q
 from taggit.models import Tag, TaggedItem
 from ..models import Category, Post, User
 from .types import \
-    Post as PostType,\
+    Post as PostType, \
+    PaginationPosts as PaginationPostsType, \
     Category as CategoryType, \
     User as UserType, \
     Tag as TagType
@@ -17,7 +18,7 @@ class Query(graphene.ObjectType):
     user = graphene.Field(UserType)
     tags = graphene.List(TagType)
     used_tags = graphene.List(TagType)
-    posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String(), page_nr=graphene.Int())
+    paginated_posts = graphene.Field(PaginationPostsType, category_slug=graphene.String(), tag_slug=graphene.String(), page_nr=graphene.Int())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
 
     def resolve_categories(root, info, **kwargs):
@@ -42,7 +43,7 @@ class Query(graphene.ObjectType):
         tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
         return list(set(tags))
 
-    def resolve_posts(root, info, **kwargs):
+    def resolve_paginated_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
         tag_slug = kwargs.get('tag_slug', None)
         page_nr = kwargs.get('page_nr', None)
@@ -67,7 +68,11 @@ class Query(graphene.ObjectType):
             .filter(post_filter)
 
         if page_nr is not None:
-            return Paginator(posts, 4).page(page_nr)
+            paginator = Paginator(posts, 4)
+            pagination_posts = PaginationPostsType()
+            pagination_posts.posts = paginator.page(page_nr)
+            pagination_posts.num_pages = paginator.num_pages
+            return pagination_posts
 
         return posts
 

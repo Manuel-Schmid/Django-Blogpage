@@ -3,6 +3,9 @@ import { useRoute } from "vue-router/dist/vue-router";
 
 export default {
   name: "PaginationComponent",
+
+  props: ["numPostPages"],
+
   setup() {
     const route = useRoute();
     const activePage: number = route.params.page ? +route.params.page : 1;
@@ -14,7 +17,7 @@ export default {
 <template>
   <div class="float-left w-full h-min my-10">
     <div class="m-auto w-max">
-      <div v-for="pageNr in 3" class="float-left">
+      <div v-for="pageNr in numPostPages" class="float-left">
         <span
           v-if="activePage === pageNr"
           class="pagination-link bg-gray-300 cursor-default"

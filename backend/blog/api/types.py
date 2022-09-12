@@ -120,6 +120,17 @@ class Post(DjangoObjectType):
             'date_created',
         )
 
+class PaginationPosts(DjangoObjectType):
+    posts = graphene.List(Post)
+    num_pages = graphene.Int()
+
+    class Meta:
+        model = PostModel
+        fields = (
+            'posts',
+            'num_pages'
+        )
+
 
 class Comment(DjangoObjectType):
 

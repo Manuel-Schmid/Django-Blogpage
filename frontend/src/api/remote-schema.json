@@ -170,7 +170,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Post",
+                "name": "PaginationPosts",
                 "ofType": null
               }
             },
@@ -1081,6 +1081,45 @@
       },
       {
         "kind": "OBJECT",
+        "name": "PaginationPosts",
+        "description": null,
+        "fields": [
+          {
+            "name": "numPages",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "posts",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Post",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "Post",
         "description": null,
         "fields": [
@@ -1403,7 +1442,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Post",
+                "name": "PaginationPosts",
                 "ofType": null
               }
             },
@@ -1514,11 +1553,11 @@
             "deprecationReason": null
           },
           {
-            "name": "postBySlug",
+            "name": "paginatedPosts",
             "description": null,
             "args": [
               {
-                "name": "slug",
+                "name": "categorySlug",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1528,26 +1567,13 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Post",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "posts",
-            "description": null,
-            "args": [
+              },
               {
-                "name": "categorySlug",
+                "name": "pageNr",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Int",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -1568,13 +1594,34 @@
               }
             ],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Post",
-                "ofType": null
+              "kind": "OBJECT",
+              "name": "PaginationPosts",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postBySlug",
+            "description": null,
+            "args": [
+              {
+                "name": "slug",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Post",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2059,7 +2106,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "Post",
+                    "name": "PaginationPosts",
                     "ofType": null
                   }
                 }
