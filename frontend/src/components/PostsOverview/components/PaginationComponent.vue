@@ -5,7 +5,7 @@ export default {
   name: "PaginationComponent",
   setup() {
     const route = useRoute();
-    const activePage = route.params.page ? route.params.page : 1;
+    const activePage: number = route.params.page ? +route.params.page : 1;
     return { activePage };
   },
 };

@@ -20,7 +20,6 @@ export default {
     const route = useRoute();
     const store = usePostStore();
     const page: number = route.params.page ? +route.params.page : 1;
-    console.log(page);
     store.fetchPosts(
       route.query.tag as string,
       route.params.slug as string,
