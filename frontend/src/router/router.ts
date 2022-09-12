@@ -15,13 +15,8 @@ const routes = [
     name: "profile",
     component: ProfileContainer,
   },
-  // {
-  //   path: "/posts",
-  //   name: "posts",
-  //   component: PostsOverviewContainer,
-  // },
   {
-    path: "/posts/:page",
+    path: "/posts/:page?",
     name: "posts",
     component: PostsOverviewContainer,
   },

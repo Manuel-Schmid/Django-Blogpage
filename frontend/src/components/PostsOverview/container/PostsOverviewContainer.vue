@@ -8,7 +8,7 @@
 <script lang="ts">
 import PostsOverviewComponent from "../components/PostsOverviewComponent.vue";
 import { useRoute } from "vue-router";
-import { usePostStore as usePostsStore } from "../../../store/blog";
+import { usePostStore } from "../../../store/blog";
 
 export default {
   name: "PostOverviewContainer",
@@ -18,8 +18,9 @@ export default {
 
   setup() {
     const route = useRoute();
-    const store = usePostsStore();
-    const page = route.params.page ? route.params.page : 1;
+    const store = usePostStore();
+    const page: number = route.params.page ? +route.params.page : 1;
+    console.log(page);
     store.fetchPosts(
       route.query.tag as string,
       route.params.slug as string,
