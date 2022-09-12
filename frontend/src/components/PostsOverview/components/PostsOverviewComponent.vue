@@ -25,7 +25,7 @@ export default {
 
 <template>
   <div class="post-overview-container p-12">
-    <div class="content-container w-full">
+    <div class="content-container m-auto w-full">
       <TagListComponent :tags="tagsData"></TagListComponent>
       <p
         class="text-3xl tracking-wide leading-5 text-black font-bold mb-8 mt-4 mt-9"
