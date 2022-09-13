@@ -1,0 +1,10 @@
+#import "./fragments/overviewPost.gql"
+
+query PostsByTagAndCategorySlug(
+    $tagSlug: String
+    $categorySlug: String
+) {
+    posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
+        ...OverviewPost
+    }
+}

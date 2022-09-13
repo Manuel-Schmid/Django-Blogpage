@@ -1,7 +1,13 @@
 import { defineStore } from "pinia";
-import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 import { Post, Tag } from "../api/models";
+import PostsByTagAndCategorySlug from "../graphql/getPosts.gql";
+import PostBySlug from "../graphql/getPost.gql";
+import Tags from "../graphql/getTags.gql";
+import UsedTags from "../graphql/getUsedTags.gql";
+import CreateComment from "../graphql/createComment.gql";
+import CreatePostLike from "../graphql/createPostLike.gql";
+import DeletePostLike from "../graphql/deletePostLike.gql";
 
 export type PostState = {
   posts: Post[];
@@ -30,31 +36,7 @@ export const usePostStore = defineStore("blog", {
       categorySlugParam: string | undefined
     ) {
       const response = await apolloClient.query({
-        query: gql`
-          query postsByTagAndCategorySlug(
-            $tagSlug: String
-            $categorySlug: String
-          ) {
-            posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
-              slug
-              title
-              image
-              dateCreated
-              likeCount
-              category {
-                name
-                slug
-              }
-              owner {
-                firstName
-                lastName
-              }
-              comments {
-                id
-              }
-            }
-          }
-        `,
+        query: PostsByTagAndCategorySlug,
         variables: {
           tagSlug: tagSlugParam,
           categorySlug: categorySlugParam,
@@ -65,40 +47,7 @@ export const usePostStore = defineStore("blog", {
     async fetchPost(postSlug: string | undefined, reload: boolean) {
       if (reload) this.post = null;
       const response = await apolloClient.query({
-        query: gql`
-          query getPostBySlug($slug: String!) {
-            postBySlug(slug: $slug) {
-              id
-              title
-              slug
-              text
-              image
-              isLiked
-              likeCount
-              dateCreated
-              category {
-                name
-                slug
-              }
-              owner {
-                firstName
-                lastName
-              }
-              tags {
-                name
-                slug
-              }
-              comments {
-                title
-                text
-                owner {
-                  firstName
-                  lastName
-                }
-              }
-            }
-          }
-        `,
+        query: PostBySlug,
         variables: {
           slug: postSlug,
         },
@@ -108,14 +57,7 @@ export const usePostStore = defineStore("blog", {
     async fetchTags() {
       if (this.tags.length === 0) {
         const response = await apolloClient.query({
-          query: gql`
-            {
-              tags {
-                name
-                slug
-              }
-            }
-          `,
+          query: Tags,
         });
         this.tags = response.data.tags;
       }
@@ -123,14 +65,7 @@ export const usePostStore = defineStore("blog", {
     async fetchUsedTags() {
       if (this.usedTags.length === 0) {
         const response = await apolloClient.query({
-          query: gql`
-            {
-              usedTags {
-                name
-                slug
-              }
-            }
-          `,
+          query: UsedTags,
         });
         this.usedTags = response.data.usedTags;
       }
@@ -138,21 +73,7 @@ export const usePostStore = defineStore("blog", {
     async createComment(commentInput: any) {
       if (this.post) {
         await apolloClient.mutate({
-          mutation: gql`
-            mutation CreateComment($commentInput: CommentInput!) {
-              createComment(commentInput: $commentInput) {
-                comment {
-                  title
-                  text
-                  owner {
-                    firstName
-                    lastName
-                  }
-                }
-                success
-              }
-            }
-          `,
+          mutation: CreateComment,
           variables: {
             commentInput: commentInput,
           },
@@ -163,15 +84,7 @@ export const usePostStore = defineStore("blog", {
     async createPostLike() {
       if (this.post) {
         const response = await apolloClient.mutate({
-          mutation: gql`
-            mutation createPostLike($postLikeInput: PostLikeInput!) {
-              createPostLike(postLikeInput: $postLikeInput) {
-                postLike {
-                  id
-                }
-              }
-            }
-          `,
+          mutation: CreatePostLike,
           variables: {
             postLikeInput: {
               post: this.post.id,
@@ -186,13 +99,7 @@ export const usePostStore = defineStore("blog", {
     async deletePostLike() {
       if (this.post) {
         await apolloClient.mutate({
-          mutation: gql`
-            mutation deletePostLike($postLikeInput: PostLikeInput!) {
-              deletePostLike(postLikeInput: $postLikeInput) {
-                success
-              }
-            }
-          `,
+          mutation: DeletePostLike,
           variables: {
             postLikeInput: {
               post: this.post.id,

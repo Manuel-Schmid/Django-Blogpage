@@ -1,0 +1,7 @@
+#import "./fragments/tag.gql"
+
+query Tags {
+    tags {
+        ...Tag
+    }
+}
