@@ -3,7 +3,7 @@ import {
   formatFullname,
   formatDateShort,
   getImageURL,
-} from "../../../helper/helper";
+} from "../../helper/helper";
 
 export default {
   name: "PostTileComponent",
