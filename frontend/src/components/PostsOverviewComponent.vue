@@ -6,7 +6,7 @@ import TagListComponent from "./posts-overview/TagListComponent.vue";
 import PaginationComponent from "./posts-overview/PaginationComponent.vue";
 
 export default {
-  name: "PostOverviewComponent",
+  name: "PostsOverviewComponent",
   components: {
     PostTileComponent,
     TagListComponent,

@@ -13,7 +13,7 @@ import { useRoute } from "vue-router";
 import { usePostStore } from "../store/blog";
 
 export default {
-  name: "PostOverviewContainer",
+  name: "PostsOverviewContainer",
   components: {
     PostsOverviewComponent,
   },
