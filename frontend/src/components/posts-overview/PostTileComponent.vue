@@ -48,7 +48,7 @@ export default {
         </span>
         <span class="ml-5 w-1/2">
           <font-awesome-icon icon="fa-comment"></font-awesome-icon>
-          {{ post.comments.length }}
+          {{ post.commentCount }}
         </span>
       </div>
     </div>
