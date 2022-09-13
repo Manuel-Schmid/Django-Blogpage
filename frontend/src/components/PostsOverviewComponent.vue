@@ -1,9 +1,9 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { ref } from "vue";
-import PostTileComponent from "../components/PostTileComponent.vue";
-import TagListComponent from "../components/TagListComponent.vue";
-import PaginationComponent from "../components/PaginationComponent.vue";
+import PostTileComponent from "./posts-overview/PostTileComponent.vue";
+import TagListComponent from "./posts-overview/TagListComponent.vue";
+import PaginationComponent from "./posts-overview/PaginationComponent.vue";
 
 export default {
   name: "PostOverviewComponent",

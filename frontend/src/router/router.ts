@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import PostsOverviewContainer from "../components/PostsOverview/container/PostsOverviewContainer.vue";
+import PostsOverviewContainer from "../container/PostsOverviewContainer.vue";
 import PostDetailContainer from "../container/PostDetailContainer.vue";
 import ProfileContainer from "../container/ProfileContainer.vue";
 import LoginComponent from "../components/LoginComponent.vue";
