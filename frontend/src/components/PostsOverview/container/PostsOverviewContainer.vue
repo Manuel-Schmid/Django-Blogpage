@@ -2,6 +2,7 @@
   <PostsOverviewComponent
     :posts-data="store.getPosts"
     :num-post-pages="store.getNumPostPages"
+    :active-page="activePage"
     :tags-data="store.getUsedTags"
   />
 </template>
@@ -20,15 +21,16 @@ export default {
   setup() {
     const route = useRoute();
     const store = usePostStore();
-    const page: number = route.params.page ? +route.params.page : 1;
+    const activePage: number = route.query.page ? +route.query.page : 1;
+
     store.fetchPosts(
       route.query.tag as string,
       route.params.slug as string,
-      page
+      activePage
     );
     store.fetchUsedTags();
 
-    return { store };
+    return { store, activePage };
   },
 };
 </script>

@@ -3,13 +3,11 @@ import { useRoute } from "vue-router/dist/vue-router";
 
 export default {
   name: "PaginationComponent",
-
-  props: ["numPostPages"],
+  props: ["numPostPages", "activePage"],
 
   setup() {
     const route = useRoute();
-    const activePage: number = route.params.page ? +route.params.page : 1;
-    return { activePage };
+    return { route };
   },
 };
 </script>
@@ -26,10 +24,7 @@ export default {
         </span>
         <router-link
           v-else
-          :to="{
-            name: 'posts',
-            params: { page: pageNr },
-          }"
+          :to="{ name: route.name, query: { page: pageNr } }"
           class="pagination-link bg-gray-100 cursor-pointer"
         >
           {{ pageNr }}
