@@ -91,6 +91,7 @@ class Tag(DjangoObjectType):
 class Post(DjangoObjectType):
     is_liked = graphene.Boolean()
     like_count = graphene.Int()
+    comment_count = graphene.Int()
     tags = graphene.List(Tag)
 
     def resolve_tags(self, info, **kwargs):
@@ -104,6 +105,9 @@ class Post(DjangoObjectType):
 
     def resolve_like_count(self, info, **kwargs):
         return self.post_likes.count()
+
+    def resolve_comment_count(self, info, **kwargs):
+        return self.comments.count()
 
     class Meta:
         model = PostModel
