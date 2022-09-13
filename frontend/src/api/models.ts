@@ -182,6 +182,7 @@ export type PaginationPosts = {
 export type Post = {
   __typename?: "Post";
   category: Category;
+  commentCount?: Maybe<Scalars["Int"]>;
   comments: Array<Comment>;
   dateCreated: Scalars["DateTime"];
   id: Scalars["ID"];
