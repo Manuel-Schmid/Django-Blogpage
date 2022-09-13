@@ -18,14 +18,14 @@ export default {
       <div v-for="pageNr in numPostPages" class="float-left">
         <span
           v-if="activePage === pageNr"
-          class="pagination-link bg-gray-300 cursor-default"
+          class="pagination-link bg-gray-300 dark:bg-slate-500 cursor-default"
         >
           {{ pageNr }}
         </span>
         <router-link
           v-else
           :to="{ name: route.name, query: { page: pageNr } }"
-          class="pagination-link bg-gray-100 cursor-pointer"
+          class="pagination-link bg-gray-100 dark:bg-slate-600 cursor-pointer"
         >
           {{ pageNr }}
         </router-link>

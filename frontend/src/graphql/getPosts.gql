@@ -3,12 +3,12 @@
 query PostsByTagAndCategorySlug(
     $tagSlug: String
     $categorySlug: String
-    $pageNr: Int
+    $activePage: Int
 ) {
-    paginatedPosts(tagSlug: $tagSlug, categorySlug: $categorySlug, pageNr:$pageNr) {
+    paginatedPosts(tagSlug: $tagSlug, categorySlug: $categorySlug, activePage: $activePage) {
         posts {
             ...OverviewPost
         }
-        numPages
+        numPostPages
     }
 }

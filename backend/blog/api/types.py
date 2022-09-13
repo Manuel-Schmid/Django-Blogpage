@@ -126,13 +126,13 @@ class Post(DjangoObjectType):
 
 class PaginationPosts(DjangoObjectType):
     posts = graphene.List(Post)
-    num_pages = graphene.Int()
+    num_post_pages = graphene.Int()
 
     class Meta:
         model = PostModel
         fields = (
             'posts',
-            'num_pages'
+            'num_post_pages'
         )
 
 
