@@ -1,0 +1,4 @@
+fragment Owner on User {
+    firstName
+    lastName
+}
