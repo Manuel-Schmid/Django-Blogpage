@@ -1,0 +1,16 @@
+#import "./owner.gql"
+#import "./category.gql"
+
+fragment Post on Post {
+    slug
+    title
+    image
+    dateCreated
+    likeCount
+    category {
+        ...Category
+    }
+    owner {
+        ...Owner
+    }
+}

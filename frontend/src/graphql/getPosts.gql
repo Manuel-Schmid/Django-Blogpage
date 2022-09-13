@@ -1,27 +1,10 @@
-query Posts(
+#import "./fragments/overviewPost.gql"
+
+query PostsByTagAndCategorySlug(
     $tagSlug: String
     $categorySlug: String
-    $pageNr: Int
 ) {
-    paginatedPosts(tagSlug: $tagSlug, categorySlug: $categorySlug, pageNr:$pageNr) {
-        posts {
-            slug
-            title
-            image
-            dateCreated
-            likeCount
-            category {
-                name
-                slug
-            }
-            owner {
-                firstName
-                lastName
-            }
-            comments {
-                id
-            }
-        }
-        numPages
+    posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
+        ...OverviewPost
     }
 }

@@ -1,6 +1,7 @@
-query UsedTags{
+#import "./fragments/tag.gql"
+
+query UsedTags {
     usedTags {
-        name
-        slug
+        ...Tag
     }
 }
