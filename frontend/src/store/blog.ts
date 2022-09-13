@@ -37,18 +37,18 @@ export const usePostStore = defineStore("blog", {
     async fetchPosts(
       tagSlugParam: string | undefined,
       categorySlugParam: string | undefined,
-      pageNr: number
+      activePage: number
     ) {
       const response = await apolloClient.query({
         query: Posts,
         variables: {
           tagSlug: tagSlugParam,
           categorySlug: categorySlugParam,
-          pageNr: pageNr,
+          activePage: activePage,
         },
       });
       this.posts = response.data.paginatedPosts.posts;
-      this.numPostPages = response.data.paginatedPosts.numPages;
+      this.numPostPages = response.data.paginatedPosts.numPostPages;
     },
     async fetchPost(postSlug: string | undefined, reload: boolean) {
       if (reload) this.post = null;
