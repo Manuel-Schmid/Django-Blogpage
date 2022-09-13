@@ -39,7 +39,7 @@ export type Comment = {
   __typename?: "Comment";
   id: Scalars["ID"];
   owner: User;
-  post: Post;
+  post: PaginationPosts;
   text: Scalars["String"];
   title: Scalars["String"];
 };
@@ -173,6 +173,12 @@ export type ObtainJsonWebToken = {
   token: Scalars["String"];
 };
 
+export type PaginationPosts = {
+  __typename?: "PaginationPosts";
+  numPages?: Maybe<Scalars["Int"]>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+};
+
 export type Post = {
   __typename?: "Post";
   category: Category;
@@ -201,7 +207,7 @@ export type PostInput = {
 export type PostLike = {
   __typename?: "PostLike";
   id: Scalars["ID"];
-  post: Post;
+  post: PaginationPosts;
   user: User;
 };
 
@@ -214,8 +220,8 @@ export type Query = {
   __typename?: "Query";
   categories?: Maybe<Array<Maybe<Category>>>;
   categoryById?: Maybe<Category>;
+  paginatedPosts?: Maybe<PaginationPosts>;
   postBySlug?: Maybe<Post>;
-  posts?: Maybe<Array<Maybe<Post>>>;
   tags?: Maybe<Array<Maybe<Tag>>>;
   usedTags?: Maybe<Array<Maybe<Tag>>>;
   user?: Maybe<User>;
@@ -226,13 +232,14 @@ export type QueryCategoryByIdArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
-export type QueryPostBySlugArgs = {
-  slug?: InputMaybe<Scalars["String"]>;
+export type QueryPaginatedPostsArgs = {
+  categorySlug?: InputMaybe<Scalars["String"]>;
+  pageNr?: InputMaybe<Scalars["Int"]>;
+  tagSlug?: InputMaybe<Scalars["String"]>;
 };
 
-export type QueryPostsArgs = {
-  categorySlug?: InputMaybe<Scalars["String"]>;
-  tagSlug?: InputMaybe<Scalars["String"]>;
+export type QueryPostBySlugArgs = {
+  slug?: InputMaybe<Scalars["String"]>;
 };
 
 export type Refresh = {
@@ -283,7 +290,7 @@ export type User = {
   id: Scalars["ID"];
   lastName: Scalars["String"];
   password: Scalars["String"];
-  posts: Array<Post>;
+  posts: Array<PaginationPosts>;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
 };

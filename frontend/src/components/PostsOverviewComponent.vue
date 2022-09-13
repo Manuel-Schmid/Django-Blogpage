@@ -1,17 +1,19 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { ref } from "vue";
-import PostTileComponent from "../components/PostTileComponent.vue";
-import TagListComponent from "../components/TagListComponent.vue";
+import PostTileComponent from "./posts-overview/PostTileComponent.vue";
+import TagListComponent from "./posts-overview/TagListComponent.vue";
+import PaginationComponent from "./posts-overview/PaginationComponent.vue";
 
 export default {
-  name: "PostOverviewComponent",
+  name: "PostsOverviewComponent",
   components: {
     PostTileComponent,
     TagListComponent,
+    PaginationComponent,
   },
 
-  props: ["postsData", "tagsData"],
+  props: ["postsData", "tagsData", "numPostPages", "activePage"],
 
   setup() {
     let hover = ref("none");
@@ -22,8 +24,8 @@ export default {
 </script>
 
 <template>
-  <div class="post-overview-container p-12 flex justify-center items-center">
-    <div class="content-container w-full">
+  <div class="post-overview-container p-12">
+    <div class="content-container m-auto w-full">
       <TagListComponent :tags="tagsData"></TagListComponent>
       <p
         class="text-3xl tracking-wide leading-5 text-black font-bold mb-8 mt-4 mt-9"
@@ -37,6 +39,10 @@ export default {
           :post="post"
         >
         </PostTileComponent>
+        <PaginationComponent
+          :num-post-pages="numPostPages"
+          :active-page="activePage"
+        ></PaginationComponent>
       </div>
     </div>
   </div>

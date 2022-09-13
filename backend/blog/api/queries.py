@@ -1,9 +1,11 @@
 import graphene
+from django.core.paginator import Paginator
 from django.db.models import Q
 from taggit.models import Tag, TaggedItem
 from ..models import Category, Post, User
 from .types import \
-    Post as PostType,\
+    Post as PostType, \
+    PaginationPosts as PaginationPostsType, \
     Category as CategoryType, \
     User as UserType, \
     Tag as TagType
@@ -16,7 +18,7 @@ class Query(graphene.ObjectType):
     user = graphene.Field(UserType)
     tags = graphene.List(TagType)
     used_tags = graphene.List(TagType)
-    posts = graphene.List(PostType, category_slug=graphene.String(), tag_slug=graphene.String())
+    paginated_posts = graphene.Field(PaginationPostsType, category_slug=graphene.String(), tag_slug=graphene.String(), active_page=graphene.Int())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
 
     def resolve_categories(root, info, **kwargs):
@@ -41,9 +43,10 @@ class Query(graphene.ObjectType):
         tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
         return list(set(tags))
 
-    def resolve_posts(root, info, **kwargs):
+    def resolve_paginated_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
         tag_slug = kwargs.get('tag_slug', None)
+        active_page = kwargs.get('active_page', None)
 
         post_filter = Q()
         if tag_slug is not None:
@@ -52,7 +55,7 @@ class Query(graphene.ObjectType):
         if category_slug is not None:
             post_filter &= Q(category__slug=category_slug)
 
-        return Post.objects \
+        posts = Post.objects \
             .select_related('category', 'owner') \
             .prefetch_related('tags',
                               'comments',
@@ -63,6 +66,15 @@ class Query(graphene.ObjectType):
                               'owner__posts__tags',
                               'owner__posts__category') \
             .filter(post_filter)
+
+        if active_page is not None:
+            paginator = Paginator(posts, 4)
+            pagination_posts = PaginationPostsType()
+            pagination_posts.posts = paginator.page(active_page)
+            pagination_posts.num_post_pages = paginator.num_pages
+            return pagination_posts
+
+        return posts
 
     def resolve_post_by_slug(root, info, slug):
         return Post.objects.get(slug=slug)

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { apolloClient } from "../api/client";
 import { Post, Tag } from "../api/models";
-import PostsByTagAndCategorySlug from "../graphql/getPosts.gql";
+import Posts from "../graphql/getPosts.gql";
 import PostBySlug from "../graphql/getPost.gql";
 import Tags from "../graphql/getTags.gql";
 import UsedTags from "../graphql/getUsedTags.gql";
@@ -11,6 +11,7 @@ import DeletePostLike from "../graphql/deletePostLike.gql";
 
 export type PostState = {
   posts: Post[];
+  numPostPages: number;
   post: Post | null;
   tags: Tag[];
   usedTags: Tag[];
@@ -20,12 +21,14 @@ export const usePostStore = defineStore("blog", {
   state: () =>
     ({
       posts: [],
+      numPostPages: 0,
       post: null,
       tags: [],
       usedTags: [],
     } as PostState),
   getters: {
     getPosts: (state) => state.posts,
+    getNumPostPages: (state) => state.numPostPages,
     getPost: (state) => state.post,
     getTags: (state) => state.tags,
     getUsedTags: (state) => state.usedTags,
@@ -33,16 +36,19 @@ export const usePostStore = defineStore("blog", {
   actions: {
     async fetchPosts(
       tagSlugParam: string | undefined,
-      categorySlugParam: string | undefined
+      categorySlugParam: string | undefined,
+      activePage: number
     ) {
       const response = await apolloClient.query({
-        query: PostsByTagAndCategorySlug,
+        query: Posts,
         variables: {
           tagSlug: tagSlugParam,
           categorySlug: categorySlugParam,
+          activePage: activePage,
         },
       });
-      this.posts = response.data.posts;
+      this.posts = response.data.paginatedPosts.posts;
+      this.numPostPages = response.data.paginatedPosts.numPostPages;
     },
     async fetchPost(postSlug: string | undefined, reload: boolean) {
       if (reload) this.post = null;
