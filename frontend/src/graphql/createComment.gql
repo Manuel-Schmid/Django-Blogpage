@@ -1,12 +1,9 @@
+#import "./fragments/comment.gql"
+
 mutation CreateComment($commentInput: CommentInput!) {
     createComment(commentInput: $commentInput) {
         comment {
-            title
-            text
-            owner {
-                firstName
-                lastName
-            }
+            ...Comment
         }
         success
     }

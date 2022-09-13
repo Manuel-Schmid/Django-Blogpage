@@ -1,32 +1,7 @@
+#import "./fragments/detailPost.gql"
+
 query PostBySlug($slug: String!) {
     postBySlug(slug: $slug) {
-        id
-        title
-        slug
-        text
-        image
-        isLiked
-        likeCount
-        dateCreated
-        category {
-            name
-            slug
-        }
-        owner {
-            firstName
-            lastName
-        }
-        tags {
-            name
-            slug
-        }
-        comments {
-            title
-            text
-            owner {
-                firstName
-                lastName
-            }
-        }
+        ...DetailPost
     }
 }

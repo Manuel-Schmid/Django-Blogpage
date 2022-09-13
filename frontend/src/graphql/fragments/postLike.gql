@@ -1,0 +1,3 @@
+fragment PostLike on PostLike {
+    id
+}

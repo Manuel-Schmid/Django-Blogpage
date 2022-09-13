@@ -1,0 +1,16 @@
+#import "./post.gql"
+#import "./comment.gql"
+#import "./tag.gql"
+
+fragment DetailPost on Post {
+    id
+    text
+    isLiked
+    ...Post
+    comments {
+        ...Comment
+    }
+    tags {
+        ...Tag
+    }
+}
