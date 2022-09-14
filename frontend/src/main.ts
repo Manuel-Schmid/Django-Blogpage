@@ -14,9 +14,19 @@ import {
   faThumbsUp,
   faComment,
   faUser,
+  faArrowRight,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlus, faMinus, faThumbsUp, faComment, faUser);
+library.add(
+  faPlus,
+  faMinus,
+  faThumbsUp,
+  faComment,
+  faUser,
+  faArrowRight,
+  faArrowLeft
+);
 
 const app = createApp({
   setup() {
