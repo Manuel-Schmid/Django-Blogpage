@@ -74,7 +74,10 @@ class Query(graphene.ObjectType):
             pagination_posts.num_post_pages = paginator.num_pages
             return pagination_posts
 
-        return posts
+        pagination_posts = PaginationPostsType()
+        pagination_posts.posts = posts
+        pagination_posts.num_post_pages = 0
+        return pagination_posts
 
     def resolve_post_by_slug(root, info, slug):
         return Post.objects.get(slug=slug)
