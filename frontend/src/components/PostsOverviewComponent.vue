@@ -38,6 +38,7 @@ export default {
         >
         </PostTileComponent>
         <PaginationComponent
+          v-if="postsData.numPostPages > 1"
           :num-post-pages="postsData.numPostPages"
           :active-page="activePage"
         ></PaginationComponent>
