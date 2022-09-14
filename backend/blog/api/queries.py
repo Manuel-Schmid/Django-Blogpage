@@ -46,7 +46,7 @@ class Query(graphene.ObjectType):
     def resolve_paginated_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
         tag_slug = kwargs.get('tag_slug', None)
-        active_page = kwargs.get('active_page', None)
+        active_page = kwargs.get('active_page', 1)
 
         post_filter = Q()
         if tag_slug is not None:
@@ -67,17 +67,13 @@ class Query(graphene.ObjectType):
                               'owner__posts__category') \
             .filter(post_filter)
 
-        if active_page is not None:
-            paginator = Paginator(posts, 4)
-            pagination_posts = PaginationPostsType()
-            pagination_posts.posts = paginator.page(active_page)
-            pagination_posts.num_post_pages = paginator.num_pages
-            return pagination_posts
 
+        paginator = Paginator(posts, 4)
         pagination_posts = PaginationPostsType()
-        pagination_posts.posts = posts
-        pagination_posts.num_post_pages = 0
+        pagination_posts.posts = paginator.page(active_page)
+        pagination_posts.num_post_pages = paginator.num_pages
         return pagination_posts
+
 
     def resolve_post_by_slug(root, info, slug):
         return Post.objects.get(slug=slug)
