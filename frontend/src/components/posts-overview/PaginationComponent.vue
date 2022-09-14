@@ -62,7 +62,7 @@ function slicePaginationPageNums(numPostPages: any, activePage: number) {
         <router-link
           v-else
           :to="{ name: route.name, query: { page: pageNr } }"
-          class="pagination-link bg-gray-100 dark:bg-slate-600 cursor-pointer"
+          class="pagination-link bg-gray-100 dark:bg-slate-700 cursor-pointer"
         >
           {{ pageNr }}
         </router-link>
@@ -87,13 +87,13 @@ function slicePaginationPageNums(numPostPages: any, activePage: number) {
 
 <style scoped>
 .pagination-link {
-  @apply rounded-3xl w-7 h-7 text-black mx-1 text-center leading-[1.85rem];
+  @apply rounded-3xl min-w-[1.75rem] px-2 h-7 text-black mx-1 text-center leading-[1.85rem] dark:text-white;
 }
 .pagination-link-wrapper {
   @apply float-left flex items-center justify-center;
 }
 .pagination-special-link-wrapper {
-  @apply pagination-link bg-white cursor-pointer;
+  @apply pagination-link cursor-pointer;
 }
 .pagination-special-link {
   @apply inline-block w-max leading-5;
