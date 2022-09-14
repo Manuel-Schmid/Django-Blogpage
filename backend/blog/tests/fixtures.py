@@ -28,12 +28,10 @@ def auth(users, client_query):
           }
         }
         '''
-
     credentials = {
         "username": 'test_user1',
         "password": 'password1'
     }
-
     return client_query(auth_query, variables=credentials)
 
 
@@ -96,7 +94,6 @@ def post_likes(posts, users):
 def client_query(client):
     def func(*args, **kwargs):
         return graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
-
     return func
 
 
@@ -104,5 +101,4 @@ def client_query(client):
 def client_query_file(client):
     def func(*args, **kwargs):
         return file_graphql_query(*args, **kwargs, client=client, graphql_url='/graphql/')
-
     return func

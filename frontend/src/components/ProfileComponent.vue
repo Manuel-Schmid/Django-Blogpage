@@ -1,5 +1,4 @@
 <script lang="ts">
-import { apolloClient } from "../api/client";
 import router from "../router/router";
 import { useAuthStore } from "../store/auth";
 
