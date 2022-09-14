@@ -1,9 +1,9 @@
 #import "./owner.gql"
 
 fragment Comment on Comment {
-    title
-    text
-    owner {
-        ...Owner
-    }
+  title
+  text
+  owner {
+    ...Owner
+  }
 }

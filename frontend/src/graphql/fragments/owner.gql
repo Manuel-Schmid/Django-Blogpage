@@ -1,4 +1,4 @@
 fragment Owner on User {
-    firstName
-    lastName
+  firstName
+  lastName
 }

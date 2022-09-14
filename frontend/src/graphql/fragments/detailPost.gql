@@ -3,14 +3,14 @@
 #import "./tag.gql"
 
 fragment DetailPost on Post {
-    id
-    text
-    isLiked
-    ...Post
-    comments {
-        ...Comment
-    }
-    tags {
-        ...Tag
-    }
+  id
+  text
+  isLiked
+  ...Post
+  comments {
+    ...Comment
+  }
+  tags {
+    ...Tag
+  }
 }

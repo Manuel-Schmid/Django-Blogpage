@@ -1,5 +1,5 @@
 <template>
-  <PostDetailComponent v-if="store.getPost" :post-data="store.getPost" />
+  <PostDetailComponent v-if="store.post" :post-data="store.post" />
 </template>
 
 <script lang="ts">

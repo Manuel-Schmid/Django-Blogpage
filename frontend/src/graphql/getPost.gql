@@ -1,7 +1,7 @@
 #import "./fragments/detailPost.gql"
 
 query PostBySlug($slug: String!) {
-    postBySlug(slug: $slug) {
-        ...DetailPost
-    }
+  postBySlug(slug: $slug) {
+    ...DetailPost
+  }
 }

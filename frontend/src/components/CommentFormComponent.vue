@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { usePostStore } from "../store/blog";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "../store/auth";
 
 export default {
   name: "CommentFormComponent",

@@ -4,7 +4,7 @@ import PostDetailContainer from "../container/PostDetailContainer.vue";
 import ProfileContainer from "../container/ProfileContainer.vue";
 import LoginComponent from "../components/LoginComponent.vue";
 
-const routes = [
+const routes: any = [
   {
     path: "/login",
     name: "login",

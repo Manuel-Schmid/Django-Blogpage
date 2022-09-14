@@ -1,4 +1,4 @@
 fragment Category on Category {
-    name
-    slug
+  name
+  slug
 }

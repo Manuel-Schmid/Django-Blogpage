@@ -70,11 +70,11 @@ function updateTheme() {
           Posts
         </router-link>
         <router-link
-          v-if="authStore.getUser"
+          v-if="authStore.user"
           class="nav-item"
           :to="{ name: 'profile' }"
         >
-          {{ authStore.getUser.username }}
+          {{ authStore.user.username }}
         </router-link>
         <router-link v-else class="nav-item" :to="{ name: 'login' }">
           Login

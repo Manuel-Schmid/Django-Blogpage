@@ -26,13 +26,6 @@ export const usePostStore = defineStore("blog", {
       tags: [],
       usedTags: [],
     } as PostState),
-  getters: {
-    getPosts: (state) => state.posts,
-    getNumPostPages: (state) => state.numPostPages,
-    getPost: (state) => state.post,
-    getTags: (state) => state.tags,
-    getUsedTags: (state) => state.usedTags,
-  },
   actions: {
     async fetchPosts(
       tagSlugParam: string | undefined,
