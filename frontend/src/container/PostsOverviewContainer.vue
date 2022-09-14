@@ -1,9 +1,9 @@
 <template>
   <PostsOverviewComponent
-    :posts-data="store.getPosts"
-    :num-post-pages="store.getNumPostPages"
+    :posts-data="store.posts"
+    :num-post-pages="store.numPostPages"
     :active-page="activePage"
-    :tags-data="store.getUsedTags"
+    :tags-data="store.usedTags"
   />
 </template>
 

@@ -76,7 +76,7 @@ export default {
           <div class="w-full">
             <div class="float-right text-center w-min mt-2 mr-16">
               <font-awesome-icon
-                v-if="authStore.getUser"
+                v-if="authStore.user"
                 icon="fa-thumbs-up"
                 class="text-3xl mb-0.5 cursor-pointer"
                 :class="[

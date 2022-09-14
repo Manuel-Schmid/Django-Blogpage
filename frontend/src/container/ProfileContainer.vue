@@ -1,5 +1,5 @@
 <template>
-  <ProfileComponent :user-data="store.getUser" />
+  <ProfileComponent :user-data="store.user" />
 </template>
 
 <script lang="ts">

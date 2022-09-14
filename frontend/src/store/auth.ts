@@ -11,10 +11,6 @@ export const useAuthStore = defineStore("auth", {
   persist: {
     enabled: true,
   },
-  getters: {
-    getRefreshToken: (state) => state.refreshToken,
-    getUser: (state) => state.user,
-  },
   actions: {
     async fetchRefreshToken(username: String, password: String) {
       const response = await apolloClient.mutate({

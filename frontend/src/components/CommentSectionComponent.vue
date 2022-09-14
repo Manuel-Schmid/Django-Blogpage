@@ -27,7 +27,7 @@ export default {
     <span>Comments:</span>
   </p>
   <button
-    v-if="authStore.getUser"
+    v-if="authStore.user"
     @click="commentFormActive = !commentFormActive"
     class="py-2 px-4 border-b border-black bg-gray-50 hover:bg-gray-100 dark:bg-slate-700 hover:dark:bg-slate-600 rounded-3xl"
   >
