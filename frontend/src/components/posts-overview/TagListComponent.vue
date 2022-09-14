@@ -20,14 +20,20 @@ export default {
         <router-link
           v-if="tag.slug === route.query.tag"
           class="tag-link bg-gray-300 dark:bg-slate-500"
-          :to="{ name: 'posts' }"
+          :to="{
+            name: route.name,
+            query: { ...route.query, tag: undefined, page: undefined },
+          }"
         >
           <p class="m-0">{{ tag.name }}</p>
         </router-link>
         <router-link
           v-else
           class="tag-link bg-gray-100 dark:bg-slate-700"
-          :to="{ name: route.name, query: { tag: tag.slug } }"
+          :to="{
+            name: route.name,
+            query: { ...route.query, tag: tag.slug, page: undefined },
+          }"
         >
           <p class="m-0">{{ tag.name }}</p>
         </router-link>

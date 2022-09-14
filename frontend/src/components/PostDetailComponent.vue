@@ -4,6 +4,7 @@ import { formatDateLong, getImageURL, formatFullname } from "../helper/helper";
 import { ref } from "vue";
 import { usePostStore } from "../store/blog";
 import { useAuthStore } from "../store/auth";
+import { useRoute } from "vue-router/dist/vue-router";
 
 export default {
   name: "PostDetailComponent",
@@ -16,6 +17,7 @@ export default {
     const postLiked = ref(!!props.postData?.isLiked);
     let postStore = usePostStore();
     let authStore = useAuthStore();
+    const route = useRoute();
 
     const togglePostLike = async (post: Number) => {
       if (postLiked.value) {
@@ -33,6 +35,7 @@ export default {
       postLiked,
       togglePostLike,
       authStore,
+      route,
     };
   },
 };
@@ -99,8 +102,8 @@ export default {
               <p class="font-bold mr-1">Category:</p>
               <router-link
                 :to="{
-                  name: 'categoryPosts',
-                  params: { slug: postData.category.slug },
+                  name: 'posts',
+                  query: { category: postData.category.slug },
                 }"
                 class="text-black no-underline"
               >

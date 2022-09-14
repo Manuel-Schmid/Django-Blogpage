@@ -16,9 +16,9 @@ export default {
       props.activePage
     );
 
-    let firstPage = paginationPageNums.includes(1) ? false : 1;
+    let firstPage = paginationPageNums.includes(1) ? 0 : 1;
     let lastPage = paginationPageNums.includes(props.numPostPages)
-      ? false
+      ? 0
       : props.numPostPages;
 
     const route = useRoute();
@@ -27,20 +27,23 @@ export default {
 };
 
 function slicePaginationPageNums(numPostPages: any, activePage: number) {
-  return activePage > numPostPages.length - 5 && numPostPages.length > 5
-    ? numPostPages.slice(numPostPages.length - 8, numPostPages.length)
-    : numPostPages.length > 5 && activePage > 5
+  return numPostPages.length > 7 && activePage > numPostPages.length - 4
+    ? numPostPages.slice(numPostPages.length - 7, numPostPages.length)
+    : numPostPages.length > 7 && numPostPages.length > 4 && activePage > 4
     ? numPostPages.slice(activePage - 4, activePage + 3)
-    : numPostPages.slice(0, 8);
+    : numPostPages.slice(0, 7);
 }
 </script>
 
 <template>
   <div class="float-left w-full h-min my-10">
     <div class="m-auto w-max">
-      <div v-if="firstPage" class="pagination-link-wrapper mr-3">
+      <div
+        class="pagination-link-wrapper mr-3"
+        :class="!firstPage && 'invisible'"
+      >
         <router-link
-          :to="{ name: route.name, query: { page: firstPage } }"
+          :to="{ name: route.name, query: { ...route.query, page: firstPage } }"
           class="pagination-special-link-wrapper"
         >
           <span class="pagination-special-link">
@@ -61,7 +64,7 @@ function slicePaginationPageNums(numPostPages: any, activePage: number) {
         </span>
         <router-link
           v-else
-          :to="{ name: route.name, query: { page: pageNr } }"
+          :to="{ name: route.name, query: { ...route.query, page: pageNr } }"
           class="pagination-link bg-gray-100 dark:bg-slate-700 cursor-pointer"
         >
           {{ pageNr }}
@@ -69,14 +72,14 @@ function slicePaginationPageNums(numPostPages: any, activePage: number) {
       </div>
       <div v-if="lastPage" class="pagination-link-wrapper ml-3">
         <router-link
-          :to="{ name: route.name, query: { page: lastPage } }"
+          :to="{ name: route.name, query: { ...route.query, page: lastPage } }"
           class="pagination-special-link-wrapper"
         >
           <span class="pagination-special-link">
             <span>{{ lastPage }}</span>
             <font-awesome-icon
               icon="fa-solid fa-arrow-right"
-              class="float-right ml-2"
+              class="float-right ml-2 leading-5"
             />
           </span>
         </router-link>
