@@ -28,10 +28,10 @@ export default {
 
 function slicePaginationPageNums(numPostPages: any, activePage: number) {
   return activePage > numPostPages.length - 5 && numPostPages.length > 5
-    ? numPostPages.slice(numPostPages.length - 9, numPostPages.length)
+    ? numPostPages.slice(numPostPages.length - 8, numPostPages.length)
     : numPostPages.length > 5 && activePage > 5
-    ? numPostPages.slice(activePage - 4, activePage + 4)
-    : numPostPages.slice(0, 9);
+    ? numPostPages.slice(activePage - 4, activePage + 3)
+    : numPostPages.slice(0, 8);
 }
 </script>
 
