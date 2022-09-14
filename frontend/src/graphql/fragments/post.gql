@@ -2,16 +2,16 @@
 #import "./category.gql"
 
 fragment Post on Post {
-    slug
-    title
-    image
-    dateCreated
-    likeCount
-    commentCount
-    category {
-        ...Category
-    }
-    owner {
-        ...Owner
-    }
+  slug
+  title
+  image
+  dateCreated
+  likeCount
+  commentCount
+  category {
+    ...Category
+  }
+  owner {
+    ...Owner
+  }
 }

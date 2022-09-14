@@ -1,10 +1,10 @@
 #import "./fragments/comment.gql"
 
 mutation CreateComment($commentInput: CommentInput!) {
-    createComment(commentInput: $commentInput) {
-        comment {
-            ...Comment
-        }
-        success
+  createComment(commentInput: $commentInput) {
+    comment {
+      ...Comment
     }
+    success
+  }
 }
