@@ -68,7 +68,7 @@ class Query(graphene.ObjectType):
                               'owner__posts',
                               'owner__posts__tags',
                               'owner__posts__category') \
-            .filter(post_filter) \
+            .filter(post_filter)
 
         paginator = Paginator(posts, 4)
         pagination_posts = PaginationPostsType()
