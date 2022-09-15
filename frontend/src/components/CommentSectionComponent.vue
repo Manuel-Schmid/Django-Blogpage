@@ -49,7 +49,7 @@ export default {
       v-for="comment in comments"
       class="rounded-xl p-3 my-3 text-left w-3/4 m-auto"
       :class="
-        comment.owner.id === authStore.user.id
+        comment.owner.id === authStore.user?.id
           ? 'bg-[#dce7f5] dark:bg-[#203757]'
           : 'bg-gray-100 dark:bg-slate-700'
       "
