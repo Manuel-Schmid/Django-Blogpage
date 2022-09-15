@@ -23,7 +23,7 @@ export default {
     const activePage: number = route.query.page ? +route.query.page : 1;
 
     store.fetchPosts(
-      route.query.tag as string,
+      route.query.tags as string,
       route.query.category as string,
       activePage
     );

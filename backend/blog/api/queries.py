@@ -20,7 +20,7 @@ class Query(graphene.ObjectType):
     used_tags = graphene.List(TagType)
     paginated_posts = graphene.Field(PaginationPostsType,
                                      category_slug=graphene.String(),
-                                     tag_slug=graphene.String(),
+                                     tag_slugs=graphene.String(),
                                      active_page=graphene.Int())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
 
@@ -48,16 +48,26 @@ class Query(graphene.ObjectType):
 
     def resolve_paginated_posts(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
-        tag_slug = kwargs.get('tag_slug', None)
+        tag_slugs = kwargs.get('tag_slugs', None)
         active_page = kwargs.get('active_page', 1)
 
         post_filter = Q()
-        if tag_slug is not None:
-            post_filter &= Q(tagged_items__tag__slug=tag_slug)
+        if tag_slugs is not None:
+            for tag in tag_slugs.split(','):
+            #     post_filter &= Q(tagged_items__tag__slug__contains=tag)
+                post_filter &= Q(tagged_items__tag__slug=tag)
+
+
+            # post_filter &= reduce(operator.and_, (Q(tagged_items__tag__slug = item) for item in q))
+            # post_filter &= Q(tagged_items__tag__slug__in=tag_slugs.split(','))
+            # post_filter &= Q(tagged_items__tag__slug__contains=tag_slugs)
+            # post_filter &= Q(tagged_items__tag__slug=tag_slugs)
+
 
         if category_slug is not None:
             post_filter &= Q(category__slug=category_slug)
 
+        print(post_filter)
         posts = Post.objects \
             .select_related('category', 'owner') \
             .prefetch_related('tags',
@@ -69,6 +79,8 @@ class Query(graphene.ObjectType):
                               'owner__posts__tags',
                               'owner__posts__category') \
             .filter(post_filter)
+
+        posts = list(set([obj for obj in posts]))
 
         paginator = Paginator(posts, 4)
         pagination_posts = PaginationPostsType()
