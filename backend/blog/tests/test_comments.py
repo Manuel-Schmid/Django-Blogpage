@@ -111,8 +111,6 @@ def test_create_comment_invalid_post_id(auth, client_query, users):
     response = client_query(create_comment_query, variables=comment_input)
 
     content = json.loads(response.content)
-    print("-*-*-*_*_*_*_*_*_*_")
-    print(content)
     assert content is not None
     data = content.get('data', None)
     assert data is not None

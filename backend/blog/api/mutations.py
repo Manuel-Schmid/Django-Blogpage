@@ -74,7 +74,7 @@ class CreatePostLike(graphene.Mutation, GraphqlOutput):
                 post_like = form.save()
                 return CreatePostLike(post_like=post_like, success=True)
             return CreatePostLike(success=False, errors=form.errors.get_json_data())
-        return None
+        return CreatePostLike(success=False)
 
 
 class DeletePostLike(graphene.Mutation, GraphqlOutput):
@@ -88,8 +88,7 @@ class DeletePostLike(graphene.Mutation, GraphqlOutput):
         user = info.context.user
         if user.is_authenticated:
             PostLike.objects.filter(post=post_like_input.post, user=user.id).delete()
-            return cls(success=True)
-        return None
+        return cls(success=True)
 
 
 class UpdatePost(graphene.Mutation, GraphqlOutput):
@@ -124,7 +123,7 @@ class CreateComment(graphene.Mutation, GraphqlOutput):
                 comment = form.save()
                 return CreateComment(comment=comment, success=True)
             return CreateComment(success=False, errors=form.errors.get_json_data())
-        return None
+        return CreateComment(success=False)
 
 
 class UpdateComment(graphene.Mutation, GraphqlOutput):
@@ -154,8 +153,7 @@ class DeleteComment(graphene.Mutation, GraphqlOutput):
         user = info.context.user
         if user.is_authenticated:
             Comment.objects.filter(pk=comment_id, owner_id=user.id).delete()
-            return cls(success=True)
-        return None
+        return cls(success=True)
 
 
 class UploadMutation(graphene.Mutation, GraphqlOutput):
