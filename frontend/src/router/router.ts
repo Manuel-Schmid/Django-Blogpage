@@ -16,7 +16,7 @@ const routes: any = [
     component: ProfileContainer,
   },
   {
-    path: "/posts/:page?",
+    path: "/posts/:category?:tag?:page?",
     name: "posts",
     component: PostsOverviewContainer,
   },
@@ -24,11 +24,6 @@ const routes: any = [
     path: "/posts/:slug",
     name: "postDetail",
     component: PostDetailContainer,
-  },
-  {
-    path: "/category/:slug",
-    name: "categoryPosts",
-    component: PostsOverviewContainer,
   },
 ];
 
