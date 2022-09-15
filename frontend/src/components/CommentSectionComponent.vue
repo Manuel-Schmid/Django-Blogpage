@@ -49,7 +49,7 @@ export default {
     <CommentComponent
       v-for="comment in comments"
       :comment="comment"
-      :is-own-comment="comment.owner.id === authStore.user.id"
+      :is-own-comment="comment.owner.id === authStore.user?.id"
     ></CommentComponent>
   </div>
 </template>
