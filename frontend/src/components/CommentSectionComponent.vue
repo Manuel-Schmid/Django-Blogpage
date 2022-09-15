@@ -1,6 +1,6 @@
 <script lang="ts">
-import { formatFullname } from "../helper/helper";
 import CommentFormComponent from "./CommentFormComponent.vue";
+import CommentComponent from "./CommentComponent.vue";
 import { ref } from "vue";
 import { useAuthStore } from "../store/auth";
 
@@ -12,12 +12,13 @@ export default {
   },
   components: {
     CommentFormComponent,
+    CommentComponent,
   },
 
   setup() {
     let commentFormActive = ref(false);
     let authStore = useAuthStore();
-    return { formatFullname, commentFormActive, authStore };
+    return { commentFormActive, authStore };
   },
 };
 </script>
@@ -45,21 +46,11 @@ export default {
     ></CommentFormComponent>
   </div>
   <div class="mt-3">
-    <div
+    <CommentComponent
       v-for="comment in comments"
-      class="rounded-xl p-3 my-3 text-left w-3/4 m-auto"
-      :class="
-        comment.owner.id === authStore.user.id
-          ? 'bg-[#dce7f5] dark:bg-[#203757]'
-          : 'bg-gray-100 dark:bg-slate-700'
-      "
-    >
-      <p class="font-bold">{{ comment.title }}</p>
-      <p>{{ comment.text }}</p>
-      <p class="text-right px-3 pt-2">
-        {{ formatFullname(comment.owner.firstName, comment.owner.lastName) }}
-      </p>
-    </div>
+      :comment="comment"
+      :is-own-comment="comment.owner.id === authStore.user.id"
+    ></CommentComponent>
   </div>
 </template>
 

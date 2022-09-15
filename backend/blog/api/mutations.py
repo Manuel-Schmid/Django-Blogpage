@@ -142,6 +142,20 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
             return UpdateComment(comment=comment, success=True)
         return UpdateComment(success=False, errors=form.errors.get_json_data())
 
+class DeleteComment(graphene.Mutation, GraphqlOutput):
+    success = graphene.Boolean()
+
+    class Arguments:
+        comment_id = graphene.ID(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, comment_id):
+        user = info.context.user
+        if user.is_authenticated:
+            Comment.objects.filter(pk=comment_id, owner_id=user.id).delete()
+            return cls(success=True)
+        return None
+
 
 class UploadMutation(graphene.Mutation, GraphqlOutput):
     class Arguments:
@@ -171,4 +185,5 @@ class Mutation(graphene.ObjectType):
     delete_post_like = DeletePostLike.Field()
     create_comment = CreateComment.Field()
     update_comment = UpdateComment.Field()
+    delete_comment = DeleteComment.Field()
     test_mutation = UploadMutation.Field()

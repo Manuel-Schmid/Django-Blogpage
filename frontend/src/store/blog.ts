@@ -6,6 +6,7 @@ import PostBySlug from "../graphql/getPost.gql";
 import Tags from "../graphql/getTags.gql";
 import UsedTags from "../graphql/getUsedTags.gql";
 import CreateComment from "../graphql/createComment.gql";
+import DeleteComment from "../graphql/deleteComment.gql";
 import CreatePostLike from "../graphql/createPostLike.gql";
 import DeletePostLike from "../graphql/deletePostLike.gql";
 
@@ -77,6 +78,15 @@ export const usePostStore = defineStore("blog", {
         });
         await this.fetchPost(this.post.slug, false);
       }
+    },
+    async deleteComment(commentId: number) {
+      await apolloClient.mutate({
+        mutation: DeleteComment,
+        variables: {
+          commentId: commentId,
+        },
+      });
+      await this.fetchPost(this.post?.slug, false);
     },
     async createPostLike() {
       if (this.post) {

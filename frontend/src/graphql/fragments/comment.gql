@@ -1,6 +1,7 @@
 #import "./owner.gql"
 
 fragment Comment on Comment {
+  id
   title
   text
   owner {
