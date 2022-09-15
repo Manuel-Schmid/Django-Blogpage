@@ -124,6 +124,7 @@ class Post(DjangoObjectType):
             'date_created',
         )
 
+
 class PaginationPosts(DjangoObjectType):
     posts = graphene.List(Post)
     num_post_pages = graphene.Int()
