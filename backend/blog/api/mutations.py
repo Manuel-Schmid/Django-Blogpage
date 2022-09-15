@@ -142,6 +142,7 @@ class UpdateComment(graphene.Mutation, GraphqlOutput):
             return UpdateComment(comment=comment, success=True)
         return UpdateComment(success=False, errors=form.errors.get_json_data())
 
+
 class DeleteComment(graphene.Mutation, GraphqlOutput):
     success = graphene.Boolean()
 
