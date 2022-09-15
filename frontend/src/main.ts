@@ -16,6 +16,7 @@ import {
   faUser,
   faArrowRight,
   faArrowLeft,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -25,7 +26,8 @@ library.add(
   faComment,
   faUser,
   faArrowRight,
-  faArrowLeft
+  faArrowLeft,
+  faTrash
 );
 
 const app = createApp({

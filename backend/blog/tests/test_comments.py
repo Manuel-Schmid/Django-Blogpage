@@ -13,10 +13,7 @@ create_comment_query = '''
             comment {
               title
               text
-              post {
-                title
-              }
-                owner{
+              owner {
                 username
               }
             }
@@ -32,16 +29,21 @@ update_comment_query = '''
             comment {
               title
               text
-              post {
-                title
-              }
-                owner{
+              owner {
                 username
               }
             }
             success
             errors
             }
+        }
+        '''
+
+delete_comment_query = '''
+        mutation DeleteComment($commentId: ID!) {
+          deleteComment(commentId: $commentId) {
+            success
+          }
         }
         '''
 
@@ -69,7 +71,6 @@ def test_create_comment(auth, client_query, posts):
     assert data_comment is not None
     assert data_comment['title'] == 'test'
     assert data_comment['text'] == 'this a test'
-    assert data_comment['post']['title'] == 'Test Post1'
     assert data_comment['owner']['username'] == 'test_user1'
 
 
@@ -165,5 +166,21 @@ def test_update_comment(auth, client_query, comments):
     assert data_comment is not None
     assert data_comment['title'] == 'test_comment3'
     assert data_comment['text'] == 'test_text3'
-    assert data_comment['post']['title'] == 'Test Post2'
     assert data_comment['owner']['username'] == 'test_user1'
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_delete_comment(auth, client_query, comments):
+    comment_id = {
+        "commentId": 2
+    }
+
+    response = client_query(delete_comment_query, variables=comment_id)
+
+    content = json.loads(response.content)
+    assert content is not None
+    data = content.get('data', None)
+    assert data is not None
+    data_delete_comment = data.get('deleteComment', None)
+    assert data_delete_comment is not None
+    assert data_delete_comment['success'] is True
