@@ -12,7 +12,7 @@ export default {
     PaginationComponent,
   },
 
-  props: ["postsData", "tagsData", "numPostPages", "activePage"],
+  props: ["postsData", "tagsData", "activePage"],
 
   setup() {
     const route = useRoute();
@@ -32,14 +32,14 @@ export default {
       </p>
       <div v-if="postsData">
         <PostTileComponent
-          v-for="post in postsData"
+          v-for="post in postsData.posts"
           :key="post.id"
           :post="post"
         >
         </PostTileComponent>
         <PaginationComponent
-          v-if="numPostPages"
-          :num-post-pages="numPostPages"
+          v-if="postsData.numPostPages > 1"
+          :num-post-pages="postsData.numPostPages"
           :active-page="activePage"
         ></PaginationComponent>
       </div>

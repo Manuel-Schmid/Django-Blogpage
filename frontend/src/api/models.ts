@@ -175,7 +175,7 @@ export type ObtainJsonWebToken = {
 
 export type PaginationPosts = {
   __typename?: "PaginationPosts";
-  numPages?: Maybe<Scalars["Int"]>;
+  numPostPages?: Maybe<Scalars["Int"]>;
   posts?: Maybe<Array<Maybe<Post>>>;
 };
 
@@ -234,8 +234,8 @@ export type QueryCategoryByIdArgs = {
 };
 
 export type QueryPaginatedPostsArgs = {
+  activePage?: InputMaybe<Scalars["Int"]>;
   categorySlug?: InputMaybe<Scalars["String"]>;
-  pageNr?: InputMaybe<Scalars["Int"]>;
   tagSlug?: InputMaybe<Scalars["String"]>;
 };
 

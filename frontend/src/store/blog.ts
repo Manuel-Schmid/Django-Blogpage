@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { apolloClient } from "../api/client";
-import { Post, Tag } from "../api/models";
+import { PaginationPosts, Post, Tag } from "../api/models";
 import Posts from "../graphql/getPosts.gql";
 import PostBySlug from "../graphql/getPost.gql";
 import Tags from "../graphql/getTags.gql";
@@ -10,8 +10,7 @@ import CreatePostLike from "../graphql/createPostLike.gql";
 import DeletePostLike from "../graphql/deletePostLike.gql";
 
 export type PostState = {
-  posts: Post[];
-  numPostPages: number;
+  paginatedPosts: PaginationPosts | null;
   post: Post | null;
   tags: Tag[];
   usedTags: Tag[];
@@ -20,8 +19,7 @@ export type PostState = {
 export const usePostStore = defineStore("blog", {
   state: () =>
     ({
-      posts: [],
-      numPostPages: 0,
+      paginatedPosts: null,
       post: null,
       tags: [],
       usedTags: [],
@@ -32,6 +30,7 @@ export const usePostStore = defineStore("blog", {
       categorySlugParam: string | undefined,
       activePage: number
     ) {
+      this.paginatedPosts = null;
       const response = await apolloClient.query({
         query: Posts,
         variables: {
@@ -40,8 +39,7 @@ export const usePostStore = defineStore("blog", {
           activePage: activePage,
         },
       });
-      this.posts = response.data.paginatedPosts.posts;
-      this.numPostPages = response.data.paginatedPosts.numPostPages;
+      this.paginatedPosts = response.data.paginatedPosts;
     },
     async fetchPost(postSlug: string | undefined, reload: boolean) {
       if (reload) this.post = null;

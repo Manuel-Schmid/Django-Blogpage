@@ -1,7 +1,6 @@
 <template>
   <PostsOverviewComponent
-    :posts-data="store.posts"
-    :num-post-pages="store.numPostPages"
+    :posts-data="store.paginatedPosts"
     :active-page="activePage"
     :tags-data="store.usedTags"
   />
@@ -25,7 +24,7 @@ export default {
 
     store.fetchPosts(
       route.query.tag as string,
-      route.params.slug as string,
+      route.query.category as string,
       activePage
     );
     store.fetchUsedTags();

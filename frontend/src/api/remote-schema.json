@@ -1085,7 +1085,7 @@
         "description": null,
         "fields": [
           {
-            "name": "numPages",
+            "name": "numPostPages",
             "description": null,
             "args": [],
             "type": {
@@ -1569,11 +1569,11 @@
             "description": null,
             "args": [
               {
-                "name": "categorySlug",
+                "name": "activePage",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Int",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -1581,11 +1581,11 @@
                 "deprecationReason": null
               },
               {
-                "name": "pageNr",
+                "name": "categorySlug",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 },
                 "defaultValue": null,
