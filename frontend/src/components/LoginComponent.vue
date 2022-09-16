@@ -15,7 +15,11 @@ export default {
       authStore.fetchRefreshToken(username.value, password.value);
     };
 
-    return { username, password, submitLogin };
+    const resetPassword = () => {
+      // ...
+    };
+
+    return { username, password, submitLogin, resetPassword };
   },
 };
 </script>
@@ -67,11 +71,12 @@ export default {
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-start"></div>
-              <a
-                href="#"
+              <button
+                @click="resetPassword"
                 class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >Forgot password?</a
               >
+                Forgot password?
+              </button>
             </div>
             <button
               @click="submitLogin"
