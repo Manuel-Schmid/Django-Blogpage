@@ -1,3 +1,5 @@
+import collections
+
 import graphene
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -53,10 +55,19 @@ class Query(graphene.ObjectType):
 
         post_filter = Q()
         if tag_slugs is not None:
+            tag_filter = Q()
             for tag in tag_slugs.split(','):
-            #     post_filter &= Q(tagged_items__tag__slug__contains=tag)
-                post_filter &= Q(tagged_items__tag__slug=tag)
+                tag_filter |= Q(tag__slug=tag)
+                print(tag_filter)
+            tagged_items = TaggedItem.objects.select_related('tag').filter(tag_filter).values('object_id')
+            # print(tagged_items)
+            # print(list(tagged_items.values()))
+            print([item for item, count in collections.Counter(list(tagged_items.values())).items() if count > 1])
 
+            # for tag in tag_slugs.split(','):
+            #     taggetItems
+            #     post_filter &= Q(tagged_items__tag__slug__contains=tag)
+            #     post_filter &= Q(tagged_items__tag__slug=tag)
 
             # post_filter &= reduce(operator.and_, (Q(tagged_items__tag__slug = item) for item in q))
             # post_filter &= Q(tagged_items__tag__slug__in=tag_slugs.split(','))
