@@ -4,6 +4,7 @@ import PostDetailContainer from "../container/PostDetailContainer.vue";
 import ProfileContainer from "../container/ProfileContainer.vue";
 import LoginComponent from "../components/LoginComponent.vue";
 import PasswordResetFormComponent from "../components/PasswordResetFormComponent.vue";
+import ResetEmailFormComponent from "../components/ResetEmailFormComponent.vue";
 
 const routes: any = [
   {
@@ -15,6 +16,11 @@ const routes: any = [
     path: "/password-reset",
     name: "passwordReset",
     component: PasswordResetFormComponent,
+  },
+  {
+    path: "/reset-email",
+    name: "resetEmailForm",
+    component: ResetEmailFormComponent,
   },
   {
     path: "/profile",

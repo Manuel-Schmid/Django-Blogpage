@@ -71,12 +71,12 @@ export default {
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-start"></div>
-              <button
-                @click="resetPassword"
+              <router-link
                 class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                :to="{ name: 'resetEmailForm' }"
               >
                 Forgot password?
-              </button>
+              </router-link>
             </div>
             <button
               @click="submitLogin"

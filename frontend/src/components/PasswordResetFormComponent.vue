@@ -24,7 +24,7 @@ export default {
           >
             Change your password
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="confirmReset">
             <div>
               <label
                 for="email"
