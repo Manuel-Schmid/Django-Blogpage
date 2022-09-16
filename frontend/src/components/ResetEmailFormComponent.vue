@@ -1,11 +1,15 @@
 <script lang="ts">
+import { ref } from "vue";
+
 export default {
   name: "ResetEmailFormComponent",
   setup() {
+    let emailSentSuccessfully = ref(false);
     const sendEmail = () => {
       //...
+      emailSentSuccessfully.value = true;
     };
-    return { sendEmail };
+    return { emailSentSuccessfully, sendEmail };
   },
 };
 </script>
@@ -37,6 +41,14 @@ export default {
                 placeholder="john.doe@example.com"
                 required=""
               />
+            </div>
+            <div
+              v-if="emailSentSuccessfully"
+              class="flex items-center justify-between"
+            >
+              <div class="flex items-start text-green-500">
+                E-Mail sent successfully.
+              </div>
             </div>
             <button
               @click="sendEmail"
