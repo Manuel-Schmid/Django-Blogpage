@@ -45,10 +45,12 @@ class Query(graphene.ObjectType):
     def resolve_used_tags(root, info, **kwargs):
         category_slug = kwargs.get('category_slug', None)
 
+        tag_filter = Q()
         if category_slug is not None:
-            posts = Post.objects.select_related('category').prefetch_related('tags').filter(category__slug=category_slug)
+            category_posts = list(Post.objects.select_related('category').prefetch_related('tags').filter(category__slug=category_slug).values_list('id', flat=True))
+            tag_filter &= Q(object_id__in=category_posts)
 
-        tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
+        tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').filter(tag_filter)]
         return list(set(tags))
 
     def resolve_paginated_posts(root, info, **kwargs):
