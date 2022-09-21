@@ -2,7 +2,7 @@ import collections
 
 import graphene
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from taggit.models import Tag, TaggedItem
 from ..models import Category, Post, User
 from .types import \
@@ -55,25 +55,25 @@ class Query(graphene.ObjectType):
 
         post_filter = Q()
         if tag_slugs is not None:
-            tag_filter = Q()
-            for tag in tag_slugs.split(','):
-                tag_filter |= Q(tag__slug=tag)
-                print(tag_filter)
-            tagged_items = TaggedItem.objects.select_related('tag').filter(tag_filter).values('object_id')
-            # print(tagged_items)
-            # print(list(tagged_items.values()))
-            print([item for item, count in collections.Counter(list(tagged_items.values())).items() if count > 1])
+            tag_slugs_list = tag_slugs.split(',')
 
-            # for tag in tag_slugs.split(','):
-            #     taggetItems
-            #     post_filter &= Q(tagged_items__tag__slug__contains=tag)
-            #     post_filter &= Q(tagged_items__tag__slug=tag)
+            ### or
+            for tag in tag_slugs_list:
+                post_filter |= Q(tagged_items__tag__slug__contains=tag)
 
-            # post_filter &= reduce(operator.and_, (Q(tagged_items__tag__slug = item) for item in q))
-            # post_filter &= Q(tagged_items__tag__slug__in=tag_slugs.split(','))
-            # post_filter &= Q(tagged_items__tag__slug__contains=tag_slugs)
-            # post_filter &= Q(tagged_items__tag__slug=tag_slugs)
-
+            ### and
+            # tag_filter = Q()
+            # for tag in tag_slugs_list:
+            #     tag_filter |= Q(tag__slug=tag)
+            # tagged_posts = list(
+            #     TaggedItem.objects
+            #     .select_related('tag')
+            #     .values('object_id')
+            #     .annotate(Count('object_id'))
+            #     .filter(tag_filter)
+            #     .filter(object_id__count=len(tag_slugs_list))
+            #     .values_list('object_id', flat=True))
+            # post_filter &= Q(id__in=tagged_posts)
 
         if category_slug is not None:
             post_filter &= Q(category__slug=category_slug)
