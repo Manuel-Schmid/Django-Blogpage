@@ -16,6 +16,11 @@ from pathlib import Path
 import django
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str
+from django.utils.translation import gettext as _
+django.utils.translation.ugettext = _
+from django.utils.translation import gettext_lazy as __
+django.utils.translation.ugettext_lazy = __
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
