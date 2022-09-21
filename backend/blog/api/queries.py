@@ -57,11 +57,11 @@ class Query(graphene.ObjectType):
         if tag_slugs is not None:
             tag_slugs_list = tag_slugs.split(',')
 
-            ### or
+            # or
             for tag in tag_slugs_list:
                 post_filter |= Q(tagged_items__tag__slug__contains=tag)
 
-            ### and
+            # and
             # tag_filter = Q()
             # for tag in tag_slugs_list:
             #     tag_filter |= Q(tag__slug=tag)
