@@ -100,6 +100,8 @@ GRAPHQL_JWT = {
     ],
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://frontend.blogapp.com:8080',
