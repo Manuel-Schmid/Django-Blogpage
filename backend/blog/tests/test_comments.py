@@ -139,7 +139,10 @@ def test_create_comment_invalid_owner_id(client_query, posts):
     data = content.get('data', None)
     assert data is not None
     data_create_comment = data.get('createComment', None)
-    assert data_create_comment is None
+    assert data_create_comment is not None
+    assert data_create_comment['success'] is False
+    data_comment = data_create_comment.get('comment', None)
+    assert data_comment is None
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
