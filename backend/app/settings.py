@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'debug_toolbar',
     'graphiql_debug_toolbar',
+    'graphql_auth',
     'taggit',
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
