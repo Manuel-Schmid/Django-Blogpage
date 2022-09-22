@@ -169,8 +169,10 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
 
         return UploadMutation(success=True)
 
+class AuthMutation(graphene.ObjectType):
+    send_password_reset_email = mutations.SendPasswordResetEmail.Field()
 
-class Mutation(graphene.ObjectType):
+class Mutation(AuthMutation, graphene.ObjectType):
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
