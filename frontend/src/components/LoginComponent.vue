@@ -15,11 +15,7 @@ export default {
       authStore.fetchRefreshToken(username.value, password.value);
     };
 
-    const resetPassword = () => {
-      // ...
-    };
-
-    return { username, password, submitLogin, resetPassword };
+    return { username, password, submitLogin };
   },
 };
 </script>
