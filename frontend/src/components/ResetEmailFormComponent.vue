@@ -1,15 +1,17 @@
 <script lang="ts">
 import { ref } from "vue";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "ResetEmailFormComponent",
   setup() {
     let emailSentSuccessfully = ref(false);
-    const sendEmail = () => {
-      //...
+    let emailInput = ref("");
+    const sendEmail = async () => {
+      await useAuthStore().sendPasswordResetEmail(emailInput.value);
       emailSentSuccessfully.value = true;
     };
-    return { emailSentSuccessfully, sendEmail };
+    return { emailSentSuccessfully, sendEmail, emailInput };
   },
 };
 </script>
@@ -36,6 +38,7 @@ export default {
               <input
                 type="email"
                 name="email"
+                v-model="emailInput"
                 id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="john.doe@example.com"

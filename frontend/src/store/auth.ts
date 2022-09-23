@@ -83,5 +83,19 @@ export const useAuthStore = defineStore("auth", {
         await apolloClient.resetStore();
       }
     },
+    async sendPasswordResetEmail(email: string) {
+      await apolloClient.query({
+        query: gql`
+          mutation SendPasswordResetEmail($email: String!) {
+            sendPasswordResetEmail(email: $email) {
+              success
+            }
+          }
+        `,
+        variables: {
+          email: email,
+        },
+      });
+    },
   },
 });
