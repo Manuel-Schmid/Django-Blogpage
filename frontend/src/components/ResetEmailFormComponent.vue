@@ -8,8 +8,9 @@ export default {
     let emailSentSuccessfully = ref(false);
     let emailInput = ref("");
     const sendEmail = async () => {
-      await useAuthStore().sendPasswordResetEmail(emailInput.value);
-      emailSentSuccessfully.value = true;
+      emailSentSuccessfully.value = await useAuthStore().sendResetPasswordEmail(
+        emailInput.value
+      );
     };
     return { emailSentSuccessfully, sendEmail, emailInput };
   },
@@ -28,7 +29,7 @@ export default {
           >
             Which E-Mail should we send the reset link to?
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="sendEmail">
+          <form @submit.prevent="sendEmail">
             <div>
               <label
                 for="email"
@@ -45,14 +46,10 @@ export default {
                 required=""
               />
             </div>
-            <div
-              v-if="emailSentSuccessfully"
-              class="flex items-center justify-between"
-            >
-              <div class="flex items-start text-green-500">
-                E-Mail sent successfully.
-              </div>
+            <div v-if="emailSentSuccessfully" class="mt-1 mb-3">
+              <div class="text-green-500">E-Mail sent successfully.</div>
             </div>
+            <div v-else class="my-5"></div>
             <button
               @click="sendEmail"
               class="w-full text-white bg-blue-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
