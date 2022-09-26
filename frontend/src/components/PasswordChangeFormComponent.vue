@@ -1,23 +1,38 @@
 <script lang="ts">
 import { ref } from "vue";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "PasswordChangeFormComponent",
   emits: ["toggle-password-change-form"],
 
   setup(props: any, ctxt: { emit: (arg0: string) => void }) {
+    let oldPassword = ref("");
     let newPassword1 = ref("");
     let newPassword2 = ref("");
     let passwordChangeError = ref("");
 
-    const changePassword = () => {
-      // usePostStore().createComment(commentInput);
+    const changePassword = async () => {
+      const success = await useAuthStore().changePassword(
+        oldPassword.value,
+        newPassword1.value,
+        newPassword2.value
+      );
 
-      passwordChangeError.value = "An error occurred";
-      // ctxt.emit("toggle-password-change-form");
+      if (success) {
+        ctxt.emit("toggle-password-change-form");
+      } else {
+        passwordChangeError.value = "An error occurred";
+      }
     };
 
-    return { newPassword1, newPassword2, passwordChangeError, changePassword };
+    return {
+      oldPassword,
+      newPassword1,
+      newPassword2,
+      passwordChangeError,
+      changePassword,
+    };
   },
 };
 </script>
@@ -26,6 +41,12 @@ export default {
   <div class="text-right w-full mb-4 text-sm dark:text-white">
     <input
       class="border p-2 w-full dark:border-slate-600 dark:bg-slate-600 mt-4 mb-2 rounded-lg"
+      v-model="oldPassword"
+      type="password"
+      placeholder="Old password"
+    />
+    <input
+      class="border p-2 w-full dark:border-slate-600 dark:bg-slate-600 mb-2 rounded-lg"
       v-model="newPassword1"
       type="password"
       placeholder="New password"
