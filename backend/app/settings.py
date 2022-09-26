@@ -13,8 +13,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import django
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'graphiql_debug_toolbar',
     'graphql_auth',
-    # 'django_filters'
     'taggit',
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
