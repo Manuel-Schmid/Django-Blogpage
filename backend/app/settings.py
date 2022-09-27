@@ -97,7 +97,11 @@ GRAPHQL_JWT = {
     ],
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp'
+EMAIL_PORT = '25'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
@@ -111,7 +115,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates/blog")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
