@@ -60,10 +60,13 @@ export const usePostStore = defineStore("blog", {
         this.tags = response.data.tags;
       }
     },
-    async fetchUsedTags() {
-      if (this.usedTags.length === 0) {
+    async fetchUsedTags(category: string | undefined) {
+      if (this.usedTags.length === 0 || category) {
         const response = await apolloClient.query({
           query: UsedTags,
+          variables: {
+            categorySlug: category,
+          },
         });
         this.usedTags = response.data.usedTags;
       }

@@ -21,13 +21,11 @@ export default {
     const route = useRoute();
     const store = usePostStore();
     const activePage: number = route.query.page ? +route.query.page : 1;
+    const tag = route.query.tag as string;
+    const category = route.query.category as string;
 
-    store.fetchPosts(
-      route.query.tag as string,
-      route.query.category as string,
-      activePage
-    );
-    store.fetchUsedTags();
+    store.fetchPosts(tag, category, activePage);
+    store.fetchUsedTags(category);
 
     return { store, activePage };
   },
