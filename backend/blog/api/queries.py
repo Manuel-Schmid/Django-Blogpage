@@ -78,7 +78,6 @@ class Query(graphene.ObjectType):
         if category_slug is not None:
             post_filter &= Q(category__slug=category_slug)
 
-        print(post_filter)
         posts = Post.objects \
             .select_related('category', 'owner') \
             .prefetch_related('tags',
