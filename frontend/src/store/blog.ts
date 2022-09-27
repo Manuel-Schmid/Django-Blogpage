@@ -27,7 +27,7 @@ export const usePostStore = defineStore("blog", {
     } as PostState),
   actions: {
     async fetchPosts(
-      tagSlugParam: string | undefined,
+      tagSlugsParam: string | undefined,
       categorySlugParam: string | undefined,
       activePage: number
     ) {
@@ -35,7 +35,7 @@ export const usePostStore = defineStore("blog", {
       const response = await apolloClient.query({
         query: Posts,
         variables: {
-          tagSlug: tagSlugParam,
+          tagSlugs: tagSlugsParam,
           categorySlug: categorySlugParam,
           activePage: activePage,
         },

@@ -26,7 +26,7 @@ export default {
 
     store.fetchPosts(tag, category, activePage);
     store.fetchUsedTags(category);
-
+    
     return { store, activePage };
   },
 };
