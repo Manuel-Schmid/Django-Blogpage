@@ -3,17 +3,19 @@ import pytest
 
 query_posts_by_tag_and_category = '''
         query postsByTagAndCategorySlug($tagSlug: String, $categorySlug: String) {
-          posts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
-            title
-            category {
-              slug
-            }
-            tags {
-              name
-              slug
-            }
-            comments {
+          paginatedPosts(tagSlug: $tagSlug, categorySlug: $categorySlug) {
+            posts {
               title
+              category {
+                slug
+              }
+              tags {
+                name
+                slug
+              }
+              comments {
+                title
+              }
             }
           }
         }
@@ -33,7 +35,9 @@ def test_query_all_posts(client_query, posts, comments):
     assert content is not None
     data = content.get('data', None)
     assert data is not None
-    data_all_posts = data.get('posts', None)
+    data_paginated_posts = data.get('paginatedPosts', None)
+    assert data_paginated_posts is not None
+    data_all_posts = data_paginated_posts.get('posts', None)
     assert data_all_posts is not None
 
     assert len(data_all_posts) == 2
@@ -63,7 +67,9 @@ def test_query_posts_by_category(client_query, posts, comments):
     assert content is not None
     data = content.get('data', None)
     assert data is not None
-    data_posts = data.get('posts', None)
+    data_paginated_posts = data.get('paginatedPosts', None)
+    assert data_paginated_posts is not None
+    data_posts = data_paginated_posts.get('posts', None)
     assert data_posts is not None
 
     assert len(data_posts) == 1
@@ -95,7 +101,9 @@ def test_query_posts_by_tag(client_query, posts, tags, comments):
     assert content is not None
     data = content.get('data', None)
     assert data is not None
-    data_posts = data.get('posts', None)
+    data_paginated_posts = data.get('paginatedPosts', None)
+    assert data_paginated_posts is not None
+    data_posts = data_paginated_posts.get('posts', None)
     assert data_posts is not None
 
     assert len(data_posts) == 1
@@ -127,7 +135,9 @@ def test_query_posts_by_tag_and_category(client_query, posts, tags, comments):
     assert content is not None
     data = content.get('data', None)
     assert data is not None
-    data_posts = data.get('posts', None)
+    data_paginated_posts = data.get('paginatedPosts', None)
+    assert data_paginated_posts is not None
+    data_posts = data_paginated_posts.get('posts', None)
     assert data_posts is not None
 
     assert len(data_posts) == 1
