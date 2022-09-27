@@ -19,7 +19,7 @@ class Query(graphene.ObjectType):
     users = graphene.List(UserType)
     user = graphene.Field(UserType)
     tags = graphene.List(TagType)
-    used_tags = graphene.List(TagType)
+    used_tags = graphene.List(TagType, category_slug=graphene.String(required=False))
     paginated_posts = graphene.Field(PaginationPostsType,
                                      category_slug=graphene.String(),
                                      tag_slugs=graphene.String(),
@@ -45,7 +45,14 @@ class Query(graphene.ObjectType):
         return Tag.objects.all()
 
     def resolve_used_tags(root, info, **kwargs):
-        tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').all()]
+        category_slug = kwargs.get('category_slug', None)
+
+        tag_filter = Q()
+        if category_slug is not None:
+            category_posts = list(Post.objects.select_related('category').prefetch_related('tags').filter(category__slug=category_slug).values_list('id', flat=True))
+            tag_filter &= Q(object_id__in=category_posts)
+
+        tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').filter(tag_filter)]
         return list(set(tags))
 
     def resolve_paginated_posts(root, info, **kwargs):

@@ -8,21 +8,18 @@ def test_create_post_likes(auth, post_likes):
 
 
 create_post_like_query = '''
-        mutation createPostLike($postID: ID!) {
-          createPostLike(postId: $postID) {
+        mutation createPostLike($postLikeInput: PostLikeInput!) {
+          createPostLike(postLikeInput: $postLikeInput) {
             postLike {
               id
-              post {
-                likeCount
-              }
             }
           }
         }
         '''
 
 delete_post_like_query = '''
-        mutation createPostLike($postID: ID!) {
-          deletePostLike(postId: $postID) {
+        mutation deletePostLike($postLikeInput: PostLikeInput!) {
+          deletePostLike(postLikeInput: $postLikeInput) {
             success
           }
         }
@@ -31,11 +28,13 @@ delete_post_like_query = '''
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_create_post_like(auth, client_query, post_likes):
-    variables = {
-        "postID": 1,
+    post_like_input = {
+        "postLikeInput": {
+            "post": 1,
+        }
     }
 
-    response = client_query(create_post_like_query, variables=variables)
+    response = client_query(create_post_like_query, variables=post_like_input)
 
     content = json.loads(response.content)
     assert content is not None
@@ -46,20 +45,19 @@ def test_create_post_like(auth, client_query, post_likes):
 
     post_like = data_post_likes.get('postLike', None)
     assert post_like is not None
-    post = post_like.get('post', None)
+    post = post_like.get('id', None)
     assert post is not None
-    like_count = post.get('likeCount', None)
-    assert like_count is not None
-    assert like_count == 1
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_delete_post_like(auth, client_query, post_likes):
-    variables = {
-        "postID": 2,
+    post_like_input = {
+        "postLikeInput": {
+            "post": 2,
+        }
     }
 
-    response = client_query(delete_post_like_query, variables=variables)
+    response = client_query(delete_post_like_query, variables=post_like_input)
 
     content = json.loads(response.content)
     assert content is not None
