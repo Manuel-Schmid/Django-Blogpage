@@ -1,7 +1,14 @@
 import { defineStore } from "pinia";
-import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 import router from "../router/router";
+import FetchRefreshToken from "../graphql/fetchRefreshToken.gql";
+import User from "../graphql/getUser.gql";
+import DeleteTokenCookie from "../graphql/deleteTokenCookie.gql";
+import DeleteRefreshTokenCookie from "../graphql/deleteRefreshTokenCookie.gql";
+import SendPasswordResetEmail from "../graphql/sendPasswordResetEmail.gql";
+import PasswordReset from "../graphql/passwordReset.gql";
+import PasswordChange from "../graphql/passwordChange.gql";
+import UpdateUserEmail from "../graphql/updateUserEmail.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -14,13 +21,7 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async fetchRefreshToken(username: String, password: String) {
       const response = await apolloClient.mutate({
-        mutation: gql`
-          mutation TokenAuth($username: String!, $password: String!) {
-            tokenAuth(username: $username, password: $password) {
-              refreshToken
-            }
-          }
-        `,
+        mutation: FetchRefreshToken,
         variables: {
           username: username,
           password: password,
@@ -37,17 +38,7 @@ export const useAuthStore = defineStore("auth", {
     async fetchUser() {
       this.user = null;
       const response = await apolloClient.query({
-        query: gql`
-          {
-            user {
-              id
-              username
-              email
-              firstName
-              lastName
-            }
-          }
-        `,
+        query: User,
       });
       if (response.data !== null) {
         this.user = response.data.user;
@@ -59,22 +50,10 @@ export const useAuthStore = defineStore("auth", {
       this.user = this.refreshToken = null;
       // delete cookies
       const responseDeleteTokenCookie = await apolloClient.query({
-        query: gql`
-          mutation {
-            deleteTokenCookie {
-              deleted
-            }
-          }
-        `,
+        query: DeleteTokenCookie,
       });
       const ResponseDeleteRefreshTokenCookie = await apolloClient.query({
-        query: gql`
-          mutation {
-            deleteRefreshTokenCookie {
-              deleted
-            }
-          }
-        `,
+        query: DeleteRefreshTokenCookie,
       });
       if (
         responseDeleteTokenCookie.data.deleteTokenCookie.deleted &&
@@ -85,13 +64,7 @@ export const useAuthStore = defineStore("auth", {
     },
     async sendResetPasswordEmail(email: string) {
       const response = await apolloClient.query({
-        query: gql`
-          mutation SendPasswordResetEmail($email: String!) {
-            sendPasswordResetEmail(email: $email) {
-              success
-            }
-          }
-        `,
+        query: SendPasswordResetEmail,
         variables: {
           email: email,
         },
@@ -104,22 +77,7 @@ export const useAuthStore = defineStore("auth", {
       newPassword2: string
     ) {
       const response = await apolloClient.query({
-        query: gql`
-          mutation PasswordReset(
-            $token: String!
-            $newPassword1: String!
-            $newPassword2: String!
-          ) {
-            passwordReset(
-              token: $token
-              newPassword1: $newPassword1
-              newPassword2: $newPassword2
-            ) {
-              success
-              errors
-            }
-          }
-        `,
+        query: PasswordReset,
         variables: {
           token: token,
           newPassword1: newPassword1,
@@ -134,22 +92,7 @@ export const useAuthStore = defineStore("auth", {
       newPassword2: string
     ) {
       const response = await apolloClient.query({
-        query: gql`
-          mutation PasswordReset(
-            $oldPassword: String!
-            $newPassword1: String!
-            $newPassword2: String!
-          ) {
-            passwordChange(
-              oldPassword: $oldPassword
-              newPassword1: $newPassword1
-              newPassword2: $newPassword2
-            ) {
-              success
-              errors
-            }
-          }
-        `,
+        query: PasswordChange,
         variables: {
           oldPassword: oldPassword,
           newPassword1: newPassword1,
@@ -160,20 +103,7 @@ export const useAuthStore = defineStore("auth", {
     },
     async changeEmail(newEmail: string) {
       const response = await apolloClient.query({
-        query: gql`
-          mutation UpdateUserEmail($newEmail: String!) {
-            updateUserEmail(newEmail: $newEmail) {
-              success
-              user {
-                id
-                username
-                email
-                firstName
-                lastName
-              }
-            }
-          }
-        `,
+        query: UpdateUserEmail,
         variables: {
           newEmail: newEmail,
         },

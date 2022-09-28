@@ -1,0 +1,5 @@
+mutation FetchRefreshToken($username: String!, $password: String!) {
+  tokenAuth(username: $username, password: $password) {
+    refreshToken
+  }
+}
