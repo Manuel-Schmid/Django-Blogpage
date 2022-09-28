@@ -103,6 +103,11 @@ EMAIL_PORT = '25'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 
+FRONTEND_DOMAIN = os.getenv('FRONTEND_DOMAIN')
+
+for key, value in os.environ.items():
+    print('{}: {}'.format(key, value))
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://frontend.blogapp.com:8080',
@@ -123,7 +128,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'blog.context_processors.frontend_domain'
             ],
         },
     },

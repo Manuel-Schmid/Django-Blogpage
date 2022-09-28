@@ -27,7 +27,7 @@
         "username":"John",
         "first_name":"John",
         "last_name":"Doe",
-        "email":"manuel.schmid@liip.ch",
+        "email":"john.doe@example.com",
         "is_staff":false,
         "is_active":true,
         "date_joined":"2022-08-16T06:37:49Z",
