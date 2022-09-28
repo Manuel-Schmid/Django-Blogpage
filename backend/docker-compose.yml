@@ -23,6 +23,22 @@ services:
     ports:
       - "3307:3306"
 
+  smtp:
+    image: djfarrelly/maildev
+    command: "maildev --smtp 25 --web 8080"
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.smtp.loadbalancer.server.port=8080"
+      - "traefik.http.routers.smtp.rule=Host(`smtp.blogapp.com`)"
+    networks:
+      default:
+        aliases:
+          - smtp.blogapp.com
+    ports:
+      - "8081:8080"
+
   django:
     build:
       context: .
@@ -46,6 +62,7 @@ services:
       DJANGO_DB_PW: '${MYSQL_ROOT_PASSWORD}'
       DJANGO_DB_HOST: 'db'
       DJANGO_DB_PORT: '3306'
+      FRONTEND_DOMAIN: '${FRONTEND_APP_DOMAIN}'
     networks:
       default:
         aliases:

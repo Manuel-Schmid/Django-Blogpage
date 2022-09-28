@@ -3,12 +3,24 @@ import PostsOverviewContainer from "../container/PostsOverviewContainer.vue";
 import PostDetailContainer from "../container/PostDetailContainer.vue";
 import ProfileContainer from "../container/ProfileContainer.vue";
 import LoginComponent from "../components/LoginComponent.vue";
+import PasswordResetFormComponent from "../components/PasswordResetFormComponent.vue";
+import ResetEmailFormComponent from "../components/ResetEmailFormComponent.vue";
 
 const routes: any = [
   {
     path: "/login",
     name: "login",
     component: LoginComponent,
+  },
+  {
+    path: "/password-reset/:token",
+    name: "passwordReset",
+    component: PasswordResetFormComponent,
+  },
+  {
+    path: "/reset-email",
+    name: "resetEmailForm",
+    component: ResetEmailFormComponent,
   },
   {
     path: "/profile",

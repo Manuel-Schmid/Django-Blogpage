@@ -1,5 +1,6 @@
 import graphene
 import graphql_jwt
+from graphql_auth import mutations
 from graphene_file_upload.scalars import Upload
 from blog.api.inputs import PostInput, CategoryInput, CommentInput, PostLikeInput
 from blog.api.types import \
@@ -169,7 +170,12 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
         return UploadMutation(success=True)
 
 
-class Mutation(graphene.ObjectType):
+class AuthMutation(graphene.ObjectType):
+    send_password_reset_email = mutations.SendPasswordResetEmail.Field()
+    password_reset = mutations.PasswordReset.Field()
+
+
+class Mutation(AuthMutation, graphene.ObjectType):
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()

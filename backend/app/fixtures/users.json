@@ -17,7 +17,7 @@
         "user_permissions": []
     }
 },
-    {
+{
     "model":"blog.user",
     "pk":2,
     "fields":{
@@ -27,7 +27,7 @@
         "username":"John",
         "first_name":"John",
         "last_name":"Doe",
-        "email":"john.doe@gmail.com",
+        "email":"john.doe@example.com",
         "is_staff":false,
         "is_active":true,
         "date_joined":"2022-08-16T06:37:49Z",
@@ -39,26 +39,56 @@
         ]
     }
 },
-    {
-        "model":"blog.user",
-        "pk":3,
-        "fields":{
-            "password":"pbkdf2_sha256$390000$3eKCxDNKxCOfBjz4J4kwQ5$iwyGEfwcLx6MW02CYOdlT1k9vjXwf73WP5+F3dOp9Vs=",
-            "last_login":null,
-            "is_superuser":false,
-            "username":"Winston",
-            "first_name":"Winston",
-            "last_name":"Wolf",
-            "email":"winston.wolf@gmx.com",
-            "is_staff":false,
-            "is_active":true,
-            "date_joined":"2022-08-16T06:39:20Z",
-            "groups":[
+{
+    "model":"blog.user",
+    "pk":3,
+    "fields":{
+        "password":"pbkdf2_sha256$390000$3eKCxDNKxCOfBjz4J4kwQ5$iwyGEfwcLx6MW02CYOdlT1k9vjXwf73WP5+F3dOp9Vs=",
+        "last_login":null,
+        "is_superuser":false,
+        "username":"Winston",
+        "first_name":"Winston",
+        "last_name":"Wolf",
+        "email":"winston.wolf@gmx.com",
+        "is_staff":false,
+        "is_active":true,
+        "date_joined":"2022-08-16T06:39:20Z",
+        "groups":[
 
-            ],
-            "user_permissions":[
+        ],
+        "user_permissions":[
 
-            ]
-        }
+        ]
     }
+},
+{
+    "model": "graphql_auth.userstatus",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "verified": true,
+        "archived": false,
+        "secondary_email": null
+    }
+},
+{
+    "model": "graphql_auth.userstatus",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "verified": true,
+        "archived": true,
+        "secondary_email": null
+    }
+},
+{
+    "model": "graphql_auth.userstatus",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "verified": true,
+        "archived": false,
+        "secondary_email": null
+    }
+}
 ]
