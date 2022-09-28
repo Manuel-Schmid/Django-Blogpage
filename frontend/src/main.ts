@@ -17,7 +17,10 @@ import {
   faArrowRight,
   faArrowLeft,
   faTrash,
+  faXmark,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faPlus,
@@ -27,7 +30,10 @@ library.add(
   faUser,
   faArrowRight,
   faArrowLeft,
-  faTrash
+  faTrash,
+  faPenToSquare,
+  faXmark,
+  faCheck
 );
 
 const app = createApp({

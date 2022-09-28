@@ -12,13 +12,28 @@ export default {
 
   setup() {
     const passwordChangeFormActive = ref(false);
+    const emailEditable = ref(false);
+    const newEmail = ref("");
 
     const logout = async () => {
       await useAuthStore().logoutUser();
       await router.push({ name: "posts" });
     };
 
-    return { logout, passwordChangeFormActive };
+    const changeEmail = async () => {
+      const success = await useAuthStore().changeEmail(newEmail.value);
+      if (success) {
+        emailEditable.value = false;
+      }
+    };
+
+    return {
+      logout,
+      changeEmail,
+      passwordChangeFormActive,
+      emailEditable,
+      newEmail,
+    };
   },
 };
 </script>
@@ -29,7 +44,7 @@ export default {
       <p class="text-xl mb-8">
         <font-awesome-icon icon="fa-solid fa-user" class="mr-2" />About
       </p>
-      <div class="w-min">
+      <div class="w-max">
         <table
           class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 text-center"
         >
@@ -58,7 +73,34 @@ export default {
             <tr class="profile-table-row">
               <th scope="row">Email</th>
               <td class="py-4 px-6">
-                {{ userData.email }}
+                <div v-if="emailEditable">
+                  <input
+                    type="email"
+                    v-model="newEmail"
+                    class="dark:bg-slate-700 px-2 w-max"
+                  />
+                  <font-awesome-icon
+                    @click="emailEditable = false"
+                    icon="fa-solid fa-xmark"
+                    class="email-field-icon ml-2 mr-1"
+                  />
+                  <font-awesome-icon
+                    @click="changeEmail"
+                    icon="fa-solid fa-check"
+                    class="email-field-icon mx-1"
+                  />
+                </div>
+                <div v-else>
+                  {{ userData.email }}
+                  <font-awesome-icon
+                    @click="
+                      newEmail = userData.email;
+                      emailEditable = true;
+                    "
+                    icon="fa-regular fa-pen-to-square"
+                    class="cursor-pointer pl-2"
+                  />
+                </div>
               </td>
             </tr>
           </tbody>
@@ -97,5 +139,8 @@ export default {
 }
 .profile-table-row th {
   @apply py-4 px-6 font-bold text-gray-900 whitespace-nowrap dark:text-white;
+}
+.email-field-icon {
+  @apply text-lg cursor-pointer mb-[-0.125rem];
 }
 </style>
