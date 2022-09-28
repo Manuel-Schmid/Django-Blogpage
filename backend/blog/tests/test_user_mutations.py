@@ -14,7 +14,6 @@ update_user_email_query = '''
         '''
 
 
-
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_update_user_email(auth, client_query):
     variables = {
