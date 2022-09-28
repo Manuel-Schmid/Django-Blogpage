@@ -164,6 +164,13 @@ export const useAuthStore = defineStore("auth", {
           mutation UpdateUserEmail($newEmail: String!) {
             updateUserEmail(newEmail: $newEmail) {
               success
+              user {
+                id
+                username
+                email
+                firstName
+                lastName
+              }
             }
           }
         `,
@@ -171,7 +178,11 @@ export const useAuthStore = defineStore("auth", {
           newEmail: newEmail,
         },
       });
-      return response.data.updateUserEmail.success;
+      if (response.data.updateUserEmail.success) {
+        this.user = response.data.updateUserEmail.user;
+        return true;
+      }
+      return false;
     },
   },
 });
