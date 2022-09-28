@@ -158,5 +158,20 @@ export const useAuthStore = defineStore("auth", {
       });
       return response.data.passwordChange.success;
     },
+    async changeEmail(newEmail: string) {
+      const response = await apolloClient.query({
+        query: gql`
+          mutation UpdateUserEmail($newEmail: String!) {
+            updateUserEmail(newEmail: $newEmail) {
+              success
+            }
+          }
+        `,
+        variables: {
+          newEmail: newEmail,
+        },
+      });
+      return response.data.updateUserEmail.success;
+    },
   },
 });
