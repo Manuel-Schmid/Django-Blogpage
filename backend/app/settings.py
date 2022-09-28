@@ -13,8 +13,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import django
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'graphiql_debug_toolbar',
     'graphql_auth',
-    # 'django_filters'
     'taggit',
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
@@ -100,7 +97,13 @@ GRAPHQL_JWT = {
     ],
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp'
+EMAIL_PORT = '25'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+
+FRONTEND_DOMAIN = os.getenv('FRONTEND_DOMAIN')
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
@@ -114,7 +117,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'DIRS': [os.path.join(BASE_DIR, "blog/templates/blog")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

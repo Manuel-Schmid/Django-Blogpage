@@ -27,7 +27,7 @@ export const usePostStore = defineStore("blog", {
     } as PostState),
   actions: {
     async fetchPosts(
-      tagSlugParam: string | undefined,
+      tagSlugsParam: string | undefined,
       categorySlugParam: string | undefined,
       activePage: number
     ) {
@@ -35,7 +35,7 @@ export const usePostStore = defineStore("blog", {
       const response = await apolloClient.query({
         query: Posts,
         variables: {
-          tagSlug: tagSlugParam,
+          tagSlugs: tagSlugsParam,
           categorySlug: categorySlugParam,
           activePage: activePage,
         },
@@ -60,10 +60,13 @@ export const usePostStore = defineStore("blog", {
         this.tags = response.data.tags;
       }
     },
-    async fetchUsedTags() {
-      if (this.usedTags.length === 0) {
+    async fetchUsedTags(category: string | undefined) {
+      if (this.usedTags.length === 0 || category) {
         const response = await apolloClient.query({
           query: UsedTags,
+          variables: {
+            categorySlug: category,
+          },
         });
         this.usedTags = response.data.usedTags;
       }

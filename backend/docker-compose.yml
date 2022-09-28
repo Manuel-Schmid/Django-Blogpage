@@ -36,6 +36,8 @@ services:
       default:
         aliases:
           - smtp.blogapp.com
+    ports:
+      - "8081:8080"
 
   django:
     build:
@@ -60,6 +62,7 @@ services:
       DJANGO_DB_PW: '${MYSQL_ROOT_PASSWORD}'
       DJANGO_DB_HOST: 'db'
       DJANGO_DB_PORT: '3306'
+      FRONTEND_DOMAIN: '${FRONTEND_APP_DOMAIN}'
     networks:
       default:
         aliases:

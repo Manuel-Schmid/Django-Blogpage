@@ -1,12 +1,12 @@
 #import "./fragments/overviewPost.gql"
 
 query PostsByTagAndCategorySlug(
-  $tagSlug: String
+  $tagSlugs: String
   $categorySlug: String
   $activePage: Int
 ) {
   paginatedPosts(
-    tagSlug: $tagSlug
+    tagSlugs: $tagSlugs
     categorySlug: $categorySlug
     activePage: $activePage
   ) {
