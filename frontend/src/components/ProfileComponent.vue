@@ -77,7 +77,7 @@ export default {
                   <input
                     type="email"
                     v-model="newEmail"
-                    class="dark:bg-slate-700 px-2 w-max"
+                    class="bg-gray-100 dark:bg-slate-700 px-2 w-max"
                   />
                   <font-awesome-icon
                     @click="emailEditable = false"
