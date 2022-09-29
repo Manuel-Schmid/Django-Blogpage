@@ -1,13 +1,15 @@
 <script lang="ts">
 import { ref } from "vue";
 import { useAuthStore } from "../store/auth";
+import { useRoute } from "vue-router/dist/vue-router";
 
 export default {
   name: "LoginComponent",
 
   setup() {
-    let username = ref("");
-    let password = ref("");
+    const username = ref("");
+    const password = ref("");
+    const accountVerified = ref(useRoute().query.verified as string);
 
     let authStore = useAuthStore();
 
@@ -15,14 +17,50 @@ export default {
       authStore.fetchRefreshToken(username.value, password.value);
     };
 
-    return { username, password, submitLogin };
+    const closeVerificationStatusPopup = () => {
+      accountVerified.value = "";
+    };
+
+    return {
+      username,
+      password,
+      accountVerified,
+      submitLogin,
+      closeVerificationStatusPopup,
+    };
   },
 };
 </script>
 
 <template>
   <div class="login-container h-[91vh]">
-    <div class="w-full h-full flex justify-center items-center text-left">
+    <div
+      class="w-full h-full flex justify-center items-center text-left flex-col"
+    >
+      <div
+        v-if="accountVerified === 'true'"
+        class="verification-popup bg-green-400 dark:bg-green-400"
+      >
+        Account verification successful
+        <router-link :to="{ name: 'login' }">
+          <font-awesome-icon
+            icon="fa-regular fa-circle-xmark"
+            class="cursor-pointer text-black ml-2"
+          />
+        </router-link>
+      </div>
+      <div
+        v-if="accountVerified === 'false'"
+        class="verification-popup bg-red-400"
+      >
+        Account verification failed
+        <router-link :to="{ name: 'login' }">
+          <font-awesome-icon
+            icon="fa-regular fa-circle-xmark"
+            class="cursor-pointer text-black ml-2"
+          />
+        </router-link>
+      </div>
       <div
         class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
       >
@@ -101,5 +139,8 @@ export default {
 }
 .label {
   @apply text-lg font-bold;
+}
+.verification-popup {
+  @apply text-xl py-4 px-5 rounded-lg bg-opacity-50 dark:bg-opacity-90 mb-5;
 }
 </style>

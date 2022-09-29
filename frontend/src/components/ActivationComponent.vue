@@ -1,5 +1,6 @@
 <script lang="ts">
 import { useRoute } from "vue-router/dist/vue-router";
+import router from "../router/router";
 import { ref } from "vue";
 import { useAuthStore } from "../store/auth";
 
@@ -11,6 +12,10 @@ export default {
 
     const verifyToken = async () => {
       verificationSuccess.value = await useAuthStore().verifyAccount(token);
+      await router.push({
+        name: "login",
+        query: { verified: verificationSuccess.value },
+      });
     };
 
     verifyToken();
@@ -19,8 +24,6 @@ export default {
 };
 </script>
 
-<template>
-  <div class="mt-[9vh] h-[91vh] dark:text-white">{{ verificationSuccess }}</div>
-</template>
+<template></template>
 
 <style scoped></style>

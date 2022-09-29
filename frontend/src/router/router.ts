@@ -10,7 +10,7 @@ import ActivationComponent from "../components/ActivationComponent.vue";
 
 const routes: any = [
   {
-    path: "/login",
+    path: "/login/:verified?",
     name: "login",
     component: LoginComponent,
   },
