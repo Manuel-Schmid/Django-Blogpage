@@ -34,6 +34,26 @@ def auth(users, client_query):
     }
     return client_query(auth_query, variables=credentials)
 
+@pytest.fixture
+def register(client_query):
+    register_query = '''
+        mutation Register($email: String!, $username: String!, $password1: String!, $password2: String!) {
+          register(email: $email, username: $username, password1: $password1, password2: $password2) {
+            success
+            errors
+            token
+            refreshToken
+          }
+        }
+        '''
+    signup_data = {
+        "email": "admin@admin.com",
+        "username": "abc",
+        "password1": "helloWorld++x",
+        "password2": "helloWorld++x"
+    }
+    return client_query(register_query, variables=signup_data)
+
 
 @pytest.fixture
 def tags(posts):
