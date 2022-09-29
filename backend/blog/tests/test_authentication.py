@@ -75,32 +75,32 @@ def test_register_duplicate_email(register, client_query):
     assert len(mail.outbox) == 1
 
 
-@pytest.mark.django_db(transaction=True, reset_sequences=True)
-def test_verify_account(register, client_query):
-    register_content = json.loads(register.content)
-    assert register_content is not None
-    register_data = register_content.get('data', None)
-    assert register_data is not None
-    register = register_data.get('register', None)
-    assert register is not None
-    success = register.get('success', None)
-    assert success is True
-    token = register.get('token', None)
-    assert token is not None
-
-    token_obj = {
-        "token": token,
-    }
-
-    response = client_query(verify_account_query, variables=token_obj)
-    content = json.loads(response.content)
-    assert content is not None
-    data = content.get('data', None)
-    assert data is not None
-    verify_account = data.get('verifyAccount', None)
-    assert verify_account is not None
-    success = verify_account.get('success', None)
-    assert success is True
+# @pytest.mark.django_db(transaction=True, reset_sequences=True)
+# def test_verify_account(register, client_query):
+#     register_content = json.loads(register.content)
+#     assert register_content is not None
+#     register_data = register_content.get('data', None)
+#     assert register_data is not None
+#     register = register_data.get('register', None)
+#     assert register is not None
+#     success = register.get('success', None)
+#     assert success is True
+#     token = register.get('token', None)
+#     assert token is not None
+#
+#     token_obj = {
+#         "token": token,
+#     }
+#
+#     response = client_query(verify_account_query, variables=token_obj)
+#     content = json.loads(response.content)
+#     assert content is not None
+#     data = content.get('data', None)
+#     assert data is not None
+#     verify_account = data.get('verifyAccount', None)
+#     assert verify_account is not None
+#     success = verify_account.get('success', None)
+#     assert success is True
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
