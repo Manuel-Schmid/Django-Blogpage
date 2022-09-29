@@ -5,12 +5,18 @@ import ProfileContainer from "../container/ProfileContainer.vue";
 import LoginComponent from "../components/LoginComponent.vue";
 import PasswordResetFormComponent from "../components/PasswordResetFormComponent.vue";
 import ResetEmailFormComponent from "../components/ResetEmailFormComponent.vue";
+import RegistrationComponent from "../components/RegistrationComponent.vue";
 
 const routes: any = [
   {
     path: "/login",
     name: "login",
     component: LoginComponent,
+  },
+  {
+    path: "/signup",
+    name: "registration",
+    component: RegistrationComponent,
   },
   {
     path: "/password-reset/:token",
