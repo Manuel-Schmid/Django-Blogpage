@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 import router from "../router/router";
+import Register from "../graphql/register.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -82,6 +83,23 @@ export const useAuthStore = defineStore("auth", {
       ) {
         await apolloClient.resetStore();
       }
+    },
+    async registerUser(
+      email: string,
+      username: string,
+      password1: string,
+      password2: string
+    ) {
+      const response = await apolloClient.query({
+        query: Register,
+        variables: {
+          email: email,
+          username: username,
+          password1: password1,
+          password2: password2,
+        },
+      });
+      return response.data.register.success;
     },
     async sendResetPasswordEmail(email: string) {
       const response = await apolloClient.query({
