@@ -172,6 +172,7 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
 
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
+    verify_account = mutations.VerifyAccount.Field()
     send_password_reset_email = mutations.SendPasswordResetEmail.Field()
     password_reset = mutations.PasswordReset.Field()
 

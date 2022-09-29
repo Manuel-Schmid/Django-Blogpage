@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { apolloClient } from "../api/client";
 import router from "../router/router";
 import Register from "../graphql/register.gql";
+import VerifyAccount from "../graphql/verifyAccount.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -100,6 +101,15 @@ export const useAuthStore = defineStore("auth", {
         },
       });
       return response.data.register.success;
+    },
+    async verifyAccount(token: string) {
+      const response = await apolloClient.query({
+        query: VerifyAccount,
+        variables: {
+          token: token,
+        },
+      });
+      return response.data.verifyAccount.success;
     },
     async sendResetPasswordEmail(email: string) {
       const response = await apolloClient.query({
