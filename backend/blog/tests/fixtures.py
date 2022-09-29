@@ -34,6 +34,7 @@ def auth(users, client_query):
     }
     return client_query(auth_query, variables=credentials)
 
+
 @pytest.fixture
 def register(client_query):
     register_query = '''

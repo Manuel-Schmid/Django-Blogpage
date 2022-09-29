@@ -1,6 +1,5 @@
 import json
 import pytest
-from django.test import TestCase
 from django.core import mail
 
 
@@ -23,6 +22,7 @@ verify_account_query = '''
           }
         }
         '''
+
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_authentication(auth):
@@ -92,8 +92,6 @@ def test_verify_account(register, client_query):
         "token": token,
     }
 
-    print(token_obj)
-
     response = client_query(verify_account_query, variables=token_obj)
     content = json.loads(response.content)
     assert content is not None
@@ -101,9 +99,9 @@ def test_verify_account(register, client_query):
     assert data is not None
     verify_account = data.get('verifyAccount', None)
     assert verify_account is not None
-    print(verify_account)
     success = verify_account.get('success', None)
     assert success is True
+
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_verify_invalid_token(client_query):
