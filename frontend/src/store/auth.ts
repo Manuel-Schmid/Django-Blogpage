@@ -5,6 +5,7 @@ import router from "../router/router";
 import Register from "../graphql/register.gql";
 import VerifyAccount from "../graphql/verifyAccount.gql";
 import ResendActivationEmail from "../graphql/resendActivationEmail.gql";
+import UpdateAccount from "../graphql/updateAccount.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -165,6 +166,16 @@ export const useAuthStore = defineStore("auth", {
         },
       });
       return response.data.passwordReset.success;
+    },
+    async updateAccount(firstName: string, lastName: string) {
+      const response = await apolloClient.query({
+        query: UpdateAccount,
+        variables: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      });
+      return response.data.verifyAccount.success;
     },
   },
 });
