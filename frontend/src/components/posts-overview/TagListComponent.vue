@@ -19,7 +19,7 @@ export default {
       <div v-for="tag in tags" :key="tag.slug" class="float-left">
         <router-link
           v-if="tag.slug === route.query.tag"
-          class="tag-link bg-gray-300 dark:bg-slate-500"
+          class="tag-link bg-gray-300 dark:bg-slate-500 dark:text-white"
           :to="{
             name: route.name,
             query: { ...route.query, tag: undefined, page: undefined },
@@ -29,7 +29,7 @@ export default {
         </router-link>
         <router-link
           v-else
-          class="tag-link bg-gray-100 dark:bg-slate-700"
+          class="tag-link bg-gray-100 dark:bg-slate-700 dark:text-white"
           :to="{
             name: route.name,
             query: { ...route.query, tag: tag.slug, page: undefined },
