@@ -169,6 +169,7 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
 
         return UploadMutation(success=True)
 
+
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
     resend_activation_email = mutations.ResendActivationEmail.Field()
