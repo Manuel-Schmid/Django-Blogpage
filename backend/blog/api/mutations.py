@@ -175,6 +175,7 @@ class AuthMutation(graphene.ObjectType):
     verify_account = mutations.VerifyAccount.Field()
     send_password_reset_email = mutations.SendPasswordResetEmail.Field()
     password_reset = mutations.PasswordReset.Field()
+    update_account = mutations.UpdateAccount.Field()
 
 
 class Mutation(AuthMutation, graphene.ObjectType):
