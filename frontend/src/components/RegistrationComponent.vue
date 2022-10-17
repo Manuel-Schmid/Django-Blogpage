@@ -28,15 +28,18 @@ export default {
         password1.value,
         password2.value
       );
-      if (signupSuccess.value) await clearInputs();
+      if (signupSuccess.value) {
+        await clearInputs();
+      }
     };
 
     const resendActivationEmail = async () => {
       const responseErrors = await useAuthStore().resendActivationEmail(
         usedEmail
       );
-      if (responseErrors === null) signupSuccess.value = true;
-      else {
+      if (responseErrors === null) {
+        signupSuccess.value = true;
+      } else {
         alreadyVerified.value =
           responseErrors.email[0].code === "already_verified";
       }
