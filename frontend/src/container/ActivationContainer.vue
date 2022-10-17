@@ -1,3 +1,5 @@
+<template></template>
+
 <script lang="ts">
 import { useRoute } from "vue-router/dist/vue-router";
 import router from "../router/router";
@@ -5,7 +7,7 @@ import { ref } from "vue";
 import { useAuthStore } from "../store/auth";
 
 export default {
-  name: "ActivationComponent",
+  name: "ActivationContainer",
   setup() {
     const token = useRoute().params.token as string;
     const verificationSuccess = ref(undefined);
@@ -23,7 +25,3 @@ export default {
   },
 };
 </script>
-
-<template></template>
-
-<style scoped></style>
