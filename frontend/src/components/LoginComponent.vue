@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import { useAuthStore } from "../store/auth";
 import { useRoute } from "vue-router/dist/vue-router";
 
@@ -17,16 +17,11 @@ export default {
       authStore.fetchRefreshToken(username.value, password.value);
     };
 
-    const closeVerificationStatusPopup = () => {
-      accountVerified.value = "";
-    };
-
     return {
       username,
       password,
       accountVerified,
       submitLogin,
-      closeVerificationStatusPopup,
     };
   },
 };
