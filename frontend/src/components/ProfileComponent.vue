@@ -48,7 +48,7 @@ export default {
 <template>
   <div class="profile-container">
     <div v-if="userData" class="w-min m-auto mt-36 text-center">
-      <p class="text-xl mb-8">
+      <p class="text-xl mb-8 dark:text-white">
         <font-awesome-icon icon="fa-solid fa-user" class="mr-2" />About
       </p>
       <div class="w-min">
