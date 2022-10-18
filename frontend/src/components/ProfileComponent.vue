@@ -19,13 +19,12 @@ export default {
     };
 
     const updateAccount = async (firstName: string, lastName: string) => {
-      const success = await useAuthStore().updateAccount(firstName, lastName);
-
-      console.log(success);
-
-      if (success) {
-        firstNameEditable.value = false;
-        lastNameEditable.value = false;
+      if (firstName && lastName) {
+        const success = await useAuthStore().updateAccount(firstName, lastName);
+        if (success) {
+          firstNameEditable.value = false;
+          lastNameEditable.value = false;
+        }
       }
     };
 
@@ -79,12 +78,7 @@ export default {
                     class="input-field-icon ml-2 mr-1"
                   />
                   <font-awesome-icon
-                    @click="
-                      updateAccount(
-                        newFirstName ? newFirstName : userData.firstName,
-                        newLastName ? newLastName : userData.lastName
-                      )
-                    "
+                    @click="updateAccount(newFirstName, newLastName)"
                     icon="fa-solid fa-check"
                     class="input-field-icon mx-1"
                   />
@@ -119,12 +113,7 @@ export default {
                     class="input-field-icon ml-2 mr-1"
                   />
                   <font-awesome-icon
-                    @click="
-                      updateAccount(
-                        newFirstName ? newFirstName : userData.firstName,
-                        newLastName ? newLastName : userData.lastName
-                      )
-                    "
+                    @click="updateAccount(newFirstName, newLastName)"
                     icon="fa-solid fa-check"
                     class="input-field-icon mx-1"
                   />
