@@ -42,11 +42,15 @@ export default {
 </script>
 
 <template>
-  <div class="post-container p-12 flex justify-center items-center">
+  <div
+    class="post-container p-12 flex justify-center items-center dark:text-white"
+  >
     <div class="post">
       <div>
         <div class="w-full relative">
-          <div class="post-title leading-5 text-black font-bold mb-3">
+          <div
+            class="post-title leading-5 text-black dark:text-white font-bold mb-3"
+          >
             <p class="mb-0">{{ postData.title }}</p>
           </div>
           <div>

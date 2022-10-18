@@ -23,7 +23,7 @@ export default {
     ]"
   >
     <div
-      class="post-title tracking-wide tracking-wide pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold"
+      class="post-title tracking-wide tracking-wide pt-0 pr-4 pb-0 pl-4 leading-5 text-black font-bold dark:text-white"
     >
       <p class="mb-4">{{ post.title }}</p>
     </div>

@@ -190,8 +190,12 @@ class UpdateUserEmail(graphene.Mutation, GraphqlOutput):
 
 
 class AuthMutation(graphene.ObjectType):
+    register = mutations.Register.Field()
+    resend_activation_email = mutations.ResendActivationEmail.Field()
+    verify_account = mutations.VerifyAccount.Field()
     send_password_reset_email = mutations.SendPasswordResetEmail.Field()
     password_reset = mutations.PasswordReset.Field()
+    update_account = mutations.UpdateAccount.Field()
     password_change = mutations.PasswordChange.Field()
 
 

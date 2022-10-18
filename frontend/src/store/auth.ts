@@ -9,6 +9,10 @@ import SendPasswordResetEmail from "../graphql/sendPasswordResetEmail.gql";
 import PasswordReset from "../graphql/passwordReset.gql";
 import PasswordChange from "../graphql/passwordChange.gql";
 import UpdateUserEmail from "../graphql/updateUserEmail.gql";
+import Register from "../graphql/register.gql";
+import VerifyAccount from "../graphql/verifyAccount.gql";
+import ResendActivationEmail from "../graphql/resendActivationEmail.gql";
+import UpdateAccount from "../graphql/updateAccount.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -62,6 +66,41 @@ export const useAuthStore = defineStore("auth", {
         await apolloClient.resetStore();
       }
     },
+    async registerUser(
+      email: string,
+      username: string,
+      password1: string,
+      password2: string
+    ) {
+      const response = await apolloClient.query({
+        query: Register,
+        variables: {
+          email: email,
+          username: username,
+          password1: password1,
+          password2: password2,
+        },
+      });
+      return response.data.register.success;
+    },
+    async resendActivationEmail(email: string) {
+      const response = await apolloClient.query({
+        query: ResendActivationEmail,
+        variables: {
+          email: email,
+        },
+      });
+      return response.data.resendActivationEmail.errors;
+    },
+    async verifyAccount(token: string) {
+      const response = await apolloClient.query({
+        query: VerifyAccount,
+        variables: {
+          token: token,
+        },
+      });
+      return response.data.verifyAccount.success;
+    },
     async sendResetPasswordEmail(email: string) {
       const response = await apolloClient.query({
         query: SendPasswordResetEmail,
@@ -85,6 +124,17 @@ export const useAuthStore = defineStore("auth", {
         },
       });
       return response.data.passwordReset.success;
+    },
+    async updateAccount(firstName: string, lastName: string) {
+      const response = await apolloClient.query({
+        query: UpdateAccount,
+        variables: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      });
+      await this.fetchUser();
+      return response.data.updateAccount.success;
     },
     async changePassword(
       oldPassword: string,
