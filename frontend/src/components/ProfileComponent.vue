@@ -24,7 +24,6 @@ export default {
       await router.push({ name: "posts" });
     };
 
-
     const changeEmail = async () => {
       const success = await useAuthStore().changeEmail(newEmail.value);
       if (success) {
@@ -64,9 +63,9 @@ export default {
       <p class="text-xl mb-8 dark:text-white">
         <font-awesome-icon icon="fa-solid fa-user" class="mr-2" />About
       </p>
-      <div class="w-max">
+      <div class="w-min">
         <table
-          class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 text-center"
+          class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 w-max text-center"
         >
           <thead
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-50"
@@ -107,6 +106,7 @@ export default {
                     @click="
                       newFirstName = userData.firstName;
                       newLastName = userData.lastName;
+                      emailEditable = false;
                       firstNameEditable = true;
                       lastNameEditable = false;
                     "
@@ -142,6 +142,7 @@ export default {
                     @click="
                       newFirstName = userData.firstName;
                       newLastName = userData.lastName;
+                      emailEditable = false;
                       firstNameEditable = false;
                       lastNameEditable = true;
                     "
@@ -177,6 +178,8 @@ export default {
                     @click="
                       newEmail = userData.email;
                       emailEditable = true;
+                      firstNameEditable = false;
+                      lastNameEditable = false;
                     "
                     icon="fa-regular fa-pen-to-square"
                     class="cursor-pointer pl-2"
