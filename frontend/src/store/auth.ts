@@ -175,7 +175,8 @@ export const useAuthStore = defineStore("auth", {
           lastName: lastName,
         },
       });
-      return response.data.verifyAccount.success;
+      await this.fetchUser();
+      return response.data.updateAccount.success;
     },
   },
 });
