@@ -9,9 +9,12 @@ export default {
   setup() {
     const username = ref("");
     const password = ref("");
-    const accountVerified = ref(useRoute().query.verified as string);
 
-    let authStore = useAuthStore();
+    const verifiedQuery = useRoute().query.verified as string;
+    const verifiedQueryExists = ref(verifiedQuery != undefined);
+    const accountVerified = ref(verifiedQuery === "true");
+
+    const authStore = useAuthStore();
 
     const submitLogin = () => {
       authStore.fetchRefreshToken(username.value, password.value);
@@ -20,6 +23,7 @@ export default {
     return {
       username,
       password,
+      verifiedQueryExists,
       accountVerified,
       submitLogin,
     };
@@ -33,7 +37,7 @@ export default {
       class="w-full h-full flex justify-center items-center text-left flex-col"
     >
       <div
-        v-if="accountVerified === 'true'"
+        v-if="verifiedQueryExists && accountVerified"
         class="verification-popup bg-green-400 dark:bg-green-400"
       >
         Account verification successful
@@ -45,7 +49,7 @@ export default {
         </router-link>
       </div>
       <div
-        v-if="accountVerified === 'false'"
+        v-if="verifiedQueryExists && !accountVerified"
         class="verification-popup bg-red-400"
       >
         Account verification failed
