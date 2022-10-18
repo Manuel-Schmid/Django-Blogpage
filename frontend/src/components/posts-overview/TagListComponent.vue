@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 
 export default {
   name: "TagListComponent",
-  props: ["tags"],
+  props: ["tagsData"],
 
   setup() {
     const route = useRoute();
@@ -13,16 +13,25 @@ export default {
 </script>
 
 <template>
-  <div class="mb-2" v-if="tags">
+  <div class="mb-2" v-if="tagsData">
     <p class="mb-0 font-bold">Tags:</p>
     <div class="mt-2 inline-block items-center justify-center">
-      <div v-for="tag in tags" :key="tag.slug" class="float-left">
+      <div v-for="tag in tagsData" :key="tag.slug" class="float-left">
         <router-link
-          v-if="tag.slug === route.query.tag"
+          v-if="route.query.tags?.split(',').includes(tag.slug)"
           class="tag-link bg-gray-300 dark:bg-slate-500 dark:text-white"
           :to="{
             name: route.name,
-            query: { ...route.query, tag: undefined, page: undefined },
+            query: {
+              ...route.query,
+              tags: route.query.tags.includes(',')
+                ? route.query.tags
+                    .replace(tag.slug + ',', '')
+                    .replace(',' + tag.slug, '')
+                    .replace(tag.slug, '')
+                : undefined,
+              page: undefined,
+            },
           }"
         >
           <p class="m-0">{{ tag.name }}</p>
@@ -32,7 +41,13 @@ export default {
           class="tag-link bg-gray-100 dark:bg-slate-700 dark:text-white"
           :to="{
             name: route.name,
-            query: { ...route.query, tag: tag.slug, page: undefined },
+            query: {
+              ...route.query,
+              tags: route.query.tags
+                ? route.query.tags + ',' + tag.slug
+                : tag.slug,
+              page: undefined,
+            },
           }"
         >
           <p class="m-0">{{ tag.name }}</p>

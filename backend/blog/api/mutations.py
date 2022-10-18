@@ -177,6 +177,7 @@ class AuthMutation(graphene.ObjectType):
     send_password_reset_email = mutations.SendPasswordResetEmail.Field()
     password_reset = mutations.PasswordReset.Field()
     update_account = mutations.UpdateAccount.Field()
+    password_change = mutations.PasswordChange.Field()
 
 
 class Mutation(AuthMutation, graphene.ObjectType):

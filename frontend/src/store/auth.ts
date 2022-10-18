@@ -178,5 +178,35 @@ export const useAuthStore = defineStore("auth", {
       await this.fetchUser();
       return response.data.updateAccount.success;
     },
+    async changePassword(
+      oldPassword: string,
+      newPassword1: string,
+      newPassword2: string
+    ) {
+      const response = await apolloClient.query({
+        query: gql`
+          mutation PasswordReset(
+            $oldPassword: String!
+            $newPassword1: String!
+            $newPassword2: String!
+          ) {
+            passwordChange(
+              oldPassword: $oldPassword
+              newPassword1: $newPassword1
+              newPassword2: $newPassword2
+            ) {
+              success
+              errors
+            }
+          }
+        `,
+        variables: {
+          oldPassword: oldPassword,
+          newPassword1: newPassword1,
+          newPassword2: newPassword2,
+        },
+      });
+      return response.data.passwordChange.success;
+    },
   },
 });

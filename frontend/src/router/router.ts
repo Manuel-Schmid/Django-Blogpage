@@ -6,7 +6,7 @@ import LoginComponent from "../components/LoginComponent.vue";
 import PasswordResetFormComponent from "../components/PasswordResetFormComponent.vue";
 import ResetEmailFormComponent from "../components/ResetEmailFormComponent.vue";
 import RegistrationComponent from "../components/RegistrationComponent.vue";
-import ActivationComponent from "../components/ActivationComponent.vue";
+import ActivationContainer from "../container/ActivationContainer.vue";
 
 const routes: any = [
   {
@@ -17,7 +17,7 @@ const routes: any = [
   {
     path: "/activate/:token",
     name: "activation",
-    component: ActivationComponent,
+    component: ActivationContainer,
   },
   {
     path: "/signup",
@@ -40,7 +40,7 @@ const routes: any = [
     component: ProfileContainer,
   },
   {
-    path: "/posts/:category?:tag?:page?",
+    path: "/posts/:category?:tags?:page?",
     name: "posts",
     component: PostsOverviewContainer,
   },
