@@ -8,8 +8,9 @@ from blog.api.types import \
     Post as PostType, \
     Comment as CommentType, \
     PostLike as PostLikeType, \
+    User as UserType, \
     GraphqlOutput
-from blog.models import Post, Category, Comment, PostLike
+from blog.models import Post, Category, Comment, PostLike, User
 from blog.forms import CategoryForm, PostForm, PostLikeForm, CreateCommentForm, UpdateCommentForm
 
 
@@ -170,6 +171,24 @@ class UploadMutation(graphene.Mutation, GraphqlOutput):
         return UploadMutation(success=True)
 
 
+class UpdateUserEmail(graphene.Mutation, GraphqlOutput):
+    user = graphene.Field(UserType)
+    success = graphene.Boolean()
+
+    class Arguments:
+        new_email = graphene.String(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, new_email):
+        user = info.context.user
+        if user.is_authenticated:
+            new_user = User.objects.get(pk=user.id)
+            new_user.email = new_email
+            new_user.save()
+            return UpdateUserEmail(user=new_user, success=True)
+        return UpdateUserEmail(success=False)
+
+
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
     resend_activation_email = mutations.ResendActivationEmail.Field()
@@ -187,6 +206,7 @@ class Mutation(AuthMutation, graphene.ObjectType):
     delete_token_cookie = graphql_jwt.DeleteJSONWebTokenCookie.Field()
     delete_refresh_token_cookie = graphql_jwt.DeleteRefreshTokenCookie.Field()
 
+    update_user_email = UpdateUserEmail.Field()
     create_category = CreateCategory.Field()
     update_category = UpdateCategory.Field()
     create_post = CreatePost.Field()

@@ -8,10 +8,10 @@ from blog.models import Category, User, Post, Comment, PostLike
 
 @pytest.fixture
 def users():
-    user1 = User.objects.create(username='test_user1')
+    user1 = User.objects.create(username='test_user1', email='user1@example.com')
     user1.set_password('password1')
     user1.save()
-    user2 = User.objects.create(username='test_user2')
+    user2 = User.objects.create(username='test_user2', email='user2@example.com')
     user2.set_password('password2')
     user2.save()
     return User.objects.all()

@@ -1,8 +1,6 @@
-import collections
-
 import graphene
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
+from django.db.models import Q
 from taggit.models import Tag, TaggedItem
 from ..models import Category, Post, User
 from .types import \
@@ -49,7 +47,12 @@ class Query(graphene.ObjectType):
 
         tag_filter = Q()
         if category_slug is not None:
-            category_posts = list(Post.objects.select_related('category').prefetch_related('tags').filter(category__slug=category_slug).values_list('id', flat=True))
+            category_posts = list(
+                Post.objects.select_related('category')
+                .prefetch_related('tags')
+                .filter(category__slug=category_slug)
+                .values_list('id', flat=True)
+            )
             tag_filter &= Q(object_id__in=category_posts)
 
         tags = [obj.tag for obj in TaggedItem.objects.select_related('tag').filter(tag_filter)]

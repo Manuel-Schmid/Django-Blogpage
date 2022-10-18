@@ -16,10 +16,19 @@ export default {
     const lastNameEditable = ref(false);
     const newLastName = ref("");
     const passwordChangeFormActive = ref(false);
+    const emailEditable = ref(false);
+    const newEmail = ref("");
 
     const logout = async () => {
       await useAuthStore().logoutUser();
       await router.push({ name: "posts" });
+    };
+
+    const changeEmail = async () => {
+      const success = await useAuthStore().changeEmail(newEmail.value);
+      if (success) {
+        emailEditable.value = false;
+      }
     };
 
     const updateAccount = async (firstName: string, lastName: string) => {
@@ -34,6 +43,9 @@ export default {
 
     return {
       logout,
+      changeEmail,
+      emailEditable,
+      newEmail,
       updateAccount,
       firstNameEditable,
       newFirstName,
@@ -53,7 +65,7 @@ export default {
       </p>
       <div class="w-min">
         <table
-          class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 text-center"
+          class="table-auto text-sm text-left text-gray-700 dark:text-gray-300 w-max text-center"
         >
           <thead
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-50"
@@ -94,6 +106,7 @@ export default {
                     @click="
                       newFirstName = userData.firstName;
                       newLastName = userData.lastName;
+                      emailEditable = false;
                       firstNameEditable = true;
                       lastNameEditable = false;
                     "
@@ -129,6 +142,7 @@ export default {
                     @click="
                       newFirstName = userData.firstName;
                       newLastName = userData.lastName;
+                      emailEditable = false;
                       firstNameEditable = false;
                       lastNameEditable = true;
                     "
@@ -141,7 +155,36 @@ export default {
             <tr class="profile-table-row">
               <th scope="row">Email</th>
               <td class="py-4 px-6">
-                {{ userData.email }}
+                <div v-if="emailEditable">
+                  <input
+                    type="email"
+                    v-model="newEmail"
+                    class="bg-gray-100 dark:bg-slate-700 px-2 w-max"
+                  />
+                  <font-awesome-icon
+                    @click="emailEditable = false"
+                    icon="fa-solid fa-xmark"
+                    class="input-field-icon ml-2 mr-1"
+                  />
+                  <font-awesome-icon
+                    @click="changeEmail"
+                    icon="fa-solid fa-check"
+                    class="input-field-icon mx-1"
+                  />
+                </div>
+                <div v-else>
+                  {{ userData.email }}
+                  <font-awesome-icon
+                    @click="
+                      newEmail = userData.email;
+                      emailEditable = true;
+                      firstNameEditable = false;
+                      lastNameEditable = false;
+                    "
+                    icon="fa-regular fa-pen-to-square"
+                    class="cursor-pointer pl-2"
+                  />
+                </div>
               </td>
             </tr>
           </tbody>
@@ -181,6 +224,7 @@ export default {
 .profile-table-row th {
   @apply py-4 px-6 font-bold text-gray-900 whitespace-nowrap dark:text-white;
 }
+
 .input-field-icon {
   @apply text-lg cursor-pointer mb-[-0.125rem];
 }

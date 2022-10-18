@@ -1,0 +1,10 @@
+#import "./fragments/user.gql"
+
+mutation UpdateUserEmail($newEmail: String!) {
+  updateUserEmail(newEmail: $newEmail) {
+    success
+    user {
+      ...User
+    }
+  }
+}
