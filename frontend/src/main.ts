@@ -18,6 +18,7 @@ import {
   faArrowLeft,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faPlus,
@@ -27,7 +28,8 @@ library.add(
   faUser,
   faArrowRight,
   faArrowLeft,
-  faTrash
+  faTrash,
+  faCircleXmark
 );
 
 const app = createApp({
