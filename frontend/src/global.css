@@ -8,8 +8,6 @@
   }
 }
 
-.dark p,
-.dark span,
 .dark a,
 .dark button {
   @apply text-white;
