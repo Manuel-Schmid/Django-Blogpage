@@ -1,18 +1,42 @@
 <script lang="ts">
 import router from "../router/router";
 import { useAuthStore } from "../store/auth";
+import { ref } from "vue";
 
 export default {
   name: "profileComponent",
   props: ["userData"],
 
   setup() {
+    const firstNameEditable = ref(false);
+    const newFirstName = ref("");
+    const lastNameEditable = ref(false);
+    const newLastName = ref("");
+
     const logout = async () => {
       await useAuthStore().logoutUser();
       await router.push({ name: "posts" });
     };
 
-    return { logout };
+    const updateAccount = async (firstName: string, lastName: string) => {
+      const success = await useAuthStore().updateAccount(firstName, lastName);
+
+      console.log(success);
+
+      if (success) {
+        firstNameEditable.value = false;
+        lastNameEditable.value = false;
+      }
+    };
+
+    return {
+      logout,
+      updateAccount,
+      firstNameEditable,
+      newFirstName,
+      lastNameEditable,
+      newLastName,
+    };
   },
 };
 </script>
@@ -40,13 +64,84 @@ export default {
             <tr class="profile-table-row">
               <th scope="row">First name</th>
               <td class="py-4 px-6">
-                {{ userData.firstName }}
+                <div v-if="firstNameEditable">
+                  <input
+                    type="text"
+                    v-model="newFirstName"
+                    class="bg-gray-100 dark:bg-slate-700 px-2 max-w-[58%]"
+                  />
+                  <font-awesome-icon
+                    @click="
+                      newFirstName = userData.firstName;
+                      firstNameEditable = false;
+                    "
+                    icon="fa-solid fa-xmark"
+                    class="input-field-icon ml-2 mr-1"
+                  />
+                  <font-awesome-icon
+                    @click="
+                      updateAccount(
+                        newFirstName ? newFirstName : userData.firstName,
+                        newLastName ? newLastName : userData.lastName
+                      )
+                    "
+                    icon="fa-solid fa-check"
+                    class="input-field-icon mx-1"
+                  />
+                </div>
+                <div v-else>
+                  {{ userData.firstName }}
+                  <font-awesome-icon
+                    @click="
+                      newFirstName = userData.firstName;
+                      newLastName = userData.lastName;
+                      firstNameEditable = true;
+                      lastNameEditable = false;
+                    "
+                    icon="fa-regular fa-pen-to-square"
+                    class="cursor-pointer pl-2"
+                  />
+                </div>
               </td>
             </tr>
             <tr class="profile-table-row">
               <th scope="row">Last name</th>
               <td class="py-4 px-6">
-                {{ userData.lastName }}
+                <div v-if="lastNameEditable">
+                  <input
+                    type="text"
+                    v-model="newLastName"
+                    class="bg-gray-100 dark:bg-slate-700 px-2 max-w-[58%]"
+                  />
+                  <font-awesome-icon
+                    @click="lastNameEditable = false"
+                    icon="fa-solid fa-xmark"
+                    class="input-field-icon ml-2 mr-1"
+                  />
+                  <font-awesome-icon
+                    @click="
+                      updateAccount(
+                        newFirstName ? newFirstName : userData.firstName,
+                        newLastName ? newLastName : userData.lastName
+                      )
+                    "
+                    icon="fa-solid fa-check"
+                    class="input-field-icon mx-1"
+                  />
+                </div>
+                <div v-else>
+                  {{ userData.lastName }}
+                  <font-awesome-icon
+                    @click="
+                      newFirstName = userData.firstName;
+                      newLastName = userData.lastName;
+                      firstNameEditable = false;
+                      lastNameEditable = true;
+                    "
+                    icon="fa-regular fa-pen-to-square"
+                    class="cursor-pointer pl-2"
+                  />
+                </div>
               </td>
             </tr>
             <tr class="profile-table-row">
@@ -77,5 +172,8 @@ export default {
 }
 .profile-table-row th {
   @apply py-4 px-6 font-bold text-gray-900 whitespace-nowrap dark:text-white;
+}
+.input-field-icon {
+  @apply text-lg cursor-pointer mb-[-0.125rem];
 }
 </style>
