@@ -19,7 +19,7 @@ export default {
       <div v-for="tag in tagsData" :key="tag.slug" class="float-left">
         <router-link
           v-if="route.query.tags?.split(',').includes(tag.slug)"
-          class="tag-link bg-gray-300 dark:bg-slate-500"
+          class="tag-link bg-gray-300 dark:bg-slate-500 dark:text-white"
           :to="{
             name: route.name,
             query: {
@@ -38,7 +38,7 @@ export default {
         </router-link>
         <router-link
           v-else
-          class="tag-link bg-gray-100 dark:bg-slate-700"
+          class="tag-link bg-gray-100 dark:bg-slate-700 dark:text-white"
           :to="{
             name: route.name,
             query: {

@@ -5,13 +5,16 @@ import { useAuthStore } from "../store/auth";
 export default {
   name: "RegistrationComponent",
   setup() {
+    let usedEmail = "";
     const email = ref("");
     const username = ref("");
     const password1 = ref("");
     const password2 = ref("");
-    const signupSuccess = ref(undefined);
+    const signupSuccess: any = ref(undefined);
+    const alreadyVerified = ref(false);
 
-    const clearInputs = () => {
+    const clearInputs = async () => {
+      usedEmail = await email.value;
       email.value = "";
       username.value = "";
       password1.value = "";
@@ -25,16 +28,32 @@ export default {
         password1.value,
         password2.value
       );
-      if (signupSuccess.value) clearInputs();
+      if (signupSuccess.value) {
+        await clearInputs();
+      }
+    };
+
+    const resendActivationEmail = async () => {
+      const responseErrors = await useAuthStore().resendActivationEmail(
+        usedEmail
+      );
+      if (responseErrors === null) {
+        signupSuccess.value = true;
+      } else {
+        alreadyVerified.value =
+          responseErrors.email[0].code === "already_verified";
+      }
     };
 
     return {
       submitRegistration,
+      resendActivationEmail,
       email,
       username,
       password1,
       password2,
       resetSuccess: signupSuccess,
+      alreadyVerified,
     };
   },
 };
@@ -64,7 +83,7 @@ export default {
                 >Your email</label
               >
               <input
-                type="text"
+                type="email"
                 name="email"
                 v-model="email"
                 id="email"
@@ -75,7 +94,7 @@ export default {
             </div>
             <div>
               <label
-                for="email"
+                for="username"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Your username</label
               >
@@ -122,8 +141,18 @@ export default {
               />
             </div>
             <div v-if="resetSuccess" class="flex items-center justify-between">
-              <div class="flex items-start text-green-500">
-                Account activation email was sent
+              <div>
+                <p class="text-green-500">Account activation email was sent.</p>
+                <p v-if="alreadyVerified" class="text-red-600">
+                  This account has already been verified
+                </p>
+                <p
+                  v-else
+                  @click="resendActivationEmail"
+                  class="text-green-500 underline cursor-pointer"
+                >
+                  Send activation link again
+                </p>
               </div>
             </div>
             <div

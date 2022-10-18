@@ -22,11 +22,11 @@ export default {
 </script>
 
 <template>
-  <div class="post-overview-container p-12">
+  <div class="post-overview-container p-12 dark:text-white">
     <div class="content-container m-auto w-full">
       <TagListComponent :tags-data="tagsData"></TagListComponent>
       <p
-        class="text-3xl tracking-wide leading-5 text-black font-bold mb-8 mt-4 mt-9"
+        class="text-3xl tracking-wide leading-5 text-black font-bold mb-8 mt-4 mt-9 dark:text-white"
       >
         Posts:
       </p>

@@ -4,6 +4,7 @@ import { apolloClient } from "../api/client";
 import router from "../router/router";
 import Register from "../graphql/register.gql";
 import VerifyAccount from "../graphql/verifyAccount.gql";
+import ResendActivationEmail from "../graphql/resendActivationEmail.gql";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -101,6 +102,15 @@ export const useAuthStore = defineStore("auth", {
         },
       });
       return response.data.register.success;
+    },
+    async resendActivationEmail(email: string) {
+      const response = await apolloClient.query({
+        query: ResendActivationEmail,
+        variables: {
+          email: email,
+        },
+      });
+      return response.data.resendActivationEmail.errors;
     },
     async verifyAccount(token: string) {
       const response = await apolloClient.query({
